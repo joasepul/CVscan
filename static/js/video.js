@@ -1,3 +1,4 @@
+/* alert('Commence');
 function hasGetUserMedia() {
   return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
 }
@@ -6,28 +7,24 @@ if (hasGetUserMedia()) {
 // green light
 } else {
 alert('getUserMedia() is not supported by your browser');
-}
+} */
 
-const videoElement = document.querySelector('video');
-const audioSelect = document.querySelector('select#audioSource');
-const videoSelect = document.querySelector('select#videoSource');
+'use strict';
 
-navigator.mediaDevices.enumerateDevices()
-  .then(gotDevices).then(getStream).catch(handleError);
+var videoElement = document.querySelector('video');
+var videoSelect = document.querySelector('select#videoSource');
 
-audioSelect.onchange = getStream;
+navigator.mediaDevices.enumerateDevices().then(gotDevices).then(getStream).catch(handleError);
+
 videoSelect.onchange = getStream;
 
 function gotDevices(deviceInfos) {
+  alert(deviceInfos.length + ' devices were found!');
   for (var i = 0; i !== deviceInfos.length; ++i) {
     var deviceInfo = deviceInfos[i];
     var option = document.createElement('option');
     option.value = deviceInfo.deviceId;
-    if (deviceInfo.kind === 'audioinput') {
-      option.text = deviceInfo.label ||
-        'microphone ' + (audioSelect.length + 1);
-      audioSelect.appendChild(option);
-    } else if (deviceInfo.kind === 'videoinput') {
+    if (deviceInfo.kind === 'videoinput') {
       option.text = deviceInfo.label || 'camera ' +
         (videoSelect.length + 1);
       videoSelect.appendChild(option);
@@ -45,9 +42,7 @@ function getStream() {
   }
 
   var constraints = {
-    audio: {
-      deviceId: {exact: audioSelect.value}
-    },
+    audio: false,
     video: {
       deviceId: {exact: videoSelect.value}
     }
@@ -58,10 +53,10 @@ function getStream() {
 }
 
 function gotStream(stream) {
-  window.stream = stream; // make stream available to console
+  window.stream = stream; // make stream available to console 
   videoElement.srcObject = stream;
 }
 
 function handleError(error) {
-  console.error('Error: ', error);
+  console.log('Error: ', error);
 }

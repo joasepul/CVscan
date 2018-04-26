@@ -1,33 +1,21 @@
 <head>
   <link rel="stylesheet" href="{{=URL('static','css/myapp.css')}}"/>
+  <meta charset="utf-8">
 </head>
 
 {{block header}}
 <center class ="header">
-  <h1>/{{=request.application}}/{{=request.controller}}/{{=request.function}}
+  <h1>/{{=request.application}}/{{=request.controller}}/{{=request.function}}</h1>
 </center>
 {{end}}
 
-{{if 'message' in globals():}}
-<h2>{{=message}}</h2>
-<p class="lead">{{=T('How did you get here?')}}</p>
-<ol>
-  <li>{{=T('You are successfully running web2py')}}</li>
-  <li>{{=XML(T('You visited the url %s', A(request.env.path_info,_href=request.env.path_info)))}}</li>
-</ol>
-
 <center class="main">
-  <div class="select">
-    <label for="audioSource">Audio source: </label><select id="audioSource"></select>
-  </div>
-
-  <div class="select">
+  <div class="select" id="videoSourceSelect">
     <label for="videoSource">Video source: </label><select id="videoSource"></select>
   </div>
   
-  <video class="video" autoplay></video>
-  <script src="../static/js/video.js"></script>
+  <video autoplay class="video"></video>
+  <script src="{{=URL('static','js/video.js')}}"></script>
   
   
 </center>
-{{pass}}
