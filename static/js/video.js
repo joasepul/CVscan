@@ -13,6 +13,18 @@ alert('getUserMedia() is not supported by your browser');
 
 var videoElement = document.querySelector('video');
 var videoSelect = document.querySelector('select#videoSource');
+const button = document.querySelector('#screenshot-button');
+const img = document.querySelector('#screenshot-img');
+
+const canvas = document.createElement('canvas');
+
+button.onclick = videoElement.onclick = function() {
+    canvas.width = videoElement.videoWidth;
+    canvas.height = videoElement.videoHeight;
+    canvas.getContext('2d').drawImage(videoElement, 0, 0);
+    // Other browsers will fall back to image/png
+    img.src = canvas.toDataURL('image/webp');
+  };
 
 navigator.mediaDevices.enumerateDevices().then(gotDevices).then(getStream).catch(handleError);
 

@@ -1,21 +1,30 @@
 <head>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
   <link rel="stylesheet" href="{{=URL('static','css/myapp.css')}}"/>
   <meta charset="utf-8">
 </head>
 
-{{block header}}
-<center class ="header">
-  <h1>/{{=request.application}}/{{=request.controller}}/{{=request.function}}</h1>
-</center>
-{{end}}
+<body>
+  <div class = "main">
+    <div class = "header">
+    {{block header}}
+      <h1>{{=request.application}}</h1>
+    {{end}}
+    </div>
+    
 
-<center class="main">
-  <div class="select" id="videoSourceSelect">
-    <label for="videoSource">Video source: </label><select id="videoSource"></select>
+    <div class = "content">
+      <center>
+        <div class="select" id="videoSourceSelect">
+          <label for="videoSource">Video source: </label><select id="videoSource"></select>
+        </div>
+        <div>
+          <video autoplay class="video"></video>
+          <img id="screenshot-img" src="">
+          <canvas id="screenshot-button" style="display:none;">aaa</canvas>
+          <script src="{{=URL('static','js/video.js')}}"></script>
+        </div>
+      </center>
+    </div>
   </div>
-  
-  <video autoplay class="video"></video>
-  <script src="{{=URL('static','js/video.js')}}"></script>
-  
-  
-</center>
+</body>
