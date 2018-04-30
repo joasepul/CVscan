@@ -1,4 +1,4 @@
-/* alert('Commence');
+alert('Commence');
 function hasGetUserMedia() {
   return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
 }
@@ -6,8 +6,8 @@ function hasGetUserMedia() {
 if (hasGetUserMedia()) {
 // green light
 } else {
-alert('getUserMedia() is not supported by your browser');
-} */
+    alert('getUserMedia() is not supported by your browser');
+}
 
 'use strict';
 
@@ -40,6 +40,7 @@ function gotDevices(deviceInfos) {
       option.text = deviceInfo.label || 'camera ' +
         (videoSelect.length + 1);
       videoSelect.appendChild(option);
+      console.log('Video Device Found', deviceInfo);
     } else {
       console.log('Found one other kind of source/device: ', deviceInfo);
     }

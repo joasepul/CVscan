@@ -1,5 +1,10 @@
 <head>
-   <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  {{extend 'layout.html'}}
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="{{=URL('static','css/stupid.css')}}" rel="stylesheet" type="text/css"/>
+  <link href="{{=URL('static','css/custom.css')}}" rel="stylesheet" type="text/css"/>
+  <link href="{{=URL('static','css/calendar.css')}}" rel="stylesheet" type="text/css"/>
+  <link href="{{=URL('static','css/web2py.css')}}" rel="stylesheet" type="text/css"/>
   <link rel="stylesheet" href="{{=URL('static','css/myapp.css')}}"/>
   <meta charset="utf-8">
 </head>
@@ -16,12 +21,13 @@
     <div class = "content">
       <center>
         <div class="select" id="videoSourceSelect">
-          <label for="videoSource">Video source: </label><select id="videoSource"></select>
+          <label for="videoSource">Video source: </label>
+          <select id="videoSource"></select>
         </div>
         <div>
           <video autoplay class="video"></video>
           <img id="screenshot-img" src="">
-          <canvas id="screenshot-button" style="display:none;">aaa</canvas>
+          <canvas id="screenshot-button" style="display:none;"></canvas>
           <script src="{{=URL('static','js/video.js')}}"></script>
         </div>
       </center>
