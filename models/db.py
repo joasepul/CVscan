@@ -8,8 +8,7 @@ from gluon.contrib.appconfig import AppConfig
 from gluon.tools import Auth
 
 from gluon.contrib.login_methods.email_auth import email_auth
-auth.settings.login_methods.append(
-    email_auth("smtp.gmail.com:587", "@gmail.com"))
+
 # -------------------------------------------------------------------------
 # This scaffolding model makes your app work on Google App Engine too
 # File is released under public domain and you can use without limitations
@@ -91,6 +90,8 @@ response.form_label_separator = ''
 # host names must be a list of allowed host names (glob syntax allowed)
 auth = Auth(db, host_names=configuration.get('host.names'))
 
+auth.settings.login_methods.append(
+    email_auth("smtp.gmail.com:587", "@gmail.com"))
 # -------------------------------------------------------------------------
 # create all tables needed by auth, maybe add a list of extra fields
 # -------------------------------------------------------------------------
