@@ -1,15 +1,9 @@
-<head>
-  {{extend 'layout.html'}}
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="{{=URL('static','css/stupid.css')}}" rel="stylesheet" type="text/css"/>
-  <link href="{{=URL('static','css/custom.css')}}" rel="stylesheet" type="text/css"/>
-  <link href="{{=URL('static','css/calendar.css')}}" rel="stylesheet" type="text/css"/>
-  <link href="{{=URL('static','css/web2py.css')}}" rel="stylesheet" type="text/css"/>
-  <link rel="stylesheet" href="{{=URL('static','css/myapp.css')}}"/>
-  <meta charset="utf-8">
-</head>
+{{extend 'layout.html'}}
 
-<body>
+{{block head}}
+{{end}}
+
+
   <div class = "main">
     <div class = "header">
     {{block header}}
@@ -25,12 +19,14 @@
           <select id="videoSource"></select>
         </div>
         <div>
-          <video autoplay class="video"></video>
+          <video muted autoplay playsinline class="video"></video>
           <img id="screenshot-img" src="">
           <canvas id="screenshot-button" style="display:none;"></canvas>
-          <script src="{{=URL('static','js/video.js')}}"></script>
+
         </div>
       </center>
     </div>
   </div>
-</body>
+
+<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+<script src="{{=URL('static','js/video.js')}}"></script>
