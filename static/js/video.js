@@ -54,6 +54,9 @@ function getStream() {
     });
   }
 
+  
+  
+  
   var constraints = {
     audio: false,
     video: {
@@ -71,5 +74,6 @@ function gotStream(stream) {
 }
 
 function handleError(error) {
+  alert('Error: ' +  error);
   console.log('Error: ', error);
 }
