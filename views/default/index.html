@@ -8,6 +8,12 @@
 
 {{if 'message' in globals():}}
 <h2>{{=message}}</h2>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<div class="g-savetodrive"
+   data-src="//example.com/path/to/myfile.pdf"
+   data-filename="My Statement.pdf"
+   data-sitename="My Company Name">
+</div>
 <p class="lead">{{=T('How did you get here?')}}</p>
 <ol>
   <li>{{=T('You are successfully running web2py')}}</li>
