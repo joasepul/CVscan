@@ -12,6 +12,8 @@ if (hasGetUserMedia()) {
 'use strict';
 
 var videoElement = document.querySelector('video');
+videoElement.autoplay = true;
+videoElement.playsinline = true;
 var videoSelect = document.querySelector('select#videoSource');
 const button = document.querySelector('#screenshot-button');
 const img = document.querySelector('#screenshot-img');
