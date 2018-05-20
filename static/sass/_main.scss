@@ -18,6 +18,7 @@ div.main{
   div.content{
   height: auto;
     div.select{
+        display:inline-block
     }
     
     .video {
@@ -30,6 +31,11 @@ div.main{
         height: auto;
         width: calc(80% - 10px);  
       }
+    }
+    
+    .button {
+        height: 2em;
+        width:  2em;
     }
   }
 }

@@ -23,7 +23,11 @@ div.main div.header {
 div.main div.content {
   height: auto;
 }
-/* line 23, ../sass/_main.scss */
+/* line 20, ../sass/_main.scss */
+div.main div.content div.select {
+  display: inline-block;
+}
+/* line 24, ../sass/_main.scss */
 div.main div.content .video {
   border: 5px solid black;
   margin: 0 20% 0 20%;
@@ -31,10 +35,15 @@ div.main div.content .video {
   width: calc(60% -  10px);
 }
 @media only screen and (max-width: 400px) {
-  /* line 23, ../sass/_main.scss */
+  /* line 24, ../sass/_main.scss */
   div.main div.content .video {
     margin: 0 10% 0 10%;
     height: auto;
     width: calc(80% - 10px);
   }
+}
+/* line 36, ../sass/_main.scss */
+div.main div.content .button {
+  height: 2em;
+  width: 2em;
 }

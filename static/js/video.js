@@ -16,16 +16,21 @@ videoElement.autoplay = true;
 videoElement.playsinline = true;
 var videoSelect = document.querySelector('select#videoSource');
 const button = document.querySelector('#screenshot-button');
-const img = document.querySelector('#screenshot-img');
+/* const img = document.querySelector('#screenshot-img');
+const corners = document.querySelector('#corners-canvas'); */
 
-const canvas = document.createElement('canvas');
+/* const canvas = document.createElement('canvas'); */
+const canvas = document.querySelector('#canvas');
 
 button.onclick = videoElement.onclick = function() {
     canvas.width = videoElement.videoWidth;
     canvas.height = videoElement.videoHeight;
     canvas.getContext('2d').drawImage(videoElement, 0, 0);
     // Other browsers will fall back to image/png
-    img.src = canvas.toDataURL('image/webp');
+    /* img.src = canvas.toDataURL('image/webp'); */
+    
+    
+    
   };
 
 navigator.mediaDevices.enumerateDevices().then(gotDevices).then(getStream).catch(handleError);
