@@ -1,6 +1,8 @@
 import cv2
 import numpy as np
 
+#function taken from
+#https://www.pyimagesearch.com/2014/08/25/4-point-opencv-getperspective-transform-example/
 def order_points(pts):
     rect = np.zeros((4, 2), dtype = "float32")
 
@@ -11,11 +13,13 @@ def order_points(pts):
     diff = np.diff(pts, axis = 1)
     rect[1] = pts[np.argmin(diff)]
     rect[3] = pts[np.argmax(diff)]
-
     return rect
 
+def qos_of_corners(contour):
+    return cv2.contourArea(contour) > 3000000.0
+
+
 def doc_algorithm(img):
-    def doc_algorithm(img):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, thresh = cv2.threshold(gray,0,255,cv2.THRESH_OTSU)
     kernel = np.ones((3,3), np.uint8)
@@ -45,8 +49,6 @@ def doc_algorithm(img):
     im2,contours,hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
     cnt = contours[0]
-    hull = cv2.convexHull(cnt)
-    #cv2.drawContours(res,[hull],0,(0,255,0),20)
 
     perimeter = cv2.arcLength(cnt,True)
     delta = 0.01
@@ -62,4 +64,4 @@ def doc_algorithm(img):
     pts1 = order_points(np.float32([x[0] for x in approx ]))
     M = cv2.getPerspectiveTransform(pts1, pts2)
     dst = cv2.warpPerspective(img,M,(1000,1500))
-    return dst
+    return qos_of_corners(approx), dst
