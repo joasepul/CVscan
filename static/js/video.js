@@ -20,7 +20,7 @@ const button = document.querySelector('#screenshot-button');
 const corners = document.querySelector('#corners-canvas'); */
 
 /* const canvas = document.createElement('canvas'); */
-const canvas = document.querySelector('#canvas');
+const canvas = document.querySelector('#imgcanvas');
 
 button.onclick = videoElement.onclick = function() {
     canvas.width = videoElement.videoWidth;
