@@ -20,15 +20,15 @@ div.main div.header {
   padding: 0.37em 0;
 }
 /* line 18, ../sass/_main.scss */
-div.main div.content {
+div.main div.main_content {
   height: auto;
 }
 /* line 20, ../sass/_main.scss */
-div.main div.content div.select {
+div.main div.main_content div.select {
   display: inline-block;
 }
 /* line 24, ../sass/_main.scss */
-div.main div.content .video {
+div.main div.main_content .video {
   border: 5px solid black;
   margin: 0 20% 0 20%;
   height: auto;
@@ -36,14 +36,14 @@ div.main div.content .video {
 }
 @media only screen and (max-width: 400px) {
   /* line 24, ../sass/_main.scss */
-  div.main div.content .video {
+  div.main div.main_content .video {
     margin: 0 10% 0 10%;
     height: auto;
     width: calc(80% - 10px);
   }
 }
 /* line 36, ../sass/_main.scss */
-div.main div.content .button {
+div.main div.main_content .button {
   height: 2em;
   width: 2em;
 }

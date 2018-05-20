@@ -12,22 +12,24 @@
     </div>
     
 
-    <div class = "content">
-      <div class="select" id="videoSourceSelect">
-        <label for="videoSource">Video source: </label>
-        <select id="videoSource"></select>
-      </div>
-      <div>
-        <video class="video"></video>
-        <button id="screenshot-button" style="">Take Photo</button>
-      </div>
-      <div>
-        <canvas id="canvas"></canvas>
-        <!-- <img id="screenshot-img" src="">
-        <canvas id="corners-canvas"></canvas> -->
+    <div class = "main_content">
+      <div id="vue-div" class="display:none">
+        <div class="select" id="videoSourceSelect">
+          <label for="videoSource">Video source: </label>
+          <select id="videoSource"></select>
+        </div>
+        <div>
+          <video class="video"></video>
+          <button id="screenshot-button" style="">Take Photo</button>
+        </div>
+        <div>
+          <canvas id="canvas"></canvas>
+          <!-- <img id="screenshot-img" src="">
+          <canvas id="corners-canvas"></canvas> -->
+        </div>
       </div>
     </div>
   </div>
-
+  
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 <script src="{{=URL('static','js/video.js')}}"></script>

@@ -20,7 +20,7 @@ var widget = function() {
     self.PUT    = self.METHOD('PUT');
     self.DELETE = self.METHOD('DELETE');
 
-    // Configure Vuew
+    // Configure Vue
     Vue.config.delimiters = ['${', '}']
     Vue.config.unsafeDelimiters = ['!{', '}']
     Vue.config.silent = false; // show all warnings
@@ -40,11 +40,7 @@ var widget = function() {
                 goto: function(page, state) { self.vue.page=page; self.vue.state=state; },
             }
         });
-    /* if keywords change perform a search */
-    self.retrieve_docs = function() {
-        self.GET(BASE+'default/search',{q: self.vue.keywords}).done(function(docs){self.vue.docs=docs;});
-    };
-    self.vue.$watch('keywords', self.retrieve_docs.debounce(250));
+    $("#vue-div").show()
     return self;
 };
 
