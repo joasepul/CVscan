@@ -1,4 +1,3 @@
-alert('Commence');
 function hasGetUserMedia() {
   return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
 }
@@ -16,6 +15,7 @@ videoElement.autoplay = true;
 videoElement.playsinline = true;
 var videoSelect = document.querySelector('select#videoSource');
 const button = document.querySelector('#screenshot-button');
+const drawbutton = document.querySelector('#draw-button');
 /* const img = document.querySelector('#screenshot-img');
 const corners = document.querySelector('#corners-canvas'); */
 
@@ -32,6 +32,15 @@ button.onclick = videoElement.onclick = function() {
     
     
   };
+
+drawbutton.onclick = function() {
+  var ctx = canvas.getContext('2d');
+  ctx.beginPath();
+  ctx.arc(250, 210, 200, 0, 2 * Math.PI, false);
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = '#00ff00';
+  ctx.stroke();
+};
 
 navigator.mediaDevices.enumerateDevices().then(gotDevices).then(getStream).catch(handleError);
 
