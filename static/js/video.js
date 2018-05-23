@@ -2,11 +2,11 @@ alert('Commence');
 function hasGetUserMedia() {
   return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
 }
-  
+
 if (hasGetUserMedia()) {
-// green light
+  // green light
 } else {
-    alert('getUserMedia() is not supported by your browser');
+  alert('getUserMedia() is not supported by your browser');
 }
 
 'use strict';
@@ -17,19 +17,29 @@ const button = document.querySelector('#screenshot-button');
 const img = document.querySelector('#screenshot-img');
 
 const canvas = document.createElement('canvas');
+var dataURL;
 
-button.onclick = videoElement.onclick = function() {
-    canvas.width = videoElement.videoWidth;
-    canvas.height = videoElement.videoHeight;
-    canvas.getContext('2d').drawImage(videoElement, 0, 0);
-    // Other browsers will fall back to image/png
-    img.src = canvas.toDataURL('image/webp');
-  };
+button.onclick = videoElement.onclick = function () {
+  canvas.width = videoElement.videoWidth;
+  canvas.height = videoElement.videoHeight;
+  canvas.getContext('2d').drawImage(videoElement, 0, 0);
+  // Other browsers will fall back to image/png
+  img.src = canvas.toDataURL();
+  dataURL = img.src;
+};
 
 navigator.mediaDevices.enumerateDevices().then(gotDevices).then(getStream).catch(handleError);
 
 videoSelect.onchange = getStream;
 
+window.onload = function () {
+  var button1 = document.getElementById('btn-download');
+  button1.addEventListener('click', function (e) {
+    var pdf = new jsPDF();
+    pdf.addImage(dataURL, 'PNG', 0, 0);
+    pdf.save("download.pdf");
+  });
+}
 function gotDevices(deviceInfos) {
   alert(deviceInfos.length + ' devices were found!');
   for (var i = 0; i !== deviceInfos.length; ++i) {
@@ -49,18 +59,18 @@ function gotDevices(deviceInfos) {
 
 function getStream() {
   if (window.stream) {
-    window.stream.getTracks().forEach(function(track) {
+    window.stream.getTracks().forEach(function (track) {
       track.stop();
     });
   }
 
-  
-  
-  
+
+
+
   var constraints = {
     audio: false,
     video: {
-      deviceId: {exact: videoSelect.value}
+      deviceId: { exact: videoSelect.value }
     }
   };
 
@@ -74,6 +84,6 @@ function gotStream(stream) {
 }
 
 function handleError(error) {
-  alert('Error: ' +  error);
+  alert('Error: ' + error);
   console.log('Error: ', error);
 }
