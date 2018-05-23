@@ -19,6 +19,11 @@ def qos_of_corners(contour):
     return cv2.contourArea(contour) > 3000000.0
 
 
+def doc_rectification(orig_pts, new_pts, img):
+    M = cv2.getPerspectiveTransform(pts1, pts2)
+    dst = cv2.warpPerspective(img,M,(1000,1500))
+    return dst
+
 def doc_algorithm(img):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, thresh = cv2.threshold(gray,0,255,cv2.THRESH_OTSU)
@@ -62,6 +67,5 @@ def doc_algorithm(img):
 
     pts2 = order_points(np.float32([[0,0],[0,1500],[1000,1500],[1000,0]]))
     pts1 = order_points(np.float32([x[0] for x in approx ]))
-    M = cv2.getPerspectiveTransform(pts1, pts2)
-    dst = cv2.warpPerspective(img,M,(1000,1500))
+    dst = doc_rectification(pts1, pts2, img)
     return qos_of_corners(approx), dst
