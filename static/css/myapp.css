@@ -42,7 +42,11 @@ div.main div.main_content .video {
     width: calc(80% - 10px);
   }
 }
-/* line 36, ../sass/_main.scss */
+/* line 35, ../sass/_main.scss */
+div.main div.main_content .canvas {
+  border: 5px solid black;
+}
+/* line 39, ../sass/_main.scss */
 div.main div.main_content .button {
   height: 2em;
   width: 2em;

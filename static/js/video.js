@@ -17,11 +17,10 @@ videoElement.autoplay = true;
 videoElement.playsinline = true;
 var videoSelect = document.querySelector('select#videoSource');
 const button = document.querySelector('#screenshot-button');
-var img = null;
+var img = new Image;
 //IN CASE WE NEED TO SEPERATE IMG AND CANVAS FOR SOME REASON
 // const img = document.querySelector('#screenshot-img');
 // const corners = document.querySelector('#corners-canvas');
-const drawbutton = document.querySelector('#draw-button');
 const canvas = document.querySelector('#imgcanvas');
 
 /* On button click, create video snapshot */
@@ -31,19 +30,10 @@ button.onclick = videoElement.onclick = function() {
     canvas.getContext('2d').drawImage(videoElement, 0, 0);
     //Other browsers will fall back to image/png
     // img.src = canvas.toDataURL('image/webp');
-    img = canvas.toDataURL('image/webp'); //create snapshot of canvas
+    img.src = canvas.toDataURL('image/webp'); //create snapshot of canvas
   };
 
 /* video feed handling */
-drawbutton.onclick = function() {
-  var ctx = canvas.getContext('2d');
-  ctx.beginPath();
-  ctx.arc(250, 210, 200, 0, 2 * Math.PI, false);
-  ctx.lineWidth = 3;
-  ctx.strokeStyle = '#00ff00';
-  ctx.stroke();
-};
-
 navigator.mediaDevices.enumerateDevices().then(gotDevices).then(getStream).catch(handleError);
 
 //switch to selected feed
