@@ -4,11 +4,11 @@
 function hasGetUserMedia() {
   return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
 }
-  
+
 if (hasGetUserMedia()) {
-// green light
+  // green light
 } else {
-    alert('getUserMedia() is not supported by your browser');
+  alert('getUserMedia() is not supported by your browser');
 }
 
 /* General Variable Set up */
@@ -22,6 +22,7 @@ var img = new Image;
 // const img = document.querySelector('#screenshot-img');
 // const corners = document.querySelector('#corners-canvas');
 const canvas = document.querySelector('#imgcanvas');
+var dataURL;
 
 /* On button click, create video snapshot */
 button.onclick = videoElement.onclick = function() {
@@ -30,7 +31,8 @@ button.onclick = videoElement.onclick = function() {
     canvas.getContext('2d').drawImage(videoElement, 0, 0);
     //Other browsers will fall back to image/png
     // img.src = canvas.toDataURL('image/webp');
-    img.src = canvas.toDataURL('image/webp'); //create snapshot of canvas
+    img.src = canvas.toDataURL('image/png'); //create snapshot of canvas
+    dataURL = img.src;
   };
 
 /* video feed handling */
@@ -39,7 +41,16 @@ navigator.mediaDevices.enumerateDevices().then(gotDevices).then(getStream).catch
 //switch to selected feed
 videoSelect.onchange = getStream;
 
-//ennumerate and list feeds
+
+window.onload = function () {
+  var button1 = document.getElementById('btn-download');
+  button1.addEventListener('click', function (e) {
+    var pdf = new jsPDF();
+    pdf.addImage(dataURL, 'PNG', 0, 0);
+    pdf.save("download.pdf");
+  });
+}
+
 function gotDevices(deviceInfos) {
   for (var i = 0; i !== deviceInfos.length; ++i) {
     var deviceInfo = deviceInfos[i];
@@ -59,19 +70,19 @@ function gotDevices(deviceInfos) {
 //return selected feed
 function getStream() {
   if (window.stream) {
-    window.stream.getTracks().forEach(function(track) {
+    window.stream.getTracks().forEach(function (track) {
       track.stop();
     });
   }
 
-  //set up video constraints
+
   var constraints = {
     audio: false,
     video: {
-      deviceId: {exact: videoSelect.value}
+      deviceId: { exact: videoSelect.value }
     }
   };
-  
+
   //display feed
   navigator.mediaDevices.getUserMedia(constraints).
     then(gotStream).catch(handleError);
@@ -79,11 +90,11 @@ function getStream() {
 
 //set feed
 function gotStream(stream) {
-  window.stream = stream; // make stream available to console 
+  window.stream = stream; // make stream available to console
   videoElement.srcObject = stream;
 }
 
 function handleError(error) {
-  alert('Error: ' +  error);
+  alert('Error: ' + error);
   console.log('Error: ', error);
 }
