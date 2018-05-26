@@ -31,9 +31,14 @@ var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
     </div>
 
 
-    <div class = "main_content">
-      <div id="vue-div" class="display:none">
-        <div class="select" id="videoSourceSelect">
+  <div class = "main_content">
+    <div id="vue-div" class="display:none">
+      {{if auth.user is not None:}}
+      <!-- IN MAIN MODE -->
+      <div>
+        <h1>MAIN MODE</h1>
+      
+        <div  class="select" id="videoSourceSelect">
           <label for="videoSource">Video source: </label>
           <select id="videoSource"></select>
         </div>
@@ -46,12 +51,32 @@ var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
         <div>
           <canvas class="canvas" id="imgcanvas"></canvas>
           <canvas class="canvas" id="imgcanvas_fromserver"></canvas>
-          <!-- <img id="screenshot-img" src="">
-          <canvas id="corners-canvas"></canvas> -->
         </div>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
         <button id="btn-download">download</button>
-      </center>
+      </div>
+      
+      
+      
+      <!-- IN ARCHIVE MODE -->
+      <div>
+        <h1>ARCHIVE MODE</h1>
+      </div>
+      
+      
+      {{else:}}
+      <!-- IN LOGIN MODE -->
+      <div>
+        <h1>LOGIN MODE</h1>
+        <h2>Login to Continue</h2>
+        <button id="google-login" style="" class="btn">Login with Google</button>
+        <a href="{{=URL('default', 'user')}}" class="btn">Log in with Email</a>
+        <a href="{{=URL('default', 'user')}}/register" class="btn">Sign up!</a>
+        
+      </div>
+      
+      {{pass}}
+      
     </div>
   </div>
 
