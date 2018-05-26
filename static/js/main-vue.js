@@ -1,4 +1,4 @@
-var app = function() {
+var widget = function() {
     self = {};
     // IO FUNCTIONS
     self.start_io = function(){jQuery('.progress').slideDown();};
@@ -44,5 +44,5 @@ var app = function() {
     return self;
 };
 
-var APP = null;
-jQuery(function(){APP = app();});
+var WIDGET = null;
+jQuery(function(){WIDGET = widget();});

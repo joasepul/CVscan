@@ -18,7 +18,7 @@ var app = function() {
 
         },
         methods: {
-            
+
         }
 
     });
