@@ -15,7 +15,8 @@ var app = function() {
         delimiters: ['${', '}'],
         unsafeDelimiters: ['!{', '}'],
         data: {
-
+            logged_in: false,
+            archive_mode: false
         },
         methods: {
 
