@@ -2,6 +2,11 @@
 {{extend 'layout.html'}}
 
 {{block head}}
+
+<script>
+var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
+</script>
+
 {{end}}
 
 
@@ -36,9 +41,11 @@
           <video class="video"></video>
           <button id="screenshot-button" style="">Take Photo</button>
           <button id="draw-button" style="">Draw Test</button>
+          <button id="post-button" style="">Send to Server</button>
         </div>
         <div>
           <canvas class="canvas" id="imgcanvas"></canvas>
+          <canvas class="canvas" id="imgcanvas_fromserver"></canvas>
           <!-- <img id="screenshot-img" src="">
           <canvas id="corners-canvas"></canvas> -->
         </div>
@@ -49,5 +56,33 @@
   </div>
 
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="{{=URL('static','js/video.js')}}"></script>
 <script src="{{=URL('static','js/canvas.js')}}"></script>
+<script>
+    var image = document.querySelector('#imgcanvas');
+    var image_fromserver = document.querySelector('#imgcanvas_fromserver');
+    var ctx = image_fromserver.getContext('2d');
+    $('#post-button').click(
+        function(){
+            img_data = image.toDataURL('image/png');
+            $.ajax({
+                url:doc_alg_url,
+                data:{
+                    'img_b64':img_data
+                },
+                success: function(res){
+                    var img = new Image;
+                    img.onload = function() {
+                        ctx.drawImage(this, 0, 0);
+                    };
+                    img.src = "data:image/png;base64," + res.b64img;
+                    image_fromserver.width = res.width;
+                    image_fromserver.height = res.height;
+                    console.log(img.src.length);
+                }
+            });
+
+        }
+    );
+</script>
