@@ -35,9 +35,9 @@ var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
     <div id="vue-div" class="display:none">
       {{if auth.user is not None:}}
       <!-- IN MAIN MODE -->
-      <div>
+      <div v-if="!archive_mode">
         <h1>MAIN MODE</h1>
-      
+        
         <div  class="select" id="videoSourceSelect">
           <label for="videoSource">Video source: </label>
           <select id="videoSource"></select>
@@ -54,6 +54,9 @@ var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
         </div>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
         <button id="btn-download">download</button>
+        
+        <script src="{{=URL('static', 'js/video.js')}}"></script>
+        <script src="{{=URL('static', 'js/canvas.js')}}"></script>
       </div>
       
       
