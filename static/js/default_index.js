@@ -333,28 +333,36 @@ var app = function() {
               // We return a simple javascript object (a hash) with x and y defined
               return {x: mx, y: my};
             }
+            
+            CanvasState.prototype.getShapeCoords = function(shape_id) {
+                var this_shape = this.shapes[shape_id];
+                return [this_shape.x, this_shape.y]
+            }
 
             const drawbutton = document.querySelector('#draw-button');
-            var s = null //CanvasState
+            var s = null; //CanvasState
 
             drawbutton.onclick = function() {
               if (s != null) {s.clear()}
               init();
             };
-
-
-            // If you dont want to use <body onLoad='init()'>
-            // You could uncomment this init() reference and place the script reference inside the body tag
+            
+            const displaybutton = document.querySelector('#btn-display');
+            displaybutton.onclick = function() {
+              console.log("------------")
+              console.log("Top Left: "+s.getShapeCoords(0));
+              console.log("Top Right: "+s.getShapeCoords(1));
+              console.log("Bottom Left: "+s.getShapeCoords(2));
+              console.log("Bottom Right: "+s.getShapeCoords(3));
+            };
 
             function init() {
               s = new CanvasState(document.getElementById('imgcanvas'));
-              // s.addShape(new Shape(40,40,5)); // The default is red
               s.addShape(new Shape(50,50,10));
               s.addShape(new Shape(100,50,10));
               s.addShape(new Shape(50,100,10));
               s.addShape(new Shape(100,100,10));
-              // s.addShape(new Shape(60,60,20));
-              // s.addShape(new Shape(70,70,30));
+
             }
         },
         delimiters: ['${', '}'],
