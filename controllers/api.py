@@ -16,8 +16,8 @@ def readb64(base64_string):
 def doc_alg_entry():
     img_b64 = (request.vars.img_b64)[22:]
     img = readb64(img_b64)
-    #ret, dst = doc_algorithm(img)
-    retval, buffered_img = cv2.imencode('.png', img)
+    ret, dst = doc_algorithm(img)
+    retval, buffered_img = cv2.imencode('.png', dst)
     base64_encoded_image = base64.b64encode(buffered_img)
     height, width, channels = img.shape
     #print(ret)
