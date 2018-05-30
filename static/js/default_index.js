@@ -162,13 +162,13 @@ var app = function() {
               ctx.lineWidth = 3;
               ctx.strokeStyle = this.strokeStyle;
               ctx.stroke();
-            }
+            };
 
             /* Determine if a point is inside the shape's bounds */
             Shape.prototype.contains = function(mx, my) {
               // is the mouse withinn the area of the circle?
               return (Math.pow(mx - this.x, 2) + Math.pow(my - this.y, 2) <= Math.pow(this.r, 2));
-            }
+            };
 
             /* Canvas state tracking object */
             function CanvasState (canvas) {
@@ -198,7 +198,7 @@ var app = function() {
               this.valid = false; //will redraw everything
               this.shapes = []; // collection of shapes to draw
               this.dragging = false; // are we dragging?
-              this.selection = null // selected object
+              this.selection = null; // selected object
               this.dragoffx = 0; //see mousedown and mousemove for explaination
               this.dragoffy = 0;
               
@@ -251,7 +251,7 @@ var app = function() {
               //on mouseMOVE
               canvas.addEventListener('mouseup', function(e) {
                 myState.dragging = false;
-              }, true)
+              }, true);
               
               /* Options */
               this.selectionColor = '#CC0000';
@@ -264,12 +264,12 @@ var app = function() {
             CanvasState.prototype.addShape = function(shape) {
               this.shapes.push(shape);
               this.valid = false;
-            }
+            };
 
             /* Clear canvas */
             CanvasState.prototype.clear = function() {
               this.ctx.clearRect(0, 0, this.width, this.height);
-            }
+            };
 
             /* Canvas Redrawing */
             CanvasState.prototype.draw = function(){
@@ -307,7 +307,7 @@ var app = function() {
                 
                 this.valid = true;
               }
-            }
+            };
 
             // Creates an object with x and y defined, set to the mouse position relative to the state's canvas
             // If you wanna be super-correct this can be tricky, we have to worry about padding and borders
@@ -332,12 +332,12 @@ var app = function() {
               
               // We return a simple javascript object (a hash) with x and y defined
               return {x: mx, y: my};
-            }
+            };
             
             CanvasState.prototype.getShapeCoords = function(shape_id) {
                 var this_shape = this.shapes[shape_id];
                 return [this_shape.x, this_shape.y]
-            }
+            };
 
             const drawbutton = document.querySelector('#draw-button');
             var s = null; //CanvasState
