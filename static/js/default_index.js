@@ -336,7 +336,7 @@ var app = function() {
             
             CanvasState.prototype.getShapeCoords = function(shape_id) {
                 var this_shape = this.shapes[shape_id];
-                return [this_shape.x, this_shape.y]
+                return this_shape
             };
 
             const drawbutton = document.querySelector('#draw-button');
@@ -350,10 +350,10 @@ var app = function() {
             const displaybutton = document.querySelector('#btn-display');
             displaybutton.onclick = function() {
               console.log("------------")
-              console.log("Top Left: "+s.getShapeCoords(0));
-              console.log("Top Right: "+s.getShapeCoords(1));
-              console.log("Bottom Left: "+s.getShapeCoords(2));
-              console.log("Bottom Right: "+s.getShapeCoords(3));
+              console.log("Top Left: "+s.getShapeCoords(0).x + " " + s.getShapeCoords(0).y);
+              console.log("Top Right: "+s.getShapeCoords(1).x + " " + s.getShapeCoords(1).y);
+              console.log("Bottom Left: "+s.getShapeCoords(2).x + " " + s.getShapeCoords(2).y);
+              console.log("Bottom Right: "+s.getShapeCoords(3).x + " " + s.getShapeCoords(3).y);
             };
 
             function init() {
