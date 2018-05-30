@@ -13,6 +13,7 @@ var app = function() {
     self.vue = new Vue({
         el: "#vue-div",
         mounted: function(){
+            // ======= video.js ===============================================
             'use strict';
 
             /* Initial Webcam Check */
@@ -137,7 +138,10 @@ var app = function() {
                         console.log(img.src.length);
                         }
                   });});
-                  // Based on code by Simon Sarris
+            
+            // ======= canvas.js ==============================================
+            
+            // Based on code by Simon Sarris
             // www.simonsarris.com
             // sarris@acm.org
 
@@ -344,11 +348,13 @@ var app = function() {
 
             function init() {
               s = new CanvasState(document.getElementById('imgcanvas'));
-              s.addShape(new Shape(40,40,5)); // The default is gray
+              // s.addShape(new Shape(40,40,5)); // The default is red
               s.addShape(new Shape(50,50,10));
-              // Lets make some partially transparent
-              s.addShape(new Shape(60,60,20));
-              s.addShape(new Shape(70,70,30));
+              s.addShape(new Shape(100,50,10));
+              s.addShape(new Shape(50,100,10));
+              s.addShape(new Shape(100,100,10));
+              // s.addShape(new Shape(60,60,20));
+              // s.addShape(new Shape(70,70,30));
             }
         },
         delimiters: ['${', '}'],
