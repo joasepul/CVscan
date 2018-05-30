@@ -98,3 +98,26 @@ function handleError(error) {
   alert('Error: ' + error);
   console.log('Error: ', error);
 }
+
+
+var image_fromserver = document.querySelector('#imgcanvas_fromserver');
+var ctx = image_fromserver.getContext('2d');
+$('#post-button').click(
+    function(){
+      var image = img.src;
+      $.ajax({
+          url:doc_alg_url,
+          data:{
+            'img_b64':image
+          },
+          success: function(res){
+            var img = new Image;
+            img.onload = function() {
+              ctx.drawImage(this, 0, 0);
+              };
+            img.src = "data:image/png;base64," + res.b64img;
+            image_fromserver.width = res.width;
+            image_fromserver.height = res.height;
+            console.log(img.src.length);
+            }
+      });});

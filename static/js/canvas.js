@@ -8,7 +8,7 @@ function Shape(x, y, r, fill){
   this.x = x || 0;
   this.y = y || 0;
   this.r = r || 1;
-  this.strokeStyle = '#AAAAAA';
+  this.strokeStyle = '#FF0000';
 }
 
 /* Draw shape to given context */
