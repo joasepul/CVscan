@@ -228,7 +228,7 @@ var app = function() {
                     return;
                   }
                 }
-                // havent returned means we have failed to select anything.
+                // haven't returned means we have failed to select anything.
                 // If there was an object selected, we deselect it
                 if (myState.selection) {
                   myState.selection = null;
@@ -268,10 +268,8 @@ var app = function() {
               canvas.addEventListener('mousemove', function(e) {
                 if (myState.dragging){
                   var mouse = myState.getMouse(e);
-                  // We don't want to drag the object by its top-left corner, we want to drag it
-                  // from where we clicked. Thats why we saved the offset and use it here
                   myState.selection.x = mouse.x - myState.dragoffx;
-                  myState.selection.y = mouse.y - myState.dragoffy;   
+                  myState.selection.y = mouse.y - myState.dragoffy;
                   myState.valid = false; // Something's dragging so we must redraw
                 }
               }, true);
@@ -342,13 +340,24 @@ var app = function() {
                      {continue;}
                   shapes[i].draw(ctx);
                 }
+
+                ctx.beginPath();
+                ctx.moveTo(shapes[0].x, shapes[0].y);
+                ctx.lineTo(shapes[2].x, shapes[2].y);
+                ctx.lineTo(shapes[3].x, shapes[3].y);
+                ctx.moveTo(shapes[1].x, shapes[1].y);
+                ctx.lineTo(shapes[0].x, shapes[0].y);
+                ctx.moveTo(shapes[1].x, shapes[1].y);
+                ctx.lineTo(shapes[3].x, shapes[3].y);
+                ctx.stroke();
+
                 
                 //draw selection
                 if (this.selection != null) {
                   ctx.strokeStyle = this.selectionColor;
                   ctx.lineWidth = this.selectionWidth;
                   var mySel = this.selection;
-                  ctx.strokeRect(mySel.x, mySel.y, mySel.w, mySel.h);
+                  ctx.arc(mySel.x, mySel.y, mySel.r, 0, 2 * Math.PI, false);
                 }
                 
                 //ADD STUFF TO BE ALWAYS DRAWN ON TOP HERE
@@ -410,7 +419,10 @@ var app = function() {
             var s = null; //CanvasState
 
             drawbutton.onclick = function() {
-              if (s != null) {s.clear()}
+              if (s != null) {
+                  s.clear();
+                  s = null;
+              }
               init();
             };
             
