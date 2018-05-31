@@ -145,6 +145,9 @@ var app = function() {
             // www.simonsarris.com
             // sarris@acm.org
 
+            /* Vars */
+            const drawbutton = document.querySelector('#draw-button');
+            var s = null; //CanvasState
 
             /* Shape Drawing Constructor */
             function Shape(x, y, r, fill){
@@ -206,7 +209,10 @@ var app = function() {
               //refers to CanvasState, differentiates from event this (canvas)
               var myState = this; 
               //fixes a problem where double clicking causes text to get selected on the canvas
-              canvas.addEventListener('selectstart', function(e) { e.preventDefault(); return false; }, false);
+              canvas.addEventListener('selectstart', function(e) { 
+                e.preventDefault();
+                return false;
+              }, false);
               
               //on mouseDOWN
               canvas.addEventListener('mousedown', function(e) {
@@ -303,7 +309,9 @@ var app = function() {
               this.selectionColor = '#CC0000';
               this.selectionWidth = 2;  
               this.interval = 30;
-              setInterval(function() { myState.draw(); }, myState.interval);
+              this.interval_var = setInterval(function() { 
+                myState.draw(); 
+              }, myState.interval);
             }
 
             /* Add shape to canvas*/
@@ -323,6 +331,8 @@ var app = function() {
               if(!this.valid) {
                 var ctx = this.ctx;
                 var shapes = this.shapes;
+                /* console.log(shapes);
+                console.log(this); */
                 this.clear();
                 
                 //ADD STUFF TO BE ALWAYS DRAWN ON BOTTOM HERE
@@ -415,14 +425,11 @@ var app = function() {
                 return this_shape
             };
 
-            const drawbutton = document.querySelector('#draw-button');
-            var s = null; //CanvasState
-
             drawbutton.onclick = function() {
-              if (s != null) {
+              /* if (s != null) {
                   s.clear();
                   s = null;
-              }
+              } */
               init();
             };
             
@@ -436,6 +443,10 @@ var app = function() {
             };
 
             function init() {
+              if (s != null){
+                  clearInterval(s.interval_var);
+                  // s = null;
+              }
               s = new CanvasState(document.getElementById('imgcanvas'));
               s.addShape(new Shape(50,50,10));
               s.addShape(new Shape(100,50,10));
@@ -443,6 +454,9 @@ var app = function() {
               s.addShape(new Shape(100,100,10));
 
             }
+            
+            
+            // ======= END MOUNTING ===========================================
         },
         delimiters: ['${', '}'],
         unsafeDelimiters: ['!{', '}'],
