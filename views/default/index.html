@@ -23,12 +23,12 @@ var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
 </head>
 
 
-  <div class = "main">
-    <div class = "header">
-    {{block header}}
-      <h1>{{=request.application}}</h1>
-    {{end}}
-    </div>
+<div class = "main">
+  <div class = "header">
+  {{block header}}
+    <h1>{{=request.application}}</h1>
+  {{end}}
+  </div>
 
 
   <div class = "main_content">
@@ -37,7 +37,7 @@ var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
       <!-- IN MAIN MODE -->
       <div v-if="!archive_mode">
         <h1>MAIN MODE</h1>
-        
+      
         <div  class="select" id="videoSourceSelect">
           <label for="videoSource">Video source: </label>
           <select id="videoSource"></select>
@@ -73,7 +73,7 @@ var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
         <button id="google-login" style="" class="btn">Login with Google</button>
         <a href="{{=URL('default', 'user')}}" class="btn">Log in with Email</a>
         <a href="{{=URL('default', 'user')}}/register" class="btn">Sign up!</a>
-        
+      
       </div>
       
       {{pass}}

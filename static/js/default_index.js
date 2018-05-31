@@ -38,7 +38,12 @@ var app = function() {
             // const img = document.querySelector('#screenshot-img');
             // const corners = document.querySelector('#corners-canvas');
             const canvas = document.querySelector('#imgcanvas');
+            var image_fromserver = document.querySelector('#imgcanvas_fromserver');
+            var ctx = image_fromserver.getContext('2d');
             var dataURL;
+            /* Vars from canvas.js*/
+            const drawbutton = document.querySelector('#draw-button');
+            var myCanvasState = null; //CanvasState
 
             /* On button click, create video snapshot */
             button.onclick = videoElement.onclick = function() {
@@ -49,6 +54,7 @@ var app = function() {
                 // img.src = canvas.toDataURL('image/webp');
                 img.src = canvas.toDataURL('image/png'); //create snapshot of canvas
                 dataURL = img.src;
+                clear_CanvasState();
               };
 
             /* video feed handling */
@@ -117,8 +123,8 @@ var app = function() {
             }
 
 
-            var image_fromserver = document.querySelector('#imgcanvas_fromserver');
-            var ctx = image_fromserver.getContext('2d');
+            
+            
             $('#post-button').click(
                 function(){
                   var image = img.src;
@@ -144,10 +150,6 @@ var app = function() {
             // Based on code by Simon Sarris
             // www.simonsarris.com
             // sarris@acm.org
-
-            /* Vars */
-            const drawbutton = document.querySelector('#draw-button');
-            var s = null; //CanvasState
 
             /* Shape Drawing Constructor */
             function Shape(x, y, r, fill){
@@ -331,8 +333,6 @@ var app = function() {
               if(!this.valid) {
                 var ctx = this.ctx;
                 var shapes = this.shapes;
-                /* console.log(shapes);
-                console.log(this); */
                 this.clear();
                 
                 //ADD STUFF TO BE ALWAYS DRAWN ON BOTTOM HERE
@@ -425,33 +425,37 @@ var app = function() {
                 return this_shape
             };
 
+            function clear_CanvasState(){
+                if (myCanvasState != null){
+                  clearInterval(myCanvasState.interval_var);
+                  myCanvasState = null;
+              }
+            }
+            
             drawbutton.onclick = function() {
-              /* if (s != null) {
-                  s.clear();
-                  s = null;
-              } */
+              clear_CanvasState();
               init();
             };
             
             const displaybutton = document.querySelector('#btn-display');
             displaybutton.onclick = function() {
               console.log("------------")
-              console.log("Top Left: "+s.getShapeCoords(0).x + " " + s.getShapeCoords(0).y);
-              console.log("Top Right: "+s.getShapeCoords(1).x + " " + s.getShapeCoords(1).y);
-              console.log("Bottom Left: "+s.getShapeCoords(2).x + " " + s.getShapeCoords(2).y);
-              console.log("Bottom Right: "+s.getShapeCoords(3).x + " " + s.getShapeCoords(3).y);
+              console.log("Top Left: "+myCanvasState.getShapeCoords(0).x + 
+                          " " + myCanvasState.getShapeCoords(0).y);
+              console.log("Top Right: "+myCanvasState.getShapeCoords(1).x + 
+                          " " + myCanvasState.getShapeCoords(1).y);
+              console.log("Bottom Left: "+myCanvasState.getShapeCoords(2).x + 
+                          " " + myCanvasState.getShapeCoords(2).y);
+              console.log("Bottom Right: "+myCanvasState.getShapeCoords(3).x + 
+                          " " + myCanvasState.getShapeCoords(3).y);
             };
 
             function init() {
-              if (s != null){
-                  clearInterval(s.interval_var);
-                  // s = null;
-              }
-              s = new CanvasState(document.getElementById('imgcanvas'));
-              s.addShape(new Shape(50,50,10));
-              s.addShape(new Shape(100,50,10));
-              s.addShape(new Shape(50,100,10));
-              s.addShape(new Shape(100,100,10));
+              myCanvasState = new CanvasState(document.getElementById('imgcanvas'));
+              myCanvasState.addShape(new Shape(50,50,10));
+              myCanvasState.addShape(new Shape(100,50,10));
+              myCanvasState.addShape(new Shape(50,100,10));
+              myCanvasState.addShape(new Shape(100,100,10));
 
             }
             
