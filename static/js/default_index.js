@@ -236,6 +236,34 @@ var app = function() {
                 }
               }, true);
               
+              //on touchSTART
+              canvas.addEventListener('touchstart', function(e) {
+                var touch = myState.getTouch(e);
+                var tx = touch.x;
+                var ty = touch.y;
+                var shapes = myState.shapes;
+                var l = shapes.length;
+                for (var i = l-1; i >= 0; i--) {
+                  if (shapes[i].contains(tx, ty)) {
+                    var mySel = shapes[i];
+                    // Keep track of where in the object we clicked
+                    // so we can move it smoothly (see mousemove)
+                    myState.dragoffx = tx - mySel.x;
+                    myState.dragoffy = ty - mySel.y;
+                    myState.dragging = true;
+                    myState.selection = mySel;
+                    myState.valid = false;
+                    return;
+                  }
+                }
+                // havent returned means we have failed to select anything.
+                // If there was an object selected, we deselect it
+                if (myState.selection) {
+                  myState.selection = null;
+                  myState.valid = false; // Need to clear the old selection border
+                }
+              }, true);
+              
               //on mouseMOVE
               canvas.addEventListener('mousemove', function(e) {
                 if (myState.dragging){
@@ -248,10 +276,30 @@ var app = function() {
                 }
               }, true);
               
-              //on mouseMOVE
+              //on touchMOVE
+              canvas.addEventListener('touchmove', function(e) {
+                e.preventDefault();
+                if (myState.dragging){
+                  var touch = myState.getTouch(e);
+                  // We don't want to drag the object by its top-left corner, we want to drag it
+                  // from where we clicked. Thats why we saved the offset and use it here
+                  a = myState.selection.x = touch.x - myState.dragoffx;
+                  b = myState.selection.y = touch.y - myState.dragoffy;   
+                  alert(a + " " + b);
+                  myState.valid = false; // Something's dragging so we must redraw
+                }
+              }, false);
+              
+              //on mouseUP
               canvas.addEventListener('mouseup', function(e) {
                 myState.dragging = false;
-              }, true);
+              }, false);
+              
+              //on touchEND
+              canvas.addEventListener('touchend', function(e) {
+                myState.dragging = false;
+              }, false);
+              
               
               /* Options */
               this.selectionColor = '#CC0000';
@@ -332,6 +380,25 @@ var app = function() {
               
               // We return a simple javascript object (a hash) with x and y defined
               return {x: mx, y: my};
+            };
+            
+            CanvasState.prototype.getTouch = function(e) {
+              var element = this.canvas, offsetX = 0, offsetY = 0, tx, ty;
+              
+              // Compute the total offset
+              if (element.offsetParent !== undefined) {
+                do {
+                  offsetX += element.offsetLeft;
+                  offsetY += element.offsetTop;
+                } while ((element = element.offsetParent));
+              }
+
+              offsetX += this.stylePaddingLeft + this.styleBorderLeft + this.htmlLeft;
+              offsetY += this.stylePaddingTop + this.styleBorderTop + this.htmlTop;
+
+              tx = e.targetTouches[0].pageX - offsetX;
+              ty = e.targetTouches[0].pageY - offsetY;
+              return {x: tx, y: ty};
             };
             
             CanvasState.prototype.getShapeCoords = function(shape_id) {
