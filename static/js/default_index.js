@@ -170,6 +170,7 @@ var app = function() {
             };
 
             /* Determine if a point is inside the shape's bounds */
+            ///CONSIDER: INCREASE DETECTION RADIUS OR ACTUAL SIZE?
             Shape.prototype.contains = function(mx, my) {
               // is the mouse withinn the area of the circle?
               return (Math.pow(mx - this.x, 2) + Math.pow(my - this.y, 2) <= Math.pow(this.r, 2));
@@ -284,14 +285,11 @@ var app = function() {
               
               //on touchMOVE
               canvas.addEventListener('touchmove', function(e) {
-                e.preventDefault();
                 if (myState.dragging){
+                  e.preventDefault();  // FOR TESTING
                   var touch = myState.getTouch(e);
-                  // We don't want to drag the object by its top-left corner, we want to drag it
-                  // from where we clicked. Thats why we saved the offset and use it here
-                  a = myState.selection.x = touch.x - myState.dragoffx;
-                  b = myState.selection.y = touch.y - myState.dragoffy;   
-                  alert(a + " " + b);
+                  myState.selection.x = touch.x - myState.dragoffx;
+                  myState.selection.y = touch.y - myState.dragoffy;   
                   myState.valid = false; // Something's dragging so we must redraw
                 }
               }, false);
