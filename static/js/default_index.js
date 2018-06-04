@@ -461,10 +461,10 @@ var app = function() {
                 var r = 10;
                 if (isMobileDevice()) { r = 30 }
                 myCanvasState = new CanvasState(document.getElementById('imgcanvas'));
-                myCanvasState.addShape(new Shape(50,50,r));
-                myCanvasState.addShape(new Shape(100,50,r));
-                myCanvasState.addShape(new Shape(50,100,r));
-                myCanvasState.addShape(new Shape(100,100,r));
+                myCanvasState.addShape(new Shape(70,70,r));
+                myCanvasState.addShape(new Shape(140,70,r));
+                myCanvasState.addShape(new Shape(70,140,r));
+                myCanvasState.addShape(new Shape(140,140,r));
 
             }
             
