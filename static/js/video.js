@@ -120,14 +120,16 @@ $('#post-button').click(
             'img_b64':image
           },
           success: function(res){
-            var img = new Image;
-            img.onload = function() {
-              ctx.drawImage(this, 0, 0);
-              };
-            img.src = "data:image/png;base64," + res.b64img;
-            image_fromserver.width = res.width;
-            image_fromserver.height = res.height;
-            alert("Document processed successfully: " + res.qos);
+
+            // var img = new Image;
+            // img.onload = function() {
+            //   ctx.drawImage(this, 0, 0);
+            //   };
+            // img.src = "data:image/png;base64," + res.b64img;
+            // image_fromserver.width = res.width;
+            // image_fromserver.height = res.height;
+            // alert("Document processed successfully: " + res.qos);
+            console.log(res);
 
         },
         error: function(){
