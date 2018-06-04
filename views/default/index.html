@@ -61,6 +61,7 @@ var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
       
       <!-- IN ARCHIVE MODE -->
       <div v-if="archive_mode">
+        <!-- TODO: this -->
         <h1>ARCHIVE MODE</h1>
       </div>
       
@@ -70,6 +71,7 @@ var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
       <div>
         <h1>LOGIN MODE</h1>
         <h2>Login to Continue</h2>
+        <!-- TODO: integrate google login -->
         <button id="google-login" style="" class="btn">Login with Google</button>
         <a href="{{=URL('default', 'user')}}" class="btn">Log in with Email</a>
         <a href="{{=URL('default', 'user')}}/register" class="btn">Sign up!</a>
