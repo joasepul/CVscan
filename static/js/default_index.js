@@ -13,6 +13,15 @@ var app = function() {
     self.vue = new Vue({
         el: "#vue-div",
         mounted: function(){
+
+            //Code from URL:
+            //https://coderwall.com/p/i817wa/one-line-function-to-detect-mobile-devices-with-javascript
+            function isMobileDevice() {
+                return (typeof window.orientation !== "undefined") ||
+                    (navigator.userAgent.indexOf('IEMobile') !== -1);
+            }
+
+
             // ======= video.js ===============================================
             'use strict';
 
@@ -449,12 +458,13 @@ var app = function() {
             };
 
             function init() {
-              myCanvasState = new CanvasState(document.getElementById('imgcanvas'));
-              //10 for pc, 20 for touch
-              myCanvasState.addShape(new Shape(50,50,30));
-              myCanvasState.addShape(new Shape(100,50,30));
-              myCanvasState.addShape(new Shape(50,100,30));
-              myCanvasState.addShape(new Shape(100,100,30));
+                var r = 10;
+                if (isMobileDevice()) { r = 30 }
+                myCanvasState = new CanvasState(document.getElementById('imgcanvas'));
+                myCanvasState.addShape(new Shape(50,50,r));
+                myCanvasState.addShape(new Shape(100,50,r));
+                myCanvasState.addShape(new Shape(50,100,r));
+                myCanvasState.addShape(new Shape(100,100,r));
 
             }
             
