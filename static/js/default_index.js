@@ -465,7 +465,6 @@ var app = function() {
                 myCanvasState.addShape(new Shape(100,50,r));
                 myCanvasState.addShape(new Shape(50,100,r));
                 myCanvasState.addShape(new Shape(100,100,r));
-
             }
             
             
