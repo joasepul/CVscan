@@ -23,7 +23,7 @@ def doc_alg_entry():
     #print(ret)
     return response.json(dict(
         b64img=base64_encoded_image,
-        qos='ret',
+        qos=ret,
         width=width,
         height=height,
 

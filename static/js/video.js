@@ -1,5 +1,9 @@
 'use strict';
 
+var hdConstraints = {
+  video: {width: {min: 1280}, height: {min: 720}}
+};
+
 /* Initial Webcam Check */
 function hasGetUserMedia() {
   return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
@@ -26,8 +30,8 @@ var dataURL;
 
 /* On button click, create video snapshot */
 button.onclick = videoElement.onclick = function() {
-    canvas.width = videoElement.videoWidth;
-    canvas.height = videoElement.videoHeight;
+    canvas.width = 1280;//videoElement.videoWidth;
+    canvas.height = 720;//videoElement.videoHeight;
     canvas.getContext('2d').drawImage(videoElement, 0, 0);
     //Other browsers will fall back to image/png
     // img.src = canvas.toDataURL('image/webp');
@@ -79,7 +83,11 @@ function getStream() {
   var constraints = {
     audio: false,
     video: {
-      deviceId: { exact: videoSelect.value }
+      deviceId: {
+          exact: videoSelect.value,
+          width: {min: 1280},
+          height: {min: 720}
+      }
     }
   };
 
@@ -106,6 +114,7 @@ $('#post-button').click(
     function(){
       var image = img.src;
       $.ajax({
+          method:"POST",
           url:doc_alg_url,
           data:{
             'img_b64':image
@@ -118,6 +127,10 @@ $('#post-button').click(
             img.src = "data:image/png;base64," + res.b64img;
             image_fromserver.width = res.width;
             image_fromserver.height = res.height;
-            console.log(img.src.length);
-            }
+            alert("Document processed successfully: " + res.qos);
+
+        },
+        error: function(){
+            alert("failure");
+        }
       });});
