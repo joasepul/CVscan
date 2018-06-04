@@ -26,5 +26,4 @@ def doc_alg_entry():
         qos='ret',
         width=width,
         height=height,
-
     ))
