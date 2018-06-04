@@ -450,10 +450,11 @@ var app = function() {
 
             function init() {
               myCanvasState = new CanvasState(document.getElementById('imgcanvas'));
-              myCanvasState.addShape(new Shape(50,50,10));
-              myCanvasState.addShape(new Shape(100,50,10));
-              myCanvasState.addShape(new Shape(50,100,10));
-              myCanvasState.addShape(new Shape(100,100,10));
+              //10 for pc, 20 for touch
+              myCanvasState.addShape(new Shape(50,50,30));
+              myCanvasState.addShape(new Shape(100,50,30));
+              myCanvasState.addShape(new Shape(50,100,30));
+              myCanvasState.addShape(new Shape(100,100,30));
 
             }
             
