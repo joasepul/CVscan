@@ -4,6 +4,7 @@ import cv2
 from StringIO import StringIO
 import numpy as np
 from computer_vision import *
+from fpdf import FPDF
 
 #taken from https://stackoverflow.com/questions/33754935/read-a-base-64-encoded-image-from-memory-using-opencv-python-library
 def readb64(base64_string):
@@ -28,3 +29,11 @@ def doc_alg_entry():
         height=height,
 
     ))
+
+def create_pdf():
+    pdf = FPDF()
+    # imagelist is the list with all image filenames
+    for image in imagelist:
+        pdf.add_page()
+        pdf.image(image,x,y,w,h)
+    pdf.output("yourfile.pdf", "F")

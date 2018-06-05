@@ -13,28 +13,8 @@ var app = function() {
     self.vue = new Vue({
         el: "#vue-div",
         mounted: function(){
-
-            //Code from URL:
-            //https://coderwall.com/p/i817wa/one-line-function-to-detect-mobile-devices-with-javascript
-            function isMobileDevice() {
-                return (typeof window.orientation !== "undefined") ||
-                    (navigator.userAgent.indexOf('IEMobile') !== -1);
-            }
-
-
             // ======= video.js ===============================================
             'use strict';
-
-            /* Initial Webcam Check */
-            function hasGetUserMedia() {
-              return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
-            }
-
-            if (hasGetUserMedia()) {
-              // green light
-            } else {
-              alert('getUserMedia() is not supported by your browser');
-            }
 
             /* General Variable Set up */
             var videoElement = document.querySelector('video');
@@ -53,6 +33,24 @@ var app = function() {
             /* Vars from canvas.js*/
             const drawbutton = document.querySelector('#draw-button');
             var myCanvasState = null; //CanvasState
+            
+            //Code from URL:
+            //https://coderwall.com/p/i817wa/one-line-function-to-detect-mobile-devices-with-javascript
+            function isMobileDevice() {
+                return (typeof window.orientation !== "undefined") ||
+                    (navigator.userAgent.indexOf('IEMobile') !== -1);
+            }
+            
+            /* Initial Webcam Check */
+            function hasGetUserMedia() {
+              return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+            }
+
+            if (hasGetUserMedia()) {
+              // green light
+            } else {
+              alert('getUserMedia() is not supported by your browser');
+            }
 
             /* On button click, create video snapshot */
             button.onclick = videoElement.onclick = function() {
@@ -151,6 +149,7 @@ var app = function() {
                         image_fromserver.width = res.width;
                         image_fromserver.height = res.height;
                         console.log(img.src.length);
+                        self.vue.imagelist.push(img.src);
                         }
                   });});
             
@@ -474,7 +473,8 @@ var app = function() {
         unsafeDelimiters: ['!{', '}'],
         data: {
             logged_in: false,
-            archive_mode: false
+            archive_mode: false,
+            imagelist: [],
         },
         methods: {
 

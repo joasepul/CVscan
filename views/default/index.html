@@ -52,6 +52,9 @@ var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
           <canvas class="canvas" id="imgcanvas"></canvas>
           <canvas class="canvas" id="imgcanvas_fromserver"></canvas>
         </div>
+        <div v-for="image in imagelist">
+          <img src="image.src">
+        </div>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
         <button id="btn-download">download</button>
         <button id="btn-display">display</button>
