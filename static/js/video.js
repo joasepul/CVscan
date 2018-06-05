@@ -24,17 +24,19 @@ var img = new Image;
 const canvas = document.querySelector('#imgcanvas');
 var dataURL;
 var newdataURL;
+var pdf;
+var n = 0;
 
 /* On button click, create video snapshot */
-button.onclick = videoElement.onclick = function() {
-    canvas.width = videoElement.videoWidth;
-    canvas.height = videoElement.videoHeight;
-    canvas.getContext('2d').drawImage(videoElement, 0, 0);
-    //Other browsers will fall back to image/png
-    // img.src = canvas.toDataURL('image/webp');
-    img.src = canvas.toDataURL('image/png'); //create snapshot of canvas
-    dataURL = img.src;
-  };
+button.onclick = videoElement.onclick = function () {
+  canvas.width = videoElement.videoWidth;
+  canvas.height = videoElement.videoHeight;
+  canvas.getContext('2d').drawImage(videoElement, 0, 0);
+  //Other browsers will fall back to image/png
+  // img.src = canvas.toDataURL('image/webp');
+  img.src = canvas.toDataURL('image/png'); //create snapshot of canvas
+  dataURL = img.src;
+};
 
 /* video feed handling */
 navigator.mediaDevices.enumerateDevices().then(gotDevices).then(getStream).catch(handleError);
@@ -94,28 +96,27 @@ function handleError(error) {
 var image_fromserver = document.querySelector('#imgcanvas_fromserver');
 var ctx = image_fromserver.getContext('2d');
 $('#post-button').click(
-    function(){
-      var image = dataURL;
-      console.log(image);
-      $.post({
-          url:doc_alg_url,
-          data:{
-            'img_b64':image
-          },
-          success: function(res){
-            var img = new Image;
-            img.onload = function() {
-              ctx.drawImage(this, 0, 0);
-              };
-            img.src = "data:image/png;base64," + res.b64img;
-            image_fromserver.width = res.width;
-            image_fromserver.height = res.height;
-            newdataURL = img.src;
-            console.log(newdataURL);
-            console.log(img.src);
-            console.log(img.src.length);
-            }
-      });});
+  function () {
+    var image = dataURL;
+    console.log(image);
+    $.post({
+      url: doc_alg_url,
+      data: {
+        'img_b64': image
+      },
+      success: function (res) {
+        var img = new Image;
+        img.onload = function () {
+          ctx.drawImage(this, 0, 0);
+        };
+        img.src = "data:image/png;base64," + res.b64img;
+        image_fromserver.width = res.width;
+        image_fromserver.height = res.height;
+        newdataURL = img.src;
+        console.log(img.src.length);
+      }
+    });
+  });
 /* 
 window.onload = function () {
   var button1 = document.getElementById('btn-download');
@@ -125,11 +126,43 @@ window.onload = function () {
     pdf.save("download.pdf");
   });
 } */
+$('#create_new_pdf').click(
+  function () {
+    pdf = new jsPDF();
+    console.log(1);
+  }
+)
 
-$('#btn-download').click(
-  function(){
-    var pdf = new jsPDF();
+
+$('#save_to_pdf').click(
+  function () {
+/*     var pdf_canvas = document.createElement('canvas');
+    document.body.appendChild(pdf_canvas);
+    pdf_canvas.width = 1100;
+    pdf_canvas.height = 1700;
+
+    //add the images
+    var context = pdf_canvas.getContext('2d');
+    var newimg = new Image;
+    newimg.src = newdataURL;
+    context.drawImage(newimg, 0, 0, 1100, 1700);
+    context.drawImage(newimg, 100, 30, 200, 137);
+    context.drawImage(newimg, 350, 55, 93, 104); */
+
+    //now grab the one image data for jspdf
+/*     var imgData = pdf_canvas.toDataURL();
+
+    //and lose the canvas when you're done
+    document.body.removeChild(pdf_canvas); */
+    
     pdf.addImage(newdataURL, 'PNG', 0, 0);
+    pdf.addPage();
+    n = n + 1;
+    console.log(n);
+  }
+)
+$('#btn_download').click(
+  function () {
     pdf.save("download.pdf");
-  } 
+  }
 )
