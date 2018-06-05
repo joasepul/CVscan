@@ -7,7 +7,18 @@ var app = function() {
     Vue.config.silent = false; // show all warnings
 
     //Vue functions go here
+    self.pdf_test = function() {
 
+    /*    $.post(create_pdf_url,
+            {
+                imglist: imglist
+            },
+            function () {
+
+            }
+        )
+        */
+    };
 
     //Call Vue data and methods here
     self.vue = new Vue({
@@ -477,7 +488,7 @@ var app = function() {
             imagelist: [],
         },
         methods: {
-
+            pdf_test: self.pdf_test
         }
 
     });
