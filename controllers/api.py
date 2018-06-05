@@ -14,6 +14,15 @@ def readb64(base64_string):
 
 
 def doc_alg_entry():
+    return response.json(dict(
+        b64img=request.post_vars["img_b64"],
+        qos="",
+        width="",
+        height="",
+        is_none=request.post_vars["img_b64"] is None,
+
+    ))
+
     img_b64 = request.vars.img_b64
     if(img_b64 is not None):
         img = readb64(img_b64)
