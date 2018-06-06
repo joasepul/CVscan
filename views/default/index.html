@@ -2,9 +2,11 @@
 {{extend 'layout.html'}}
 
 {{block head}}
-
+<script src="{{=URL('static', 'js/vue.js')}}"></script>
 <script>
 var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
+var get_image_url = "{{=URL('api', 'get_image')}}";
+var add_image_url = "{{=URL('api', 'add_image')}}";
 </script>
 
 {{end}}
@@ -32,7 +34,7 @@ var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
 
 
     <div class = "main_content">
-      <div id="vue-div" class="display:none">
+      <div>
         <div class="select" id="videoSourceSelect">
           <label for="videoSource">Video source: </label>
           <select id="videoSource"></select>
@@ -53,12 +55,27 @@ var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
         <button id="create_new_pdf">Create new pdf</button>
         <button id="save_to_pdf">Save this image to pdf</button>
         <button id="btn_download">download</button>
+        <div id="vue-div" class="display:none">
+          <button class="btn" v-on:click="add_image()">
+          Submit
+          </button>
+          <div class="container">
+            <!-- The following is an example -->
+            <div class="quarter" v-for="image in images">
+              <div class="lifted padded">
+                <img v-bind:src="image.image_url" height="200px" width="200px" class="padded" />
+              </div>
+            </div>
+          </div>
+        </div>
+        
       </center>
     </div>
   </div>
-
+<script src="{{=URL('static', 'js/default_index.js')}}"></script>
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="{{=URL('static','js/video.js')}}"></script>
 <script src="{{=URL('static','js/canvas.js')}}"></script>
+
 

@@ -8,7 +8,7 @@ from computer_vision import *
 def get_image():
 
     images = []
-    image_url = db().select(db.user_images.ALL, orderby =~ db.user_images.created_on)
+    image_url = db().select(db.user_images.ALL)
     for i,r in enumerate(image_url):
             img = dict(
                 created_on=r.created_on,
@@ -27,7 +27,6 @@ def get_image():
         user_email=email,
     ))
 
-@auth.requires_signature()
 def add_image():
     image_id = db.user_images.insert(
         image_url=request.vars.image_url,
