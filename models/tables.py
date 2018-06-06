@@ -9,25 +9,22 @@
 
 import datetime
 from fs_s3fs import S3FS
-from fs.copy import copy_fs
+
+cvscan_bucket = S3FS(
+    bucket_name='cvscan-files',
+    aws_access_key_id='',
+    aws_secret_access_key='',
+    region='us-west-1'
+)
 
 
 def get_user_email():
     return auth.user.email if auth.user else None
 
 
-s3fs = S3FS(
-    bucket_name='cvscan-files',
-    aws_access_key_id='',
-    aws_secret_access_key='',
-    endpoint_url='',
-    aws_session_token='',
-    region=''
-)
-
 db.define_table('scans',
-                Field('created_on', 'datetime', default=datetime.datetime.utcnow(), uploadfs=PyFileSystem.uploadfs),
-                Field('created_by', default=get_user_email(), uploadfs=PyFileSystem.uploadfs),
-                Field('scan_url', uploadfs=PyFileSystem.uploadfs),
-                Field('four_corners', 'list:integer', uploadfs=PyFileSystem.uploadfs)
+                Field('created_on', 'datetime', default=datetime.datetime.utcnow(), uploadfs=cvscan_bucket),
+                Field('created_by', default=get_user_email(), uploadfs=cvscan_bucket),
+                Field('scan_url', uploadfs=cvscan_bucket),
+                Field('four_corners', 'list:integer', uploadfs=cvscan_bucket)
                 )
