@@ -23,6 +23,7 @@ def get_user_email():
 
 
 db.define_table('scans',
+                Field('user_email', default=get_user_email()),
                 Field('created_on', 'datetime', default=datetime.datetime.utcnow(), uploadfs=cvscan_bucket),
                 Field('created_by', default=get_user_email(), uploadfs=cvscan_bucket),
                 Field('scan_url', 'string', uploadfs=cvscan_bucket),

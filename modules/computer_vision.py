@@ -20,7 +20,7 @@ def qos_of_corners(contour):
 
 
 def doc_rectification(orig_pts, new_pts, img):
-    M = cv2.getPerspectiveTransform(pts1, pts2)
+    M = cv2.getPerspectiveTransform(orig_pts, new_pts)
     dst = cv2.warpPerspective(img,M,(1000,1500))
     return dst
 

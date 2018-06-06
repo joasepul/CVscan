@@ -2,6 +2,11 @@
 {{extend 'layout.html'}}
 
 {{block head}}
+
+<script>
+var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
+</script>
+
 {{end}}
 
 
@@ -36,18 +41,24 @@
           <video class="video"></video>
           <button id="screenshot-button" style="">Take Photo</button>
           <button id="draw-button" style="">Draw Test</button>
+          <button id="post-button" style="">Send to Server</button>
         </div>
         <div>
           <canvas class="canvas" id="imgcanvas"></canvas>
+          <canvas class="canvas" id="imgcanvas_fromserver"></canvas>
           <!-- <img id="screenshot-img" src="">
           <canvas id="corners-canvas"></canvas> -->
         </div>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
-        <button id="btn-download">download</button>
+        <button id="create_new_pdf">Create new pdf</button>
+        <button id="save_to_pdf">Save this image to pdf</button>
+        <button id="btn_download">download</button>
       </center>
     </div>
   </div>
 
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="{{=URL('static','js/video.js')}}"></script>
 <script src="{{=URL('static','js/canvas.js')}}"></script>
+
