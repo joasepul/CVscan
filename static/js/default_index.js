@@ -30,6 +30,8 @@ var app = function() {
             var image_fromserver = document.querySelector('#imgcanvas_fromserver');
             var ctx = image_fromserver.getContext('2d');
             var dataURL;
+            var pdf;
+            var newdataURL;
             /* Vars from canvas.js*/
             const drawbutton = document.querySelector('#draw-button');
             var myCanvasState = null; //CanvasState
@@ -70,7 +72,7 @@ var app = function() {
             //switch to selected feed
             videoSelect.onchange = getStream;
 
-
+            /*
             window.onload = function () {
               var button1 = document.getElementById('btn-download');
               button1.addEventListener('click', function (e) {
@@ -79,6 +81,7 @@ var app = function() {
                 pdf.save("download.pdf");
               });
             }
+            */
 
             function gotDevices(deviceInfos) {
               for (var i = 0; i !== deviceInfos.length; ++i) {
@@ -128,8 +131,6 @@ var app = function() {
               alert('Error: ' + error);
               console.log('Error: ', error);
             }
-
-
             
             
             $('#post-button').click(
@@ -148,10 +149,30 @@ var app = function() {
                         img.src = "data:image/png;base64," + res.b64img;
                         image_fromserver.width = res.width;
                         image_fromserver.height = res.height;
+                        newdataURL = img.src;
                         console.log(img.src.length);
                         self.vue.imagelist.push(img.src);
                         }
                   });});
+
+            $('#create_new_pdf').click(
+                function () {
+                pdf = new jsPDF();
+                }
+            );
+
+            $('#save_to_pdf').click(
+                function () {
+                pdf.addImage(newdataURL, 'PNG', 0, 0);
+                pdf.addPage();
+                }
+            );
+
+            $('#btn_download').click(
+                function () {
+                pdf.save("download.pdf");
+                }
+            );
             
             // ======= canvas.js ==============================================
             
@@ -477,7 +498,7 @@ var app = function() {
             imagelist: [],
         },
         methods: {
-
+            pdf_test: self.pdf_test
         }
 
     });
