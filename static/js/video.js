@@ -25,7 +25,6 @@ const canvas = document.querySelector('#imgcanvas');
 var dataURL;
 var newdataURL;
 var pdf;
-var n = 0;
 
 /* On button click, create video snapshot */
 button.onclick = videoElement.onclick = function () {
@@ -117,48 +116,16 @@ $('#post-button').click(
       }
     });
   });
-/* 
-window.onload = function () {
-  var button1 = document.getElementById('btn-download');
-  button1.addEventListener('click', function (e) {
-    var pdf = new jsPDF();
-    pdf.addImage(newdataURL, 'PNG', 0, 0);
-    pdf.save("download.pdf");
-  });
-} */
+
 $('#create_new_pdf').click(
   function () {
     pdf = new jsPDF();
-    console.log(1);
   }
 )
-
-
 $('#save_to_pdf').click(
-  function () {
-/*     var pdf_canvas = document.createElement('canvas');
-    document.body.appendChild(pdf_canvas);
-    pdf_canvas.width = 1100;
-    pdf_canvas.height = 1700;
-
-    //add the images
-    var context = pdf_canvas.getContext('2d');
-    var newimg = new Image;
-    newimg.src = newdataURL;
-    context.drawImage(newimg, 0, 0, 1100, 1700);
-    context.drawImage(newimg, 100, 30, 200, 137);
-    context.drawImage(newimg, 350, 55, 93, 104); */
-
-    //now grab the one image data for jspdf
-/*     var imgData = pdf_canvas.toDataURL();
-
-    //and lose the canvas when you're done
-    document.body.removeChild(pdf_canvas); */
-    
+  function () {   
     pdf.addImage(newdataURL, 'PNG', 0, 0);
     pdf.addPage();
-    n = n + 1;
-    console.log(n);
   }
 )
 $('#btn_download').click(
