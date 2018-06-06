@@ -22,10 +22,10 @@ def get_user_email():
     return auth.user.email if auth.user else None
 
 
-db.define_table('scans',
+db.define_table('user_images',
                 Field('user_email', default=get_user_email()),
                 Field('created_on', 'datetime', default=datetime.datetime.utcnow(), uploadfs=cvscan_bucket),
                 Field('created_by', default=get_user_email(), uploadfs=cvscan_bucket),
-                Field('scan_url', 'string', uploadfs=cvscan_bucket),
+                Field('image_url', 'string', uploadfs=cvscan_bucket),
                 Field('four_corners', 'list:integer', uploadfs=cvscan_bucket)
                 )

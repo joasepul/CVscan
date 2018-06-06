@@ -5,27 +5,30 @@ from StringIO import StringIO
 import numpy as np
 from computer_vision import *
 
+
 def get_image():
 
     images = []
-    image_url = db().select(db.user_images.ALL, orderby =~ db.user_images.created_on)
+    image_url = db().select(db.images.ALL, orderby=~ db.images.created_on)
     for i,r in enumerate(image_url):
             img = dict(
                 created_on=r.created_on,
                 created_by=r.created_by,
                 image_url=r.image_url,
                 user_email=r.user_email,
+                four_corners=r.four_corners,
                 id=r.id,
             )
             images.append(img)
     if auth.user is not None:
-    	email = auth.user.email
+        email = auth.user.email
     else:
-    	email = ''
+        email = ''
     return response.json(dict(
         images=images,
         user_email=email,
     ))
+
 
 @auth.requires_signature()
 def add_image():
@@ -38,7 +41,10 @@ def add_image():
     )
     return response.json(dict(user_images=user_images,
     ))
-#taken from https://stackoverflow.com/questions/33754935/read-a-base-64-encoded-image-from-memory-using-opencv-python-library
+
+
+#taken from
+# https://stackoverflow.com/questions/33754935/read-a-base-64-encoded-image-from-memory-using-opencv-python-library
 def readb64(base64_string):
     sbuf = StringIO()
     sbuf.write(base64.b64decode(base64_string))
