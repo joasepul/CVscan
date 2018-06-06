@@ -158,13 +158,14 @@ var app = function() {
             $('#create_new_pdf').click(
                 function () {
                 pdf = new jsPDF();
+                pdf.addImage(newdataURL, 'PNG', 0, 0);
                 }
             );
 
             $('#save_to_pdf').click(
                 function () {
-                pdf.addImage(newdataURL, 'PNG', 0, 0);
                 pdf.addPage();
+                pdf.addImage(newdataURL, 'PNG', 0, 0);
                 }
             );
 
