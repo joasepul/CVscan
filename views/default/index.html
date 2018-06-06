@@ -54,7 +54,7 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
           <canvas class="canvas" id="imgcanvas_fromserver"></canvas>
         </div>
         <div>
-          <h6>Imagelist:<h6>
+          <h6>Imagelist:</h6>
           <img v-for="image in imagelist" v-bind:src="image"></img>
         </div>
         <button id="btn-createpdf" v-on:click="pdf_test">PDF test</button>
