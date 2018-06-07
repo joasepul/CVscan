@@ -39,9 +39,9 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
       <div v-if="!archive_mode">
         <h1>MAIN MODE</h1>
       
-        <div  class="select" id="videoSourceSelect">
+        <div v-if="main_state == 0" class="select" id="videoSourceSelect">
           <label for="videoSource">Video source: </label>
-          <select id="videoSource"></select>
+          <select id="videoSource" v-on:change="getStream"></select>
         </div>
         <div>
           <video v-if="main_state == 0" class="video"></video>
@@ -50,7 +50,7 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
           <button id="post-button" style="">Send to Server</button>
         </div>
         <div>
-          <canvas v-if="main_state == 1"class="canvas" id="imgcanvas"></canvas>
+          <canvas v-if="main_state == 0"class="canvas" id="imgcanvas"></canvas>
           <canvas v-if="main_state == 2"class="canvas" id="imgcanvas_fromserver"></canvas>
         </div>
         <div>

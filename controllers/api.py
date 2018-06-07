@@ -29,19 +29,3 @@ def doc_alg_entry():
         height=height,
 
     ))
-
-'''
-def create_pdf():
-    # https://stackoverflow.com/questions/10641893/convert-javascript-array-to-python-list
-    try:
-        import simplejson as json
-    except (ImportError,):
-        import json
-    result = json.loads(request.vars.imglist)
-    pdf = FPDF()
-    # imagelist is the list with all image filenames
-    for image in result:
-        pdf.add_page()
-        pdf.image(image)
-    pdf.output("yourfile.pdf", "I")
-'''

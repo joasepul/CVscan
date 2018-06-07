@@ -7,8 +7,71 @@ var app = function() {
     Vue.config.silent = false; // show all warnings
 
     //Vue functions go here
+    /* Video Selector */
+    self.initVideo = function(){
+        self.vue.videoSelect = document.querySelector('select#videoSource');
+        /* Video Element */
+        self.vue.videoElement = document.querySelector('video');
+        self.vue.videoElement.autoplay = true;
+        self.vue.videoElement.playsinline = true;
+        navigator.mediaDevices.enumerateDevices().then(gotDevices).then(self.getStream).catch(handleError);
+        /* video feed handling */
+        // videoSelect.onchange = getStream; //switch to selected feed ---- LISTENER
+        console.log("video initialized");
+    }
+    
+    
+    /* Helper Functions */
+    function gotDevices(deviceInfos) {
+      for (var i = 0; i !== deviceInfos.length; ++i) {
+        var deviceInfo = deviceInfos[i];
+        var option = document.createElement('option');
+        option.value = deviceInfo.deviceId;
+        if (deviceInfo.kind === 'videoinput') {
+          option.text = deviceInfo.label || 'camera ' +
+            (self.vue.videoSelect.length + 1);
+          self.vue.videoSelect.appendChild(option);
+          console.log('Video Device Found', deviceInfo);
+        } else {
+          console.log('Found one other kind of source/device: ', deviceInfo);
+        }
+      }
+    }
+    
+    //return selected feed 
+    self.getStream = function() {
+      if (window.stream) {
+        window.stream.getTracks().forEach(function (track) {
+          track.stop();
+        });
+      }
+      var constraints = {
+        audio: false,
+        video: {
+          deviceId: { exact: self.vue.videoSelect.value }
+        }
+      };
+      //display feed
+      navigator.mediaDevices.getUserMedia(constraints).
+        then(gotStream).catch(handleError);
+    }
+    
+    //set feed
+    function gotStream(stream) {
+      window.stream = stream; // make stream available to console
+      self.vue.videoElement.srcObject = stream;
+      console.log(stream);
+    }
 
+    function handleError(error) {
+      alert('Error: ' + error);
+      console.log('Error: ', error);
+    }
+    
+    
 
+      
+      
     //Call Vue data and methods here
     self.vue = new Vue({
         el: "#vue-div",
@@ -16,19 +79,30 @@ var app = function() {
             // ======= video.js ===============================================
             'use strict';
 
-            /* General Variable Set up */
-            var videoElement = document.querySelector('video');
-            videoElement.autoplay = true;
-            videoElement.playsinline = true;
-            var videoSelect = document.querySelector('select#videoSource');
-            const button = document.querySelector('#screenshot-button');
-            var img = new Image;
+                
+            // /* INIT CANVAS */
+            // const button = document.querySelector('#screenshot-button');
+            // const canvas = document.querySelector('#imgcanvas');
+            // /* On button click, create video snapshot */
+            // button.onclick = videoElement.onclick = function() {
+                // canvas.width = videoElement.videoWidth;
+                // canvas.height = videoElement.videoHeight;
+                // canvas.getContext('2d').drawImage(videoElement, 0, 0);
+                // //Other browsers will fall back to image/png
+                // // self.vue.img.src = canvas.toDataURL('image/webp');
+                // self.vue.img.src = canvas.toDataURL('image/png'); //create snapshot of canvas
+                // dataURL = self.vue.img.src;
+                // clear_CanvasState();
+              // };
+             /* General Variable Set up */
+            
+            
             //IN CASE WE NEED TO SEPERATE IMG AND CANVAS FOR SOME REASON
             // const img = document.querySelector('#screenshot-img');
             // const corners = document.querySelector('#corners-canvas');
-            const canvas = document.querySelector('#imgcanvas');
-            var image_fromserver = document.querySelector('#imgcanvas_fromserver');
-            var ctx = image_fromserver.getContext('2d');
+            
+            // var image_fromserver = document.querySelector('#imgcanvas_fromserver');
+            // var ctx = image_fromserver.getContext('2d');
             var dataURL;
             var pdf;
             var newdataURL;
@@ -53,89 +127,11 @@ var app = function() {
             } else {
               alert('getUserMedia() is not supported by your browser');
             }
-
-            /* On button click, create video snapshot */
-            button.onclick = videoElement.onclick = function() {
-                canvas.width = videoElement.videoWidth;
-                canvas.height = videoElement.videoHeight;
-                canvas.getContext('2d').drawImage(videoElement, 0, 0);
-                //Other browsers will fall back to image/png
-                // img.src = canvas.toDataURL('image/webp');
-                img.src = canvas.toDataURL('image/png'); //create snapshot of canvas
-                dataURL = img.src;
-                clear_CanvasState();
-              };
-
-            /* video feed handling */
-            navigator.mediaDevices.enumerateDevices().then(gotDevices).then(getStream).catch(handleError);
-
-            //switch to selected feed
-            videoSelect.onchange = getStream;
-
-            /*
-            window.onload = function () {
-              var button1 = document.getElementById('btn-download');
-              button1.addEventListener('click', function (e) {
-                var pdf = new jsPDF();
-                pdf.addImage(dataURL, 'PNG', 0, 0);
-                pdf.save("download.pdf");
-              });
-            }
-            */
-
-            function gotDevices(deviceInfos) {
-              for (var i = 0; i !== deviceInfos.length; ++i) {
-                var deviceInfo = deviceInfos[i];
-                var option = document.createElement('option');
-                option.value = deviceInfo.deviceId;
-                if (deviceInfo.kind === 'videoinput') {
-                  option.text = deviceInfo.label || 'camera ' +
-                    (videoSelect.length + 1);
-                  videoSelect.appendChild(option);
-                  console.log('Video Device Found', deviceInfo);
-                } else {
-                  console.log('Found one other kind of source/device: ', deviceInfo);
-                }
-              }
-            }
-
-            //return selected feed
-            function getStream() {
-              if (window.stream) {
-                window.stream.getTracks().forEach(function (track) {
-                  track.stop();
-                });
-              }
-
-
-              var constraints = {
-                audio: false,
-                video: {
-                  deviceId: { exact: videoSelect.value }
-                }
-              };
-
-              //display feed
-              navigator.mediaDevices.getUserMedia(constraints).
-                then(gotStream).catch(handleError);
-            }
-
-            //set feed
-            function gotStream(stream) {
-              window.stream = stream; // make stream available to console
-              videoElement.srcObject = stream;
-              console.log(stream);
-            }
-
-            function handleError(error) {
-              alert('Error: ' + error);
-              console.log('Error: ', error);
-            }
             
             
             $('#post-button').click(
                 function(){
-                  var image = img.src;
+                  var image = self.vue.img.src;
                   $.ajax({
                       url:doc_alg_url,
                       data:{
@@ -364,8 +360,8 @@ var app = function() {
                 this.clear();
                 
                 //ADD STUFF TO BE ALWAYS DRAWN ON BOTTOM HERE
-                if (img != null){
-                    ctx.drawImage(img,0,0);
+                if (self.vue.img != null){
+                    ctx.drawImage(self.vue.img,0,0);
                 }
                 
                 //draw all shapes
@@ -497,15 +493,21 @@ var app = function() {
             logged_in: false,
             archive_mode: false,
             imagelist: [],
+            main_state: 0,
+            videoSelect: null,
+            videoElement: null,
+            img: new Image,
         },
         methods: {
-            pdf_test: self.pdf_test
+            pdf_test: self.pdf_test,
+            initVideo: self.initVideo,
+            getStream: self.getStream,
         }
 
     });
 
     //Anything else needed goes here
-
+    self.initVideo();
     $("#vue-div").show();
     return self;
 };
