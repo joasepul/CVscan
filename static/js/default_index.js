@@ -16,7 +16,7 @@ var app = function() {
         self.vue.videoElement.playsinline = true;
         navigator.mediaDevices.enumerateDevices().then(gotDevices).then(self.getStream).catch(handleError);
         /* video feed handling */
-        // videoSelect.onchange = getStream; //switch to selected feed ---- LISTENER
+        self.vue.canvas = document.querySelector('#imgcanvas');
         console.log("video initialized");
     }
     
@@ -68,7 +68,19 @@ var app = function() {
       console.log('Error: ', error);
     }
     
+    /* INIT CANVAS */
     
+    /* On button click, create video snapshot */
+    self.takeScreenshot = function() {
+        self.vue.canvas.width = self.vue.videoElement.videoWidth;
+        self.vue.canvas.height = self.vue.videoElement.videoHeight;
+        self.vue.canvas.getContext('2d').drawImage(self.vue.videoElement, 0, 0);
+        //Other browsers will fall back to image/png
+        // self.vue.img.src = canvas.toDataURL('image/webp');
+        self.vue.img.src = self.vue.canvas.toDataURL('image/png'); //create snapshot of canvas
+        // dataURL = self.vue.img.src;
+        // clear_CanvasState();
+      };
 
       
       
@@ -79,21 +91,6 @@ var app = function() {
             // ======= video.js ===============================================
             'use strict';
 
-                
-            // /* INIT CANVAS */
-            // const button = document.querySelector('#screenshot-button');
-            // const canvas = document.querySelector('#imgcanvas');
-            // /* On button click, create video snapshot */
-            // button.onclick = videoElement.onclick = function() {
-                // canvas.width = videoElement.videoWidth;
-                // canvas.height = videoElement.videoHeight;
-                // canvas.getContext('2d').drawImage(videoElement, 0, 0);
-                // //Other browsers will fall back to image/png
-                // // self.vue.img.src = canvas.toDataURL('image/webp');
-                // self.vue.img.src = canvas.toDataURL('image/png'); //create snapshot of canvas
-                // dataURL = self.vue.img.src;
-                // clear_CanvasState();
-              // };
              /* General Variable Set up */
             
             
@@ -497,11 +494,13 @@ var app = function() {
             videoSelect: null,
             videoElement: null,
             img: new Image,
+            canvas: null,
         },
         methods: {
             pdf_test: self.pdf_test,
             initVideo: self.initVideo,
             getStream: self.getStream,
+            takeScreenshot: self.takeScreenshot,
         }
 
     });
