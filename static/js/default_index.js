@@ -86,6 +86,7 @@ var app = function() {
     /* On button click, create video snapshot */
     self.takeScreenshot = function() {
         console.log('takeScreenshot');
+        $("#mainState0").hide();
         $("#mainState1").show();
         self.vue.canvas = document.querySelector('#imgcanvas');
         self.vue.canvas.width = self.vue.videoWidth;
@@ -484,7 +485,7 @@ var app = function() {
             
             const displaybutton = document.querySelector('#btn-display');
             displaybutton.onclick = function() {
-              console.log("------------")
+              console.log("------------");
               console.log("Top Left: "+myCanvasState.getShapeCoords(0).x + 
                           " " + myCanvasState.getShapeCoords(0).y);
               console.log("Top Right: "+myCanvasState.getShapeCoords(1).x + 
