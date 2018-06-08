@@ -7,6 +7,7 @@
 var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
 var get_image_url = "{{=URL('api', 'get_image')}}";
 var add_image_url = "{{=URL('api', 'add_image')}}";
+var toggle_select_url = "{{=URL('api', 'toggle_select')}}";
 </script>
 
 {{end}}
@@ -64,9 +65,20 @@ var add_image_url = "{{=URL('api', 'add_image')}}";
             <div class="quarter" v-for="image in images">
               <div class="lifted padded">
                 <img v-bind:src="image.image_url" height="200px" width="200px" class="padded" />
+                <a v-on:click="toggle_select(image.image_url)">
+                  <div v-if="!image.is_selected">
+                    <i class="fa fa-square"></i>
+                  </div>
+                  <div v-else>
+                    <i class="fa fa-check-square"></i>
+                  </div>
+                </a>
               </div>
             </div>
           </div>
+          <button class="btn" v-on:click="download_selected_pdf()">
+            Download
+            </button>
         </div>
         
       </center>

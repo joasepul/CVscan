@@ -15,6 +15,7 @@ def get_image():
                 created_by=r.created_by,
                 image_url=r.image_url,
                 user_email=r.user_email,
+                is_selected=r.is_selected,
                 id=r.id,
             )
             images.append(img)
@@ -37,6 +38,18 @@ def add_image():
     )
     return response.json(dict(user_images=user_images,
     ))
+
+def toggle_select():
+    if db(db.user_images.image_url == request.vars.image_url).select().first().is_selected == False:
+        db(db.user_images.image_url == request.vars.image_url).select().first().update_record(
+            is_selected = True
+        )
+    else:
+        db(db.user_images.image_url == request.vars.image_url).select().first().update_record(
+            is_selected = False
+        )
+    return "ok"
+
 #taken from https://stackoverflow.com/questions/33754935/read-a-base-64-encoded-image-from-memory-using-opencv-python-library
 def readb64(base64_string):
     sbuf = StringIO()

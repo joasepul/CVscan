@@ -37,17 +37,45 @@ var app = function() {
               self.get_image();
           });
     };
-  
+
+    self.toggle_select = function (image_url) {
+        $.post(toggle_select_url,
+            { image_url: image_url },
+            function () {
+                self.get_image();
+            }
+        )
+    };
+
+    self.download_selected_pdf = function() {
+        for (var i=0; i < self.vue.images.length; i++) {
+            if (self.vue.images[i].is_selected) {
+                self.vue.selected_images.push(self.vue.images[i]);
+            }
+        }
+        var pdf = new jsPDF();
+        pdf.addImage(self.vue.selected_images[0].image_url, 'PNG', 0, 0);
+        for (var i=1; i < self.vue.selected_images.length; i++) {
+            pdf.addPage();
+            pdf.addImage(self.vue.selected_images[i].image_url,'PNG',0,0);
+        }
+        pdf.save("download.pdf");
+        self.vue.selected_images=[];
+    }
+
     self.vue = new Vue({
         el: "#vue-div",
         delimiters: ['${', '}'],
         unsafeDelimiters: ['!{', '}'],
         data: {
             images: [],
+            selected_images: [],
         },
         methods: {
+            toggle_select: self.toggle_select,
             add_image: self.add_image,
             get_image: self.get_image,
+            download_selected_pdf: self.download_selected_pdf,
         },
   
     });
