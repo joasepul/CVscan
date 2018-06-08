@@ -42,16 +42,16 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
         <div v-if="main_state == 0" class="select" id="videoSourceSelect">
           <label for="videoSource">Video source: </label>
           <select id="videoSource" v-on:change="getStream"></select>
+          <video v-on:click="takeScreenshot" id="video" class="video" ></video>
+          <button v-on:click="takeScreenshot" id="screenshot-button">Take Photo</button>
         </div>
-        <div>
-          <video v-if="main_state == 0" v-on:click="takeScreenshot"class="video"></video>
-          <button v-if="main_state == 0" v-on:click="takeScreenshot" id="screenshot-button" style="">Take Photo</button>
-          <button id="draw-button" style="">Draw Test</button>
-          <button id="post-button" style="">Send to Server</button>
+        <div v-if="main_state == 1">
+          <button id="draw-button">Draw Test</button>
+          <button id="post-button">Send to Server</button>
+          <canvas class="canvas" id="imgcanvas"></canvas>
         </div>
-        <div>
-          <canvas v-if="main_state == 1" class="canvas" id="imgcanvas"></canvas>
-          <canvas v-if="main_state == 2" class="canvas" id="imgcanvas_fromserver"></canvas>
+        <div v-if="main_state == 2">
+          <canvas class="canvas" id="imgcanvas_fromserver"></canvas>
         </div>
         <div>
           <h6>Imagelist:</h6>

@@ -11,7 +11,9 @@ var app = function() {
     self.initVideo = function(){
         self.vue.videoSelect = document.querySelector('select#videoSource');
         /* Video Element */
-        self.vue.videoElement = document.querySelector('video');
+        self.vue.videoElement = document.getElementById("video");
+        // self.vue.videoElement = document.createElement("video");
+        // document.getElementById("videoSourceSelect").appendChild(self.vue.videoElement);
         self.vue.videoElement.autoplay = true;
         self.vue.videoElement.playsinline = true;
         navigator.mediaDevices.enumerateDevices().then(gotDevices).then(self.getStream).catch(handleError);
@@ -83,20 +85,15 @@ var app = function() {
     
     /* On button click, create video snapshot */
     self.takeScreenshot = function() {
+        console.log('takeScreenshot');
         self.vue.main_state = 1;
-        self.vue.canvas = document.createElement("canvas");
-        self.vue.canvas.id = "canvas";
+        self.vue.canvas = document.querySelector('#imgcanvas');
         self.vue.canvas.width = self.vue.videoWidth;
         self.vue.canvas.height = self.vue.videoHeight;
         self.vue.canvas.getContext('2d').drawImage(self.vue.videoElement, 0, 0);
         //Other browsers will fall back to image/png
         // self.vue.img.src = canvas.toDataURL('image/webp');
         self.vue.img.src = self.vue.canvas.toDataURL('image/png'); //create snapshot of canvas
-        
-        var target = document.querySelector('#imgcanvas');
-        var parentDiv = target.parentNode;
-        parentDiv.replaceChild(self.vue.canvas, target);
-        
         // dataURL = self.vue.img.src;
         // clear_CanvasState();
     };
