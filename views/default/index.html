@@ -54,6 +54,7 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
         </div>
         <div id="mainState2" style="display:none">
           <canvas class="canvas" id="imgcanvas_fromserver"></canvas>
+          <button id="btn-display" v-on:click="init_coord_draw">display</button>
         </div>
         <div>
           <h6>Imagelist:</h6>
@@ -64,7 +65,6 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
         <button id="create_new_pdf">Create PDF</button>
         <button id="save_to_pdf">Add to PDF</button>
         <button id="btn_download">Download PDF</button>
-        <button id="btn-display">display</button>
       </div>
       
       
