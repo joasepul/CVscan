@@ -86,7 +86,7 @@ var app = function() {
     /* On button click, create video snapshot */
     self.takeScreenshot = function() {
         console.log('takeScreenshot');
-        // self.vue.main_state = 1;
+        $("#mainState1").show();
         self.vue.canvas = document.querySelector('#imgcanvas');
         self.vue.canvas.width = self.vue.videoWidth;
         self.vue.canvas.height = self.vue.videoHeight;
