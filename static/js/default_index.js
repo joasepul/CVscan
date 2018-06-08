@@ -115,6 +115,10 @@ var app = function() {
       init();
     };
     
+    // Shape and CanvasState based on code by Simon Sarris
+    // www.simonsarris.com
+    // sarris@acm.org
+    
      /* Shape Drawing Constructor */
     function Shape(x, y, r, fill){
       this.x = x || 0;
@@ -507,30 +511,7 @@ var app = function() {
     //Call Vue data and methods here
     self.vue = new Vue({
         el: "#vue-div",
-        mounted: function(){
-            // ======= video.js ===============================================
-            'use strict';
-
-             /* General Variable Set up */
-            
-            
-            //IN CASE WE NEED TO SEPERATE IMG AND CANVAS FOR SOME REASON
-            // const img = document.querySelector('#screenshot-img');
-            // const corners = document.querySelector('#corners-canvas');
-            
-            
-            
-            // ======= canvas.js ==============================================
-            
-            // Based on code by Simon Sarris
-            // www.simonsarris.com
-            // sarris@acm.org
-
-           
-            
-            
-            // ======= END MOUNTING ===========================================
-        },
+        mounted: function(){},
         delimiters: ['${', '}'],
         unsafeDelimiters: ['!{', '}'],
         data: {
