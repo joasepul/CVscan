@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="448c059a-3a0d-4af7-8600-3f692315dc7a" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/static/js/default_index.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/default_index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/default/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/default/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -28,8 +27,8 @@
           <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/views/default/index.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="740">
-                  <caret line="67" column="12" selection-start-line="67" selection-start-column="12" selection-end-line="67" selection-end-column="12" />
+                <state relative-caret-position="689">
+                  <caret line="64" column="52" lean-forward="true" selection-start-line="64" selection-start-column="52" selection-end-line="64" selection-end-column="52" />
                   <folding>
                     <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
                     <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
@@ -55,8 +54,8 @@
           <file leaf-file-name="default_index.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/static/js/default_index.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="663">
-                  <caret line="88" column="31" selection-start-line="88" selection-start-column="31" selection-end-line="88" selection-end-column="31" />
+                <state relative-caret-position="629">
+                  <caret line="506" column="13" lean-forward="true" selection-start-line="506" selection-start-column="13" selection-end-line="506" selection-end-column="13" />
                 </state>
               </provider>
             </entry>
@@ -643,22 +642,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/default_index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="88" column="31" selection-start-line="88" selection-start-column="31" selection-end-line="88" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/default/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="740">
-          <caret line="67" column="12" selection-start-line="67" selection-start-column="12" selection-end-line="67" selection-end-column="12" />
+        <state relative-caret-position="689">
+          <caret line="64" column="52" lean-forward="true" selection-start-line="64" selection-start-column="52" selection-end-line="64" selection-end-column="52" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/default_index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="629">
+          <caret line="506" column="13" lean-forward="true" selection-start-line="506" selection-start-column="13" selection-end-line="506" selection-end-column="13" />
         </state>
       </provider>
     </entry>
