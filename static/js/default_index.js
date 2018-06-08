@@ -7,8 +7,17 @@ var app = function() {
     Vue.config.silent = false; // show all warnings
 
     //Vue functions go here
+
+    /* Initial Webcam Check */
+     function hasGetUserMedia() {
+        return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+     }
+
     /* Video Selector */
     self.initVideo = function(){
+        if (!hasGetUserMedia()) {
+            alert('getUserMedia() is not supported by your browser');
+        }
         self.vue.videoSelect = document.querySelector('select#videoSource');
         /* Video Element */
         self.vue.videoElement = document.getElementById("video");
@@ -19,7 +28,7 @@ var app = function() {
         navigator.mediaDevices.enumerateDevices().then(gotDevices).then(self.getStream).catch(handleError);
         /* video feed handling */
         console.log("video initialized");
-    }
+    };
     
     
     /* Helper Functions */
@@ -430,76 +439,59 @@ var app = function() {
 
 
 
-
-
-
-
-
-
-
+    
+     var image_fromserver = document.querySelector('#imgcanvas_fromserver');
+     var ctx = image_fromserver.getContext('2d');
+     var dataURL;
+     var pdf;
+     var newdataURL;
+    
 
 
 
     
-    // var image_fromserver = document.querySelector('#imgcanvas_fromserver');
-    // var ctx = image_fromserver.getContext('2d');
-    // var dataURL;
-    // var pdf;
-    // var newdataURL;
     
-    // /* Initial Webcam Check */
-    // function hasGetUserMedia() {
-      // return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
-    // }
+     $('#post-button').click(
+       function(){
+         var image = self.vue.img.src;
+         $.ajax({
+             url:doc_alg_url,
+             data:{
+               'img_b64':image
+             },
+             success: function(res){
+               var img = new Image;
+               img.onload = function() {
+                 ctx.drawImage(this, 0, 0);
+                 };
+               img.src = "data:image/png;base64," + res.b64img;
+               image_fromserver.width = res.width;
+               image_fromserver.height = res.height;
+               newdataURL = img.src;
+               console.log(img.src.length);
+               self.vue.imagelist.push(img.src);
+               }
+         });});
 
-    // if (hasGetUserMedia()) {
-      // // green light
-    // } else {
-      // alert('getUserMedia() is not supported by your browser');
-    // }
-    
-    
-    // $('#post-button').click(
-        // function(){
-          // var image = self.vue.img.src;
-          // $.ajax({
-              // url:doc_alg_url,
-              // data:{
-                // 'img_b64':image
-              // },
-              // success: function(res){
-                // var img = new Image;
-                // img.onload = function() {
-                  // ctx.drawImage(this, 0, 0);
-                  // };
-                // img.src = "data:image/png;base64," + res.b64img;
-                // image_fromserver.width = res.width;
-                // image_fromserver.height = res.height;
-                // newdataURL = img.src;
-                // console.log(img.src.length);
-                // self.vue.imagelist.push(img.src);
-                // }
-          // });});
+     $('#create_new_pdf').click(
+       function () {
+            pdf = new jsPDF();
+            pdf.addImage(newdataURL, 'PNG', 0, 0);
+       }
+     );
 
-    // $('#create_new_pdf').click(
-        // function () {
-        // pdf = new jsPDF();
-        // pdf.addImage(newdataURL, 'PNG', 0, 0);
-        // }
-    // );
+     $('#save_to_pdf').click(
+       function () {
+           pdf.addPage();
+           pdf.addImage(newdataURL, 'PNG', 0, 0);
+       }
+     );
 
-    // $('#save_to_pdf').click(
-        // function () {
-        // pdf.addPage();
-        // pdf.addImage(newdataURL, 'PNG', 0, 0);
-        // }
-    // );
-
-    // $('#btn_download').click(
-        // function () {
-        // pdf.save("download.pdf");
-        // }
-    // );
+     $('#btn_download').click(
+       function () {
+           pdf.save("download.pdf");
+       }
+     );
       
       
       
