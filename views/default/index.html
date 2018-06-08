@@ -33,24 +33,24 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
 
 
   <div class = "main_content">
-    <div id="vue-div" class="display:none">
+    <div id="vue-div" style="display:none">
       {{if auth.user is not None:}}
       <!-- IN MAIN MODE -->
       <div v-if="!archive_mode">
         <h1>MAIN MODE</h1>
       
-        <div v-if="main_state == 0" class="select" id="videoSourceSelect">
+        <div id="mainState0" class="select" id="videoSourceSelect">
           <label for="videoSource">Video source: </label>
           <select id="videoSource" v-on:change="getStream"></select>
           <video v-on:click="takeScreenshot" id="video" class="video" ></video>
           <button v-on:click="takeScreenshot" id="screenshot-button">Take Photo</button>
         </div>
-        <div v-if="main_state == 1">
+        <div id="mainState1" style="display:none">
           <button id="draw-button">Draw Test</button>
           <button id="post-button">Send to Server</button>
           <canvas class="canvas" id="imgcanvas"></canvas>
         </div>
-        <div v-if="main_state == 2">
+        <div id="mainState2" style="display:none">
           <canvas class="canvas" id="imgcanvas_fromserver"></canvas>
         </div>
         <div>
