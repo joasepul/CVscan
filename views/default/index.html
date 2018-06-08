@@ -50,8 +50,8 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
           <button id="post-button" style="">Send to Server</button>
         </div>
         <div>
-          <canvas v-if="main_state == 0"class="canvas" id="imgcanvas"></canvas>
-          <canvas v-if="main_state == 2"class="canvas" id="imgcanvas_fromserver"></canvas>
+          <canvas v-if="main_state == 1" class="canvas" id="imgcanvas"></canvas>
+          <canvas v-if="main_state == 2" class="canvas" id="imgcanvas_fromserver"></canvas>
         </div>
         <div>
           <h6>Imagelist:</h6>

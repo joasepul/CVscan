@@ -16,13 +16,13 @@ var app = function() {
         self.vue.videoElement.playsinline = true;
         navigator.mediaDevices.enumerateDevices().then(gotDevices).then(self.getStream).catch(handleError);
         /* video feed handling */
-        self.vue.canvas = document.querySelector('#imgcanvas');
         console.log("video initialized");
     }
     
     
     /* Helper Functions */
     function gotDevices(deviceInfos) {
+      console.log('gotDevices');
       for (var i = 0; i !== deviceInfos.length; ++i) {
         var deviceInfo = deviceInfos[i];
         var option = document.createElement('option');
@@ -40,10 +40,12 @@ var app = function() {
     
     //return selected feed 
     self.getStream = function() {
+      console.log('getStream');
       if (window.stream) {
         window.stream.getTracks().forEach(function (track) {
           track.stop();
         });
+        
       }
       var constraints = {
         audio: false,
@@ -58,9 +60,18 @@ var app = function() {
     
     //set feed
     function gotStream(stream) {
+      console.log('gotStream');
       window.stream = stream; // make stream available to console
       self.vue.videoElement.srcObject = stream;
-      console.log(stream);
+      self.vue.videoElement.onloadedmetadata = function(){
+          self.vue.videoWidth = this.videoWidth;
+          self.vue.videoHeight = this.videoHeight;
+          console.log(this.videoWidth);
+          console.log(this.videoHeight);
+          
+      }
+      
+      
     }
 
     function handleError(error) {
@@ -72,16 +83,100 @@ var app = function() {
     
     /* On button click, create video snapshot */
     self.takeScreenshot = function() {
-        self.vue.canvas.width = self.vue.videoElement.videoWidth;
-        self.vue.canvas.height = self.vue.videoElement.videoHeight;
+        self.vue.main_state = 1;
+        self.vue.canvas = document.createElement("canvas");
+        self.vue.canvas.id = "canvas";
+        self.vue.canvas.width = self.vue.videoWidth;
+        self.vue.canvas.height = self.vue.videoHeight;
         self.vue.canvas.getContext('2d').drawImage(self.vue.videoElement, 0, 0);
         //Other browsers will fall back to image/png
         // self.vue.img.src = canvas.toDataURL('image/webp');
         self.vue.img.src = self.vue.canvas.toDataURL('image/png'); //create snapshot of canvas
+        
+        var target = document.querySelector('#imgcanvas');
+        var parentDiv = target.parentNode;
+        parentDiv.replaceChild(self.vue.canvas, target);
+        
         // dataURL = self.vue.img.src;
         // clear_CanvasState();
-      };
+    };
 
+      
+    // var image_fromserver = document.querySelector('#imgcanvas_fromserver');
+    // var ctx = image_fromserver.getContext('2d');
+    // var dataURL;
+    // var pdf;
+    // var newdataURL;
+    // /* Vars from canvas.js*/
+    // const drawbutton = document.querySelector('#draw-button');
+    // var myCanvasState = null; //CanvasState
+    
+    // //Code from URL:
+    // //https://coderwall.com/p/i817wa/one-line-function-to-detect-mobile-devices-with-javascript
+    // function isMobileDevice() {
+        // return (typeof window.orientation !== "undefined") ||
+            // (navigator.userAgent.indexOf('IEMobile') !== -1);
+    // }
+    
+    // /* Initial Webcam Check */
+    // function hasGetUserMedia() {
+      // return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+    // }
+
+    // if (hasGetUserMedia()) {
+      // // green light
+    // } else {
+      // alert('getUserMedia() is not supported by your browser');
+    // }
+    
+    
+    // $('#post-button').click(
+        // function(){
+          // var image = self.vue.img.src;
+          // $.ajax({
+              // url:doc_alg_url,
+              // data:{
+                // 'img_b64':image
+              // },
+              // success: function(res){
+                // var img = new Image;
+                // img.onload = function() {
+                  // ctx.drawImage(this, 0, 0);
+                  // };
+                // img.src = "data:image/png;base64," + res.b64img;
+                // image_fromserver.width = res.width;
+                // image_fromserver.height = res.height;
+                // newdataURL = img.src;
+                // console.log(img.src.length);
+                // self.vue.imagelist.push(img.src);
+                // }
+          // });});
+
+    // $('#create_new_pdf').click(
+        // function () {
+        // pdf = new jsPDF();
+        // pdf.addImage(newdataURL, 'PNG', 0, 0);
+        // }
+    // );
+
+    // $('#save_to_pdf').click(
+        // function () {
+        // pdf.addPage();
+        // pdf.addImage(newdataURL, 'PNG', 0, 0);
+        // }
+    // );
+
+    // $('#btn_download').click(
+        // function () {
+        // pdf.save("download.pdf");
+        // }
+    // );
+      
+      
+      
+      
+      
+      
       
       
     //Call Vue data and methods here
@@ -98,75 +193,7 @@ var app = function() {
             // const img = document.querySelector('#screenshot-img');
             // const corners = document.querySelector('#corners-canvas');
             
-            // var image_fromserver = document.querySelector('#imgcanvas_fromserver');
-            // var ctx = image_fromserver.getContext('2d');
-            var dataURL;
-            var pdf;
-            var newdataURL;
-            /* Vars from canvas.js*/
-            const drawbutton = document.querySelector('#draw-button');
-            var myCanvasState = null; //CanvasState
             
-            //Code from URL:
-            //https://coderwall.com/p/i817wa/one-line-function-to-detect-mobile-devices-with-javascript
-            function isMobileDevice() {
-                return (typeof window.orientation !== "undefined") ||
-                    (navigator.userAgent.indexOf('IEMobile') !== -1);
-            }
-            
-            /* Initial Webcam Check */
-            function hasGetUserMedia() {
-              return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
-            }
-
-            if (hasGetUserMedia()) {
-              // green light
-            } else {
-              alert('getUserMedia() is not supported by your browser');
-            }
-            
-            
-            $('#post-button').click(
-                function(){
-                  var image = self.vue.img.src;
-                  $.ajax({
-                      url:doc_alg_url,
-                      data:{
-                        'img_b64':image
-                      },
-                      success: function(res){
-                        var img = new Image;
-                        img.onload = function() {
-                          ctx.drawImage(this, 0, 0);
-                          };
-                        img.src = "data:image/png;base64," + res.b64img;
-                        image_fromserver.width = res.width;
-                        image_fromserver.height = res.height;
-                        newdataURL = img.src;
-                        console.log(img.src.length);
-                        self.vue.imagelist.push(img.src);
-                        }
-                  });});
-
-            $('#create_new_pdf').click(
-                function () {
-                pdf = new jsPDF();
-                pdf.addImage(newdataURL, 'PNG', 0, 0);
-                }
-            );
-
-            $('#save_to_pdf').click(
-                function () {
-                pdf.addPage();
-                pdf.addImage(newdataURL, 'PNG', 0, 0);
-                }
-            );
-
-            $('#btn_download').click(
-                function () {
-                pdf.save("download.pdf");
-                }
-            );
             
             // ======= canvas.js ==============================================
             
@@ -453,10 +480,10 @@ var app = function() {
               }
             }
             
-            drawbutton.onclick = function() {
-              clear_CanvasState();
-              init();
-            };
+            // drawbutton.onclick = function() {
+              // clear_CanvasState();
+              // init();
+            // };
             
             const displaybutton = document.querySelector('#btn-display');
             displaybutton.onclick = function() {
