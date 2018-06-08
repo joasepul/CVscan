@@ -48,23 +48,23 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
         <div id="mainState1" style="display:none">
           <div class="mainState1buttons">
             <button id="draw-button" v-on:click="init_coord_draw">Draw Test</button>
-            <button id="post-button">Send to Server</button>
+            <button id="post-button" v-on:click="post_button" >Send to Server</button>
+            <button id="btn-display" v-on:click="return_points">Return Points</button>
           </div>
           <canvas class="canvas" id="imgcanvas"></canvas>
         </div>
         <div id="mainState2" style="display:none">
+          <div>
+            <button id="create_new_pdf" v-on:click="create_new_pdf">Create PDF</button>
+            <button id="save_to_pdf" v-on:click="save_to_pdf">Add to PDF</button>
+            <button id="btn_download" v-on:click="btn_download">Download PDF</button>
+          </div>
           <canvas class="canvas" id="imgcanvas_fromserver"></canvas>
         </div>
         <div>
           <h6>Imagelist:</h6>
           <img v-for="image in imagelist" v-bind:src="image"></img>
         </div>
-        <button id="btn-createpdf" v-on:click="pdf_test">PDF test</button>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
-        <button id="create_new_pdf">Create PDF</button>
-        <button id="save_to_pdf">Add to PDF</button>
-        <button id="btn_download">Download PDF</button>
-        <button id="btn-display">display</button>
       </div>
       
       
@@ -94,7 +94,7 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
   </div>
 </div>
 
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>

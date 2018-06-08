@@ -115,8 +115,8 @@ var app = function() {
         //Other browsers will fall back to image/png
         // self.vue.img.src = canvas.toDataURL('image/webp');
         self.vue.img.src = self.vue.canvas.toDataURL('image/png'); //create snapshot of canvas
-        // dataURL = self.vue.img.src;
-        // clear_CanvasState();
+        self.vue.dataURL = self.vue.img.src;
+        clear_CanvasState();
     };
 
     self.init_coord_draw = function() {
@@ -407,11 +407,10 @@ var app = function() {
       }
     }
     
-    const displaybutton = document.querySelector('#btn-display');
-    displaybutton.onclick = function() {
+    self.return_points = function() {
       console.log("------------");
       console.log("Top Left: "+ self.vue.myCanvasState.getShapeCoords(0).x + 
-                  " " + myCanvasState.getShapeCoords(0).y);
+                  " " + self.vue.myCanvasState.getShapeCoords(0).y);
       console.log("Top Right: "+ self.vue.myCanvasState.getShapeCoords(1).x + 
                   " " + self.vue.myCanvasState.getShapeCoords(1).y);
       console.log("Bottom Left: "+ self.vue.myCanvasState.getShapeCoords(2).x + 
@@ -431,67 +430,48 @@ var app = function() {
         self.vue.myCanvasState.addShape(new Shape(140,140,r));
     }
 
+    self.post_button = function(){
+        console.log('Send_to_server');
+        $("#mainState1").hide();
+        $("#mainState2").show();
+        self.vue.image_fromserver = document.querySelector('#imgcanvas_fromserver');
+        self.vue.ctx = self.vue.image_fromserver.getContext('2d');
+        var image = self.vue.img.src;
+        $.ajax({
+            url:doc_alg_url,
+            data:{
+              'img_b64':image
+            },
+            success: function(res){
+              var img = new Image;
+              img.onload = function() {
+                self.vue.ctx.drawImage(this, 0, 0);
+                };
+              img.src = "data:image/png;base64," + res.b64img;
+              self.vue.image_fromserver.width = res.width;
+              self.vue.image_fromserver.height = res.height;
+              self.vue.newdataURL = img.src;
+              console.log(img.src.length);
+              self.vue.imagelist.push(img.src);
+              
+              //////////////////////////
+              }
+         });
+    };
 
+    self.create_new_pdf = function () {
+        self.vue.pdf = new jsPDF();
+        self.vue.pdf.addImage(self.vue.newdataURL, 'PNG', 0, 0);
+    };
 
+    self.save_to_pdf = function () {
+           self.vue.pdf.addPage();
+           self.vue.pdf.addImage(self.vue.newdataURL, 'PNG', 0, 0);
+       };
 
-
-
-
-
-
-    
-     var image_fromserver = document.querySelector('#imgcanvas_fromserver');
-     var ctx = image_fromserver.getContext('2d');
-     var dataURL;
-     var pdf;
-     var newdataURL;
-    
-
-
-
-    
-    
-     $('#post-button').click(
-       function(){
-         var image = self.vue.img.src;
-         $.ajax({
-             url:doc_alg_url,
-             data:{
-               'img_b64':image
-             },
-             success: function(res){
-               var img = new Image;
-               img.onload = function() {
-                 ctx.drawImage(this, 0, 0);
-                 };
-               img.src = "data:image/png;base64," + res.b64img;
-               image_fromserver.width = res.width;
-               image_fromserver.height = res.height;
-               newdataURL = img.src;
-               console.log(img.src.length);
-               self.vue.imagelist.push(img.src);
-               }
-         });});
-
-     $('#create_new_pdf').click(
-       function () {
-            pdf = new jsPDF();
-            pdf.addImage(newdataURL, 'PNG', 0, 0);
-       }
-     );
-
-     $('#save_to_pdf').click(
-       function () {
-           pdf.addPage();
-           pdf.addImage(newdataURL, 'PNG', 0, 0);
-       }
-     );
-
-     $('#btn_download').click(
-       function () {
-           pdf.save("download.pdf");
-       }
-     );
+    self.btn_download = function () {
+        self.vue.pdf.save("download.pdf");
+    };
       
       
       
@@ -516,7 +496,11 @@ var app = function() {
             img: new Image,
             canvas: null,
             myCanvasState: null, //CanvasState
-    
+            image_fromserver: null,
+            ctx: null,
+            dataURL: null,
+            pdf: null,
+            newdataURL: null,
         },
         methods: {
             pdf_test: self.pdf_test,
@@ -524,6 +508,12 @@ var app = function() {
             getStream: self.getStream,
             takeScreenshot: self.takeScreenshot,
             init_coord_draw: self.init_coord_draw,
+            sendToServer: self.sendToServer,
+            post_button: self.post_button,
+            create_new_pdf: self.create_new_pdf, 
+            save_to_pdf: self.save_to_pdf,
+            btn_download: self.btn_download,
+            return_points: self.return_points,
         }
 
     });
