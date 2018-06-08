@@ -63,6 +63,15 @@ var app = function() {
         self.vue.selected_images=[];
     }
 
+    self.delete_image = function(image_url){
+        $.post(delete_image_url,
+            { image_url: image_url },
+            function () {
+                self.get_image();
+            }
+        )
+    }
+
     self.vue = new Vue({
         el: "#vue-div",
         delimiters: ['${', '}'],
@@ -72,6 +81,7 @@ var app = function() {
             selected_images: [],
         },
         methods: {
+            delete_image: self.delete_image,
             toggle_select: self.toggle_select,
             add_image: self.add_image,
             get_image: self.get_image,

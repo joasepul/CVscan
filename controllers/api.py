@@ -50,6 +50,10 @@ def toggle_select():
         )
     return "ok"
 
+def delete_image():
+    db(db.user_images.image_url == request.vars.image_url).delete()
+    return "ok"
+
 #taken from https://stackoverflow.com/questions/33754935/read-a-base-64-encoded-image-from-memory-using-opencv-python-library
 def readb64(base64_string):
     sbuf = StringIO()
