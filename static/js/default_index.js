@@ -394,6 +394,12 @@ var app = function() {
 
       offsetX += this.stylePaddingLeft + this.styleBorderLeft + this.htmlLeft;
       offsetY += this.stylePaddingTop + this.styleBorderTop + this.htmlTop;
+      // CALCULATE POINTER COORDS WITHIN CANVAS
+      mx = e.pageX - offsetX;
+      my = e.pageY - offsetY;
+      // CALCULATE POINTER COORDS WITHIN THE PHOTO
+      mx = mx * (this.canvas.width / this.canvas.clientWidth);
+      my = my * (this.canvas.width / this.canvas.clientWidth);
 
       tx = e.targetTouches[0].pageX - offsetX;
       ty = e.targetTouches[0].pageY - offsetY;
