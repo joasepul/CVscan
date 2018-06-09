@@ -502,8 +502,6 @@ var app = function() {
         console.log('Send_to_server');
         $("#mainState1").hide();
         $("#mainState2").show();
-        self.vue.image_fromserver = document.querySelector('#imgcanvas_fromserver');
-        // self.vue.ctx = self.vue.image_fromserver.getContext('2d');
         var image = self.vue.img.src;
         $.ajax({
             url:doc_alg_url,
@@ -514,15 +512,18 @@ var app = function() {
               var img = new Image;
 
               img.src = "data:image/png;base64," + res.b64img;
-              // self.vue.image_fromserver.width = res.width;
-              // self.vue.image_fromserver.height = res.height;
               self.vue.newdataURL = img.src;
-              self.vue.image_fromserver.src = img.src;
               console.log(img.src.length);
               self.vue.imagelist.push(img.src);
+              self.vue.currentPage = self.vue.imagelist.length - 1;
               }
          });
     };
+    
+    self.newPhoto = function(){
+        $("#mainState2").hide();
+        $("#mainState0").show();
+    }
 
     self.create_new_pdf = function () {
         self.vue.pdf = new jsPDF();
@@ -559,7 +560,8 @@ var app = function() {
             ctx: null,
             dataURL: null,
             pdf: null,
-            newdataURL: null
+            newdataURL: null,
+            currentPage: 0
         },
         methods: {
             pdf_test: self.pdf_test,
@@ -575,6 +577,7 @@ var app = function() {
             return_points: self.return_points,
             resetPhoto: self.resetPhoto,
             openFile: self.openFile,
+            newPhoto: self.newPhoto,
         }
 
     });

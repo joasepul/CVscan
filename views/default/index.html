@@ -41,29 +41,30 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
           <input id="img_input" type="file" accept="image/*" capture="camera" v-on:change="openFile"/>
           <label for="videoSource">Video source: </label>
           <select id="videoSource" v-on:change="getStream"></select>
-          <video v-on:click="takeScreenshot" id="video" class="video" ></video>
+          <video v-on:click="takeScreenshot" id="video" class="box" ></video>
           <button v-on:click="takeScreenshot" id="screenshot-button">Take Photo</button>
         </div>
         <div id="mainState1" style="display:none">
-          <canvas class="canvas" id="imgcanvas"></canvas>
+          <canvas class="box" id="imgcanvas"></canvas>
           <div class="mainState1buttons">
-            <button id="reset-photo" v-on:click="resetPhoto">Reset Photo</button>
-            <button id="draw-button" v-on:click="init_coord_draw">Points</button>
-            <button id="post-button" v-on:click="post_button" >Send to Server</button>
-            <button id="btn-display" v-on:click="return_points">Return Points</button>
+            <button v-on:click="resetPhoto">Reset Photo</button>
+            <button v-on:click="init_coord_draw">Points</button>
+            <button v-on:click="post_button" >Send to Server</button>
+            <button v-on:click="return_points">Return Points</button>
           </div>
         </div>
         <div id="mainState2" style="display:none">
-          <img class="canvas" id="imgcanvas_fromserver"></img>
+          <img class="box" v-bind:src="imagelist[currentPage]"></img>
           <div>
-            <button id="create_new_pdf" v-on:click="create_new_pdf">Create PDF</button>
-            <button id="save_to_pdf" v-on:click="save_to_pdf">Add to PDF</button>
-            <button id="btn_download" v-on:click="btn_download">Download PDF</button>
+            <button v-on:click="newPhoto">New Photo</button>
+            <button v-on:click="create_new_pdf">Create PDF</button>
+            <button v-on:click="save_to_pdf">Add to PDF</button>
+            <button v-on:click="btn_download">Download PDF</button>
           </div>
         </div>
         <div>
           <h6>Imagelist:</h6>
-          <img v-for="image in imagelist" v-bind:src="image"></img>
+          <img class="box" v-for="image in imagelist" v-bind:src="image"></img>
         </div>
       </div>
       

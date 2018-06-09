@@ -28,7 +28,7 @@ div.main div.main_content div.select {
   display: inline-block;
 }
 /* line 24, ../sass/_main.scss */
-div.main div.main_content .video, div.main div.main_content .canvas {
+div.main div.main_content .box {
   border: 5px solid black;
   margin: 0 20% 0 20%;
   width: calc(60% -  10px);
@@ -36,7 +36,7 @@ div.main div.main_content .video, div.main div.main_content .canvas {
 }
 @media only screen and (max-width: 400px) {
   /* line 24, ../sass/_main.scss */
-  div.main div.main_content .video, div.main div.main_content .canvas {
+  div.main div.main_content .box {
     margin: 0 20% 0 20%;
     width: calc(60% - 10px);
     height: auto;
