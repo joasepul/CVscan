@@ -121,6 +121,64 @@ var app = function() {
         self.vue.dataURL = self.vue.img.src;
         clear_CanvasState();
     };
+    
+    self.openFile = function(event) {
+        var input = event.target;
+
+        var reader = new FileReader();
+        var img_dataURL;
+
+        reader.onload = function(){
+            var img_dataURL = reader.result;
+            console.log(img_dataURL);
+            var fixed_dataURL = img_dataURL.split(",")[1];
+            console.log(fixed_dataURL);
+            $.post({
+                //method:"POST",
+                url:doc_alg_url,
+                data:{
+                    img_b64:fixed_dataURL
+                },
+                success: function(res){
+                    $("#mainState0").hide();
+                    $("#mainState2").show();
+                    var img = new Image;
+                    img.onload = function() {
+                        self.vue.ctx.drawImage(this, 0, 0);
+                    };
+                    img.src = "data:image/png;base64," + res.b64img;
+                    self.vue.image_fromserver.width = res.width;
+                    self.vue.image_fromserver.height = res.height;
+                    alert("Document processed successfully: " + res.qos);
+                    alert("image size: " + res.width + " * " + res.height);
+                    self.vue.newdataURL = img.src;
+                },
+                error: function(){
+                    alert("failure");
+                    $("#mainState0").hide();
+                    $("#mainState1").show();
+                    //TESTING
+                    //THIS SHOULD BE IN self.takeScreenshot!
+                    //REMEMBER: Video snapshot is being phased out!
+                    self.vue.drawbutton = document.querySelector('#draw-button');
+                    self.vue.canvas = document.querySelector('#imgcanvas');
+                    var img = new Image;
+                    img.onload = function() {
+                        self.vue.canvas.width = this.width;
+                        self.vue.canvas.height = this.height;
+                        self.vue.canvas.getContext('2d').drawImage(this, 0, 0);
+                    };
+                    img.src = img_dataURL;
+                    //Other browsers will fall back to image/png
+                    // self.vue.img.src = canvas.toDataURL('image/webp');
+                    self.vue.img.src = img_dataURL
+                    self.vue.dataURL = img_dataURL;
+                    clear_CanvasState();
+                }        
+            });
+        };
+        reader.readAsDataURL(input.files[0]);
+    };
 
         /* CANVAS FUNCTIONS */
 
@@ -517,6 +575,7 @@ var app = function() {
             btn_download: self.btn_download,
             return_points: self.return_points,
             resetPhoto: self.resetPhoto,
+            openFile: self.openFile,
         }
 
     });

@@ -38,6 +38,7 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
       <!-- IN MAIN MODE -->
       <div v-if="!archive_mode">
         <div id="mainState0" class="select" id="videoSourceSelect">
+          <input id="img_input" type="file" accept="image/*" capture="camera" v-on:change="openFile"/>
           <label for="videoSource">Video source: </label>
           <select id="videoSource" v-on:change="getStream"></select>
           <video v-on:click="takeScreenshot" id="video" class="video" ></video>
