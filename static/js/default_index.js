@@ -8,6 +8,7 @@ var app = function() {
 
     //Vue functions go here
 
+
     /* Initial Webcam Check */
      function hasGetUserMedia() {
         return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
@@ -23,11 +24,13 @@ var app = function() {
         self.vue.videoElement = document.getElementById("video");
         // self.vue.videoElement = document.createElement("video");
         // document.getElementById("videoSourceSelect").appendChild(self.vue.videoElement);
-        self.vue.videoElement.autoplay = true;
-        self.vue.videoElement.playsinline = true;
-        navigator.mediaDevices.enumerateDevices().then(gotDevices).then(self.getStream).catch(handleError);
-        /* video feed handling */
-        console.log("video initialized");
+        if(self.vue.videoElement != null){
+            self.vue.videoElement.autoplay = true;
+            self.vue.videoElement.playsinline = true;
+            navigator.mediaDevices.enumerateDevices().then(gotDevices).then(self.getStream).catch(handleError);
+            /* video feed handling */
+            console.log("video initialized");
+        }
     };
     
     
@@ -453,8 +456,6 @@ var app = function() {
               self.vue.newdataURL = img.src;
               console.log(img.src.length);
               self.vue.imagelist.push(img.src);
-              
-              //////////////////////////
               }
          });
     };
@@ -500,7 +501,7 @@ var app = function() {
             ctx: null,
             dataURL: null,
             pdf: null,
-            newdataURL: null,
+            newdataURL: null
         },
         methods: {
             pdf_test: self.pdf_test,
