@@ -171,7 +171,7 @@ var app = function() {
                     img.src = img_dataURL;
                     //Other browsers will fall back to image/png
                     // self.vue.img.src = canvas.toDataURL('image/webp');
-                    self.vue.img.src = img_dataURL
+                    self.vue.img.src = img_dataURL;
                     self.vue.dataURL = img_dataURL;
                     clear_CanvasState();
                 }        
@@ -503,7 +503,7 @@ var app = function() {
         $("#mainState1").hide();
         $("#mainState2").show();
         self.vue.image_fromserver = document.querySelector('#imgcanvas_fromserver');
-        self.vue.ctx = self.vue.image_fromserver.getContext('2d');
+        // self.vue.ctx = self.vue.image_fromserver.getContext('2d');
         var image = self.vue.img.src;
         $.ajax({
             url:doc_alg_url,
@@ -512,13 +512,12 @@ var app = function() {
             },
             success: function(res){
               var img = new Image;
-              img.onload = function() {
-                self.vue.ctx.drawImage(this, 0, 0);
-                };
+
               img.src = "data:image/png;base64," + res.b64img;
-              self.vue.image_fromserver.width = res.width;
-              self.vue.image_fromserver.height = res.height;
+              // self.vue.image_fromserver.width = res.width;
+              // self.vue.image_fromserver.height = res.height;
               self.vue.newdataURL = img.src;
+              self.vue.image_fromserver.src = img.src;
               console.log(img.src.length);
               self.vue.imagelist.push(img.src);
               }
