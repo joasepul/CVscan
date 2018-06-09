@@ -117,19 +117,3 @@ $('#post-button').click(
     });
   });
 
-$('#create_new_pdf').click(
-  function () {
-    pdf = new jsPDF();
-  }
-)
-$('#save_to_pdf').click(
-  function () {   
-    pdf.addImage(newdataURL, 'PNG', 0, 0);
-    pdf.addPage();
-  }
-)
-$('#btn_download').click(
-  function () {
-    pdf.save("download.pdf");
-  }
-)

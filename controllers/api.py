@@ -3,7 +3,7 @@ from PIL import Image
 import cv2
 from StringIO import StringIO
 import numpy as np
-from computer_vision import *
+from computer_vision import doc_algorithm
 
 
 def get_image():
@@ -16,7 +16,7 @@ def get_image():
                 created_by=r.created_by,
                 image_url=r.image_url,
                 user_email=r.user_email,
-                four_corners=r.four_corners,
+                is_selected=r.is_selected,
                 id=r.id,
             )
             images.append(img)
@@ -40,6 +40,23 @@ def add_image():
     )
     return response.json(dict(user_images=user_images,
     ))
+
+
+def toggle_select():
+    if db(db.user_images.image_url == request.vars.image_url).select().first().is_selected == False:
+        db(db.user_images.image_url == request.vars.image_url).select().first().update_record(
+            is_selected = True
+        )
+    else:
+        db(db.user_images.image_url == request.vars.image_url).select().first().update_record(
+            is_selected = False
+        )
+    return "ok"
+
+
+def delete_image():
+    db(db.user_images.image_url == request.vars.image_url).delete()
+    return "ok"
 
 
 #taken from

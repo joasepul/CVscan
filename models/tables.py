@@ -23,9 +23,8 @@ def get_user_email():
 
 
 db.define_table('user_images',
-                Field('user_email', default=get_user_email()),
-                Field('created_on', 'datetime', default=datetime.datetime.utcnow(), uploadfs=cvscan_bucket),
-                Field('created_by', default=get_user_email(), uploadfs=cvscan_bucket),
+                Field('created_on', 'datetime', default=request.now, uploadfs=cvscan_bucket),
+                Field('created_by', 'reference auth_user', default=auth.user_id, uploadfs=cvscan_bucket),
                 Field('image_url', 'string', uploadfs=cvscan_bucket),
-                Field('four_corners', 'list:integer', uploadfs=cvscan_bucket)
+                Field('is_selected', 'boolean', default=False, uploadfs=cvscan_bucket)
                 )
