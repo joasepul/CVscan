@@ -523,23 +523,21 @@ var app = function() {
     self.newPhoto = function(){
         $("#mainState2").hide();
         $("#mainState0").show();
-    }
-
-    self.create_new_pdf = function () {
-        self.vue.pdf = new jsPDF();
-        self.vue.pdf.addImage(self.vue.newdataURL, 'PNG', 0, 0);
     };
 
-    self.save_to_pdf = function () {
-           self.vue.pdf.addPage();
-           self.vue.pdf.addImage(self.vue.newdataURL, 'PNG', 0, 0);
-       };
 
-    self.btn_download = function () {
+      
+    self.imglist_to_pdf = function(){
+        self.vue.pdf = new jsPDF();
+        self.vue.pdf.addImage(self.vue.imagelist[0], 'PNG', 0, 0);
+        for(let i = 1; i < self.vue.imagelist.length; i++){
+            self.vue.pdf.addPage();
+            self.vue.pdf.addImage(self.vue.imagelist[i], 'PNG', 0, 0);
+        }
         self.vue.pdf.save("download.pdf");
     };
-      
-      
+
+
     //Call Vue data and methods here
     self.vue = new Vue({
         el: "#vue-div",
@@ -578,6 +576,7 @@ var app = function() {
             resetPhoto: self.resetPhoto,
             openFile: self.openFile,
             newPhoto: self.newPhoto,
+            imglist_to_pdf: self.imglist_to_pdf
         }
 
     });

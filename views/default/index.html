@@ -42,7 +42,7 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
           <label for="videoSource">Video source: </label>
           <select id="videoSource" v-on:change="getStream"></select>
           <video v-on:click="takeScreenshot" id="video" class="box" ></video>
-          <button v-on:click="takeScreenshot" id="screenshot-button">Take Photo</button>
+          <div><button v-on:click="takeScreenshot" id="screenshot-button">Take Photo</button></div>
         </div>
         <div id="mainState1" style="display:none">
           <canvas class="box" id="imgcanvas"></canvas>
@@ -57,9 +57,7 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
           <img class="box" v-bind:src="imagelist[currentPage]"></img>
           <div>
             <button v-on:click="newPhoto">New Photo</button>
-            <button v-on:click="create_new_pdf">Create PDF</button>
-            <button v-on:click="save_to_pdf">Add to PDF</button>
-            <button v-on:click="btn_download">Download PDF</button>
+            <button v-on:click="imglist_to_pdf">Download All Pages</button>
           </div>
         </div>
         <div>
