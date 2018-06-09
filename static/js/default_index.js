@@ -8,7 +8,6 @@ var app = function() {
 
     //Vue functions go here
 
-
     /* Initial Webcam Check */
      function hasGetUserMedia() {
         return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
@@ -51,6 +50,7 @@ var app = function() {
         }
       }
     }
+
     
     //return selected feed 
     self.getStream = function() {
@@ -70,7 +70,7 @@ var app = function() {
       //display feed
       navigator.mediaDevices.getUserMedia(constraints).
         then(gotStream).catch(handleError);
-    }
+    };
     
     //set feed
     function gotStream(stream) {
@@ -84,26 +84,25 @@ var app = function() {
           console.log(this.videoHeight);
           
       }
-      
-      
     }
+
 
     function handleError(error) {
       alert('Error: ' + error);
       console.log('Error: ', error);
     }
-    
+
+
+
     /* CANVAS FUNCTIONS */
-    
-    
+
     //Code from URL:
     //https://coderwall.com/p/i817wa/one-line-function-to-detect-mobile-devices-with-javascript
     function isMobileDevice() {
         return (typeof window.orientation !== "undefined") ||
             (navigator.userAgent.indexOf('IEMobile') !== -1);
     }
-    
-    
+
     
     /* On button click, create video snapshot */
     self.takeScreenshot = function() {
@@ -121,6 +120,7 @@ var app = function() {
         self.vue.dataURL = self.vue.img.src;
         clear_CanvasState();
     };
+
 
     self.init_coord_draw = function() {
       clear_CanvasState();
@@ -473,12 +473,6 @@ var app = function() {
     self.btn_download = function () {
         self.vue.pdf.save("download.pdf");
     };
-      
-      
-      
-      
-      
-      
       
       
     //Call Vue data and methods here
