@@ -366,14 +366,16 @@ var app = function() {
           offsetY += element.offsetTop;
         } while ((element = element.offsetParent));
       }
-
       // Add padding and border style widths to offset
       // Also add the <html> offsets in case there's a position:fixed bar
       offsetX += this.stylePaddingLeft + this.styleBorderLeft + this.htmlLeft;
       offsetY += this.stylePaddingTop + this.styleBorderTop + this.htmlTop;
-
+      // CALCULATE MOUSE COORDS WITHIN CANVAS
       mx = e.pageX - offsetX;
       my = e.pageY - offsetY;
+      // CALCULATE MOUSE COORDS WITHIN THE PHOTO
+      mx = mx * (this.canvas.width / this.canvas.clientWidth);
+      my = my * (this.canvas.width / this.canvas.clientWidth);
       
       // We return a simple javascript object (a hash) with x and y defined
       return {x: mx, y: my};

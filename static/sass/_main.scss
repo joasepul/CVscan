@@ -21,19 +21,16 @@ div.main{
         display:inline-block
     }
     
-    .video {
+    .video, .canvas {
       border: 5px solid black;
       margin: 0 20% 0 20%;
-      height: auto;
       width: calc(60% -  10px);
+      height: auto;
       @media only screen and (max-width: 400px){
-        margin: 0 10% 0 10%;
+        margin: 0 20% 0 20%;
+        width: calc(60% - 10px);
         height: auto;
-        width: calc(80% - 10px);  
       }
-    }
-    .canvas{
-        border: 5px solid black;
     }
     
     .button {
