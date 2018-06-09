@@ -3,7 +3,7 @@ from PIL import Image
 import cv2
 from StringIO import StringIO
 import numpy as np
-from computer_vision import *
+from computer_vision import doc_algorithm
 
 #taken from https://stackoverflow.com/questions/33754935/read-a-base-64-encoded-image-from-memory-using-opencv-python-library
 def readb64(base64_string):
