@@ -112,10 +112,11 @@ var image_fromserver = document.querySelector('#imgcanvas_fromserver');
 var ctx = image_fromserver.getContext('2d');
 $('#post-button').click(
     function(){
+      alert("sent to server");
       var image = img.src;
       image = image.split(",")[1]
-      $.ajax({
-          method:"POST",
+      $.post({
+          //method:"POST",
           url:doc_alg_url,
           data:{
             img_b64:image

@@ -14,34 +14,15 @@ def readb64(base64_string):
 
 
 def doc_alg_entry():
-    # return response.json(dict(
-    #     b64img=request.post_vars["img_b64"],
-    #     qos="",
-    #     width="",
-    #     height="",
-    #     is_none=request.post_vars["img_b64"] is None,
-    #
-    # ))
-
-    img_b64 = request.vars["img_b64"]
-    if(img_b64 is not None):
-        img = readb64(img_b64)
-        ret, dst = doc_algorithm(img)
-        retval, buffered_img = cv2.imencode('.png', dst)
-        base64_encoded_image = base64.b64encode(buffered_img)
-        height, width, channels = img.shape
-    #print(ret)
-        return response.json(dict(
-            b64img=base64_encoded_image,
-            qos=ret,
-            width=width,
-            height=height,
-
-        ))
+    img_b64 = request.post_vars.img_b64
+    img = readb64(img_b64)
+    ret, dst = doc_algorithm(img)
+    retval, buffered_img = cv2.imencode('.png', dst)
+    base64_encoded_image = base64.b64encode(buffered_img)
+    height, width, channels = img.shape
     return response.json(dict(
-        b64img="",
-        qos="",
-        width="",
-        height="",
-
+        b64img=base64_encoded_image,
+        qos=ret,
+        width=width,
+        height=height,
     ))
