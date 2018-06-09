@@ -12,6 +12,13 @@ var app = function() {
      function hasGetUserMedia() {
         return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
      }
+     
+    //Code from URL:
+    //https://coderwall.com/p/i817wa/one-line-function-to-detect-mobile-devices-with-javascript
+    function isMobileDevice() {
+        return (typeof window.orientation !== "undefined") ||
+            (navigator.userAgent.indexOf('IEMobile') !== -1);
+    }
 
     /* Video Selector */
     self.initVideo = function(){
@@ -92,17 +99,11 @@ var app = function() {
       console.log('Error: ', error);
     }
 
-
-
-    /* CANVAS FUNCTIONS */
-
-    //Code from URL:
-    //https://coderwall.com/p/i817wa/one-line-function-to-detect-mobile-devices-with-javascript
-    function isMobileDevice() {
-        return (typeof window.orientation !== "undefined") ||
-            (navigator.userAgent.indexOf('IEMobile') !== -1);
+    self.resetPhoto = function(){
+        console.log('resetPhoto');
+        $("#mainState1").hide();
+        $("#mainState0").show();
     }
-
     
     /* On button click, create video snapshot */
     self.takeScreenshot = function() {
@@ -121,6 +122,7 @@ var app = function() {
         clear_CanvasState();
     };
 
+        /* CANVAS FUNCTIONS */
 
     self.init_coord_draw = function() {
       clear_CanvasState();
@@ -265,8 +267,8 @@ var app = function() {
       
       //on touchMOVE
       canvas.addEventListener('touchmove', function(e) {
+        e.preventDefault();
         if (myState.dragging){
-          e.preventDefault();  // FOR TESTING
           var touch = myState.getTouch(e);
           myState.selection.x = touch.x - myState.dragoffx;
           myState.selection.y = touch.y - myState.dragoffy;   
@@ -394,15 +396,12 @@ var app = function() {
 
       offsetX += this.stylePaddingLeft + this.styleBorderLeft + this.htmlLeft;
       offsetY += this.stylePaddingTop + this.styleBorderTop + this.htmlTop;
-      // CALCULATE POINTER COORDS WITHIN CANVAS
-      mx = e.pageX - offsetX;
-      my = e.pageY - offsetY;
-      // CALCULATE POINTER COORDS WITHIN THE PHOTO
-      mx = mx * (this.canvas.width / this.canvas.clientWidth);
-      my = my * (this.canvas.width / this.canvas.clientWidth);
-
+      // CALCULATE Touch COORDS WITHIN CANVAS
       tx = e.targetTouches[0].pageX - offsetX;
       ty = e.targetTouches[0].pageY - offsetY;
+      // CALCULATE Touch COORDS WITHIN THE PHOTO
+      tx = tx * (this.canvas.width / this.canvas.clientWidth);
+      ty = ty * (this.canvas.width / this.canvas.clientWidth);
       return {x: tx, y: ty};
     };
     
@@ -517,6 +516,7 @@ var app = function() {
             save_to_pdf: self.save_to_pdf,
             btn_download: self.btn_download,
             return_points: self.return_points,
+            resetPhoto: self.resetPhoto,
         }
 
     });
