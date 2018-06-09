@@ -41,11 +41,11 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
           <input id="img_input" type="file" accept="image/*" capture="camera" v-on:change="openFile"/>
           <label for="videoSource">Video source: </label>
           <select id="videoSource" v-on:change="getStream"></select>
-          <video v-on:click="takeScreenshot" id="video" class="box" ></video>
+          <video v-on:click="takeScreenshot" id="video" class="video" ></video>
           <div><button v-on:click="takeScreenshot" id="screenshot-button">Take Photo</button></div>
         </div>
         <div id="mainState1" style="display:none">
-          <canvas class="box" id="imgcanvas"></canvas>
+          <canvas class="canvas" id="imgcanvas"></canvas>
           <div class="mainState1buttons">
             <button v-on:click="resetPhoto">Reset Photo</button>
             <button v-on:click="init_coord_draw">Points</button>
@@ -54,7 +54,7 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
           </div>
         </div>
         <div id="mainState2" style="display:none">
-          <img class="box" v-bind:src="imagelist[currentPage]"></img>
+          <img class="img" v-bind:src="imagelist[currentPage]"></img>
           <div>
             <button v-on:click="newPhoto">New Photo</button>
             <button v-on:click="imglist_to_pdf">Download All Pages</button>
@@ -62,7 +62,7 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
         </div>
         <div>
           <h6>Imagelist:</h6>
-          <img class="box" v-for="image in imagelist" v-bind:src="image"></img>
+          <img class="img" v-for="image in imagelist" v-bind:src="image"></img>
         </div>
       </div>
       
