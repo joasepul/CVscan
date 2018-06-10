@@ -32,6 +32,7 @@ var app = function() {
     };
 
     self.openFile = function(event) {
+        self.vue.isProcessing = true;
         var input = event.target;
 
         var reader = new FileReader();
@@ -58,11 +59,13 @@ var app = function() {
                         console.log(img.src.length);
                         self.vue.imagelist.push(img.src);
                         self.vue.currentPage = self.vue.imagelist.length - 1;
+                        self.vue.isProcessing = false;
                         $("#mainState0").hide();
                         $("#mainState2").show();
                     }
                 },
                 error: function(){
+                    self.vue.isProcessing = false;
                     //alert("Server could not detect corners. Manually select the corners of your document.");
                     alert("500 ERROR");
                 }
@@ -73,6 +76,7 @@ var app = function() {
     };
 
     function onProcessingFail(img_dataURL){
+        self.vue.isProcessing = false;
         $("#mainState0").hide();
         $("#mainState1").show();
         //TESTING
@@ -242,8 +246,8 @@ var app = function() {
 
       //on touchMOVE
       canvas.addEventListener('touchmove', function(e) {
-        e.preventDefault();
         if (myState.dragging){
+          e.preventDefault();
           var touch = myState.getTouch(e);
           myState.selection.x = touch.x - myState.dragoffx;
           myState.selection.y = touch.y - myState.dragoffy;
@@ -530,6 +534,7 @@ var app = function() {
             currentPage: 0,
             pdfList: [],
             rescaleConst: null,
+            isProcessing: false,
         },
         methods: {
             pdf_test: self.pdf_test,

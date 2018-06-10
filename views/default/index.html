@@ -39,6 +39,7 @@ var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
       <!-- IN MAIN MODE -->
       <div id="main_mode">
         <div id="mainState0" class="select" id="videoSourceSelect">
+          <p><b>Please take or select a photo of a document</b></p>
           <input id="img_input" type="file" accept="image/*" capture="camera" v-on:change="openFile"/>
         </div>
         <div id="mainState1" style="display:none">
@@ -83,6 +84,9 @@ var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
         </div>
         <div>
           <button v-on:click="display_archive">Archive</button>
+          <div>
+            <i v-if="isProcessing" class="fa fa-spinner fa-spin" ></i>
+          </div>
         </div>
       </div>
 

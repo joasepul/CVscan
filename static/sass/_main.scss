@@ -21,27 +21,15 @@ div.main{
         display:inline-block
     }
     
-    .video {
-      border: 5px solid black;
-      margin: 0 20% 0 20%;
-      width: calc(60% -  10px);
-      height: auto;
-      @media only screen and (max-width: 400px){
-        margin: 0 20% 0 20%;
-        width: calc(60% - 10px);
-        height: auto;
-      }
-    }
-    
     .canvas {
       border: 5px solid black;
       margin: 0 20% 0 20%;
       width: calc(60% -  10px);
       height: auto;
       @media only screen and (max-width: 400px){
-        margin: 0 20% 0 20%;
-        width: calc(60% - 10px);
-        height: auto;
+        margin: 0px;
+        width: auto;
+        height: 100%;
       }
     }
     
@@ -51,8 +39,8 @@ div.main{
       width: calc(60% -  10px);
       height: auto;
       @media only screen and (max-width: 400px){
-        margin: 0 20% 0 20%;
-        width: calc(60% - 10px);
+        margin: 0px;
+        width: 100%;
         height: auto;
       }
     }
