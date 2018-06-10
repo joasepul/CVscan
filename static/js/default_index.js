@@ -535,10 +535,12 @@ var app = function() {
       
     self.imglist_to_pdf = function(){
         self.vue.pdf = new jsPDF();
-        self.vue.pdf.addImage(self.vue.imagelist[0], 'PNG', 0, 0);
+        var width = self.vue.pdf.internal.pageSize.width;    
+        var height = self.vue.pdf.internal.pageSize.height;
+        self.vue.pdf.addImage(self.vue.imagelist[0], 'PNG', 0, 0,width, height);
         for(let i = 1; i < self.vue.imagelist.length; i++){
             self.vue.pdf.addPage();
-            self.vue.pdf.addImage(self.vue.imagelist[i], 'PNG', 0, 0);
+            self.vue.pdf.addImage(self.vue.imagelist[i], 'PNG', 0, 0,width,height);
         }
         self.vue.pdf.save("download.pdf");
     };
