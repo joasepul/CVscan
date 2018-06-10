@@ -103,7 +103,7 @@ var app = function() {
         console.log('resetPhoto');
         $("#mainState1").hide();
         $("#mainState0").show();
-    }
+    };
     
     /* On button click, create video snapshot */
     self.takeScreenshot = function() {
@@ -119,7 +119,8 @@ var app = function() {
         // self.vue.img.src = canvas.toDataURL('image/webp');
         self.vue.img.src = self.vue.canvas.toDataURL('image/png'); //create snapshot of canvas
         self.vue.dataURL = self.vue.img.src;
-        clear_CanvasState();
+        //clear_CanvasState();
+        self.init_coord_draw();
     };
     
     self.openFile = function(event) {
@@ -173,7 +174,8 @@ var app = function() {
                     // self.vue.img.src = canvas.toDataURL('image/webp');
                     self.vue.img.src = img_dataURL;
                     self.vue.dataURL = img_dataURL;
-                    clear_CanvasState();
+                    //clear_CanvasState();
+                    self.init_coord_draw();
                 }        
             });
         };
