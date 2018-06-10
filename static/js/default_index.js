@@ -41,6 +41,7 @@ var app = function() {
         reader.onload = function(){
             var img_dataURL = reader.result;
             var fixed_dataURL = img_dataURL.split(",")[1];
+            self.vue.raw_imagelist.push(img_dataURL);
             $.post({
                 //method:"POST",
                 url:doc_alg_url,
@@ -105,6 +106,7 @@ var app = function() {
       clear_CanvasState();
       init();
     };
+
 
     // Shape and CanvasState based on code by Simon Sarris
     // www.simonsarris.com
@@ -446,7 +448,7 @@ var app = function() {
               img.src = "data:image/png;base64," + res.b64img;
               self.vue.newdataURL = img.src;
               console.log(img.src.length);
-              self.vue.imagelist.push(img.src);
+              self.vue.imagelist.splice(self.vue.currentPage, 0, img.src);
               self.vue.currentPage = self.vue.imagelist.length - 1;
               $("#mainState1").hide();
               $("#mainState2").show();
@@ -458,6 +460,13 @@ var app = function() {
         $("#mainState2").hide();
         $("#mainState0").show();
     };
+
+    self.editPhoto = function(){
+        var currentPhoto = self.vue.currentPage;
+        self.vue.imagelist.splice(currentPhoto, 1);
+        $("#mainState2").hide();
+        onProcessingFail(self.vue.raw_imagelist[currentPhoto]);
+    }
 
 
 
@@ -523,6 +532,7 @@ var app = function() {
         unsafeDelimiters: ['!{', '}'],
         data: {
             logged_in: false,
+            raw_imagelist: [],
             imagelist: [],
             img: new Image,
             canvas: null,
@@ -548,6 +558,7 @@ var app = function() {
             resetPhoto: self.resetPhoto,
             openFile: self.openFile,
             newPhoto: self.newPhoto,
+            editPhoto: self.editPhoto,
             imglist_to_pdf: self.imglist_to_pdf,
             prev_page: self.prev_page,
             next_page: self.next_page,
