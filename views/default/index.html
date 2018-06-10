@@ -31,9 +31,32 @@
       {{if auth.user is not None:}}
       <!-- IN MAIN MODE -->
       <div id="main_mode">
+<<<<<<< HEAD
         <div v-if="is_making_pdf">
           <div id="mainState0" class="select" id="videoSourceSelect">
             <input id="img_input" type="file" accept="image/*" capture="camera" v-on:change="openFile" />
+=======
+        <div id="mainState0" class="select" id="videoSourceSelect">
+          <p><b>Please take or select a photo of a document</b></p>
+          <input id="img_input" type="file" accept="image/*" capture="camera" v-on:change="openFile"/>
+        </div>
+        <div id="mainState1" style="display:none">
+          <p style="text-align: center;">
+            <b>
+              <br/>
+              The server could not detect the corners of your document.
+              <br/>
+              Manually drag the points to match the corners of your document.
+            </b>
+          </p>
+          <canvas class="canvas" id="imgcanvas"></canvas>
+          <div style="margin-top: 7px;" class="mainState1buttons">
+            <button v-on:click="resetPhoto">Retake Photo</button>
+            <button v-on:click="post_button" >Send to Server</button>
+          </div>
+          <div>
+            <button v-on:click="return_points">Return Points (Test Only!)</button>
+>>>>>>> 02778b7b7ec0192e7c81db45310a1b9203ec589a
           </div>
           <div id="mainState1" style="display:none">
             <p style="text-align: center;">
@@ -89,6 +112,9 @@
         </div>
         <div>
           <button v-on:click="display_archive">Archive</button>
+          <div>
+            <i v-if="isProcessing" class="fa fa-spinner fa-spin" ></i>
+          </div>
         </div>
       </div>
 
