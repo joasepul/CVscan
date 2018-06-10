@@ -467,6 +467,7 @@ var app = function() {
             self.vue.pdf.addImage(self.vue.imagelist[i], 'PNG', 0, 0,width,height);
         }
         self.vue.pdf.save("download.pdf");
+        self.vue.imagelist=[];
     };
 
     self.prev_page = function() {
@@ -518,6 +519,7 @@ var app = function() {
         delimiters: ['${', '}'],
         unsafeDelimiters: ['!{', '}'],
         data: {
+            is_making_pdf: false,
             logged_in: false,
             imagelist: [],
             img: new Image,

@@ -1,84 +1,90 @@
-
-{{extend 'layout.html'}}
-
-{{block head}}
+ {{extend 'layout.html'}} {{block head}}
 
 <script>
-var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
-var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
-var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
-</script>
+  var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
+  var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
+  var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
+</script> {{end}} {{request.is_local=True}}
 
-{{end}}
-
-
-{{request.is_local=True}}
 <head>
   {{extend 'layout.html'}}
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="{{=URL('static','css/stupid.css')}}" rel="stylesheet" type="text/css"/>
-  <link href="{{=URL('static','css/custom.css')}}" rel="stylesheet" type="text/css"/>
-  <link href="{{=URL('static','css/calendar.css')}}" rel="stylesheet" type="text/css"/>
-  <link href="{{=URL('static','css/web2py.css')}}" rel="stylesheet" type="text/css"/>
-  <link rel="stylesheet" href="{{=URL('static','css/myapp.css')}}"/>
+  <link href="{{=URL('static','css/stupid.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{=URL('static','css/custom.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{=URL('static','css/calendar.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{=URL('static','css/web2py.css')}}" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="{{=URL('static','css/myapp.css')}}" />
   <meta charset="utf-8">
 </head>
 
 
-<div class = "main">
-  <div class = "header">
-  {{block header}}
+<div class="main">
+  <div class="header">
+    {{block header}}
     <h1>{{=request.application}}</h1>
-  {{end}}
+    {{end}}
   </div>
 
 
-  <div class = "main_content">
+  <div class="main_content">
     <div id="vue-div" style="display:none">
       {{if auth.user is not None:}}
       <!-- IN MAIN MODE -->
       <div id="main_mode">
-        <div id="mainState0" class="select" id="videoSourceSelect">
-          <input id="img_input" type="file" accept="image/*" capture="camera" v-on:change="openFile"/>
-        </div>
-        <div id="mainState1" style="display:none">
-          <p style="text-align: center;">
-            <b>
-              <br/>
-              The server could not detect the corners of your document.
-              <br/>
-              Manually drag the points to match the corners of your document.
-            </b>
-          </p>
-          <canvas class="canvas" id="imgcanvas"></canvas>
-          <div style="margin-top: 7px;" class="mainState1buttons">
-            <button v-on:click="resetPhoto">Retake Photo</button>
-            <button v-on:click="post_button" >Send to Server</button>
+        <div v-if="is_making_pdf">
+          <div id="mainState0" class="select" id="videoSourceSelect">
+            <input id="img_input" type="file" accept="image/*" capture="camera" v-on:change="openFile" />
           </div>
-          <div>
-            <button v-on:click="return_points">Return Points (Test Only!)</button>
-          </div>
-        </div>
-        <div id="mainState2" style="display:none">
-          <img class="img" v-bind:src="imagelist[currentPage]">
-          <div style="margin-top: 7px;">
-            <button v-if="currentPage > 0" style="margin-right: 100px;" v-on:click="prev_page">
-              <i class="fa fa-chevron-left"></i>
-            </button>
-            <button v-if="currentPage === 0" style="margin-right: 100px; background-color: gray;" disabled>
-              <i class="fa fa-chevron-left"></i>
-            </button>
-            <button style="margin-left: 100px;" v-on:click="next_page">
-              <i v-if="currentPage < imagelist.length - 1" class="fa fa-chevron-right"></i>
-              <i v-if="currentPage === imagelist.length - 1" class="fa fa-plus"></i>
-            </button>
-            <div>
-               <div><button v-on:click="newPhoto">New Photo</button></div>
-               <div><button v-on:click="imglist_to_pdf">Download All Pages</button></div>
-               <div><button v-on:click="">Save to Account</button></div>
-               <div><button v-on:click="">Save to Google Drive</button></div>
+          <div id="mainState1" style="display:none">
+            <p style="text-align: center;">
+              <b>
+                <br/> The server could not detect the corners of your document.
+                <br/> Manually drag the points to match the corners of your document.
+              </b>
+            </p>
+            <canvas class="canvas" id="imgcanvas"></canvas>
+            <div style="margin-top: 7px;" class="mainState1buttons">
+              <button v-on:click="resetPhoto">Retake Photo</button>
+              <button v-on:click="post_button">Send to Server</button>
             </div>
+            <div>
+              <button v-on:click="return_points">Return Points (Test Only!)</button>
+            </div>
+          </div>
+          <div id="mainState2" style="display:none">
+            <img class="img" v-bind:src="imagelist[currentPage]">
+            <div style="margin-top: 7px;">
+              <button v-if="currentPage > 0" style="margin-right: 100px;" v-on:click="prev_page">
+                <i class="fa fa-chevron-left"></i>
+              </button>
+              <button v-if="currentPage === 0" style="margin-right: 100px; background-color: gray;" disabled>
+                <i class="fa fa-chevron-left"></i>
+              </button>
+              <button style="margin-left: 100px;" v-on:click="next_page">
+                <i v-if="currentPage < imagelist.length - 1" class="fa fa-chevron-right"></i>
+                <i v-if="currentPage === imagelist.length - 1" class="fa fa-plus"></i>
+              </button>
+              <div>
+                <div>
+                  <button v-on:click="newPhoto">New Photo</button>
+                </div>
+                <div>
+                  <button v-on:click="imglist_to_pdf(); is_making_pdf = false">Download All Pages</button>
+                </div>
+                <div>
+                  <button v-on:click="">Save to Account</button>
+                </div>
+                <div>
+                  <button v-on:click="">Save to Google Drive</button>
+                </div>
+              </div>
 
+            </div>
+          </div>
+        </div>
+        <div v-else>
+          <div>
+            <button v-on:click="is_making_pdf = true">Create a new PDF</button>
           </div>
         </div>
         <div>
@@ -99,7 +105,9 @@ var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
                 <!-- TODO: v-on:click and create download pdf from database fcnm -->
                 <td>
                   <!-- ${item} -->
-                  <p><b>${item.title}</b></p>
+                  <p>
+                    <b>${item.title}</b>
+                  </p>
                   <p>${item.pdf} - Created on: ${item.createdOn}</p>
                 </td>
               </tr>
