@@ -8,9 +8,10 @@
 # Consult manual for more options, validators, etc.
 
 from fs import open_fs
+import os
 
-access_key = configuration.get('aws.access_key')
-secret_key = configuration.get('aws.secret_key')
+access_key = os.environ["access_key"]
+secret_key = os.environ["secret_key"]
 cvscan_bucket = open_fs('s3://' + access_key + ':' + secret_key + '@cvscan-files')
 
 
