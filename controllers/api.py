@@ -8,6 +8,7 @@ from computer_vision import *
 
 downscale = 0.5
 
+
 #taken from https://stackoverflow.com/questions/33754935/read-a-base-64-encoded-image-from-memory-using-opencv-python-library
 def readb64(base64_string):
     sbuf = StringIO()
@@ -60,3 +61,11 @@ def doc_alg_entry():
         width=width,
         height=height,
     ))
+
+
+def add_image():
+    pdf_id = db.user_documents.insert(
+        file_url=request.vars.file_url,
+    )
+    pdf = db.user_documents(pdf_id)
+    return response.json(dict(pdf=pdf))

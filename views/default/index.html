@@ -4,6 +4,7 @@
   var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
   var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
   var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
+  var add_image_url = "{{=URL('api', 'add_image')}}";
 </script> {{end}} {{request.is_local=True}}
 
 <head>
@@ -14,6 +15,16 @@
   <link href="{{=URL('static','css/calendar.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{=URL('static','css/web2py.css')}}" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="{{=URL('static','css/myapp.css')}}" />
+  <!-- S3 browser upload stuff -->
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.254.1.min.js"></script>
+  <script src="/static/js/app.js"></script>
+  <script>
+      function getHtml(template) {
+          return template.join('\n');
+      }
+      listAlbums();
+  </script>
+
   <meta charset="utf-8">
 </head>
 
@@ -31,11 +42,9 @@
       {{if auth.user is not None:}}
       <!-- IN MAIN MODE -->
       <div id="main_mode">
-<<<<<<< HEAD
         <div v-if="is_making_pdf">
           <div id="mainState0" class="select" id="videoSourceSelect">
             <input id="img_input" type="file" accept="image/*" capture="camera" v-on:change="openFile" />
-=======
         <div id="mainState0" class="select" id="videoSourceSelect">
           <p><b>Please take or select a photo of a document</b></p>
           <input id="img_input" type="file" accept="image/*" capture="camera" v-on:change="openFile"/>
@@ -53,10 +62,11 @@
           <div style="margin-top: 7px;" class="mainState1buttons">
             <button v-on:click="resetPhoto">Retake Photo</button>
             <button v-on:click="post_button" >Send to Server</button>
+            <h1>My Photo Albums App</h1>
+            <div id="app"></div>
           </div>
           <div>
             <button v-on:click="return_points">Return Points (Test Only!)</button>
->>>>>>> 02778b7b7ec0192e7c81db45310a1b9203ec589a
           </div>
           <div id="mainState1" style="display:none">
             <p style="text-align: center;">

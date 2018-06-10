@@ -9,13 +9,14 @@
 
 import datetime
 
+
 def get_user_email():
     return auth.user.email if auth.user else None
 
 
 db.define_table('user_documents',
-                Field('created_on', 'datetime', default=request.now),
-                Field('created_by', 'reference auth_user', default=auth.user_id),
+                Field('created_on', 'datetime', default=datetime.datetime.utcnow()),
+                Field('created_by', 'reference auth_user', default=get_user_email()),
                 Field('file_url')
                 )
 
