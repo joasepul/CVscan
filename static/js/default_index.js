@@ -139,17 +139,21 @@ var app = function() {
                     img_b64:fixed_dataURL
                 },
                 success: function(res){
-                    if (res.qos == false) {onProcessingFail(img_dataURL); return;};
                     var img = new Image;
                     img.src = "data:image/png;base64," + res.b64img;
-                    alert("Document processed successfully: " + res.qos);
-                    alert("image size: " + res.width + " * " + res.height);
-                    self.vue.newdataURL = img.src;
-                    console.log(img.src.length);
-                    self.vue.imagelist.push(img.src);
-                    self.vue.currentPage = self.vue.imagelist.length - 1;
-                    $("#mainState0").hide();
-                    $("#mainState2").show();
+                    console.log(img.src);
+                    img.onload = function() {
+                        console.log(img.src);
+                        if (res.qos == false) {onProcessingFail(img.src); return;};
+                        alert("Document processed successfully: " + res.qos);
+                        alert("image size: " + res.width + " * " + res.height);
+                        self.vue.newdataURL = img.src;
+                        console.log(img.src.length);
+                        self.vue.imagelist.push(img.src);
+                        self.vue.currentPage = self.vue.imagelist.length - 1;
+                        $("#mainState0").hide();
+                        $("#mainState2").show();
+                    }
                 },
                 error: function(){
                     //alert("Server could not detect corners. Manually select the corners of your document.");
