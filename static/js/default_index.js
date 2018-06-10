@@ -132,13 +132,6 @@ var app = function() {
         reader.onload = function(){
             var img_dataURL = reader.result;
             var fixed_dataURL = img_dataURL.split(",")[1];
-            if (isMobileDevice()){
-              var canvas = document.createElement('canvas');
-              var ctx = canvas.getContext('2d');
-              ctx.rotate(90 * Math.PI/180); // rotate by 90 degrees
-              ctx.drawImage(fixed_dataURL,0,0);
-              fixed_dataURL = canvas.toDataURL('image/png');
-            }
             $.post({
                 //method:"POST",
                 url:doc_alg_url,
