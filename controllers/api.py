@@ -18,8 +18,8 @@ def readb64(base64_string):
 
 def rectify_doc():
     img_b64 = request.post_vars.img_b64
-    points_from_client = request.post_vars.corners
     img = readb64(img_b64)
+    points_from_client = request.post_vars.corners
     orig_pts = order_points(np.float32(points_from_client))
     new_pts = order_points(np.float32([[0,0],[0,842],[595,842],[595,0]]))
     dst = doc_rectification(orig_pts, new_pts, img)
