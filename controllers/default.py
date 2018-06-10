@@ -7,7 +7,6 @@
 # ---- example index page ----
 
 def index():
-    print(session)
     return dict()
 
 def test():
