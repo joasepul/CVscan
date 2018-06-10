@@ -559,13 +559,21 @@ var app = function() {
     }
 
 
-    function pdfListObj(email, pdf){
-        this.email = email;
-        this.pdf = pdf;
-    }
+    const fakePDFList = {
+        // email: null,
+        pdf: null,
+        createdOn: null,
+        title: null,
+    };
 
     function setupFakeUsers(){
-        self.vue.pdfList[0] = 'test';
+        array = new Array;
+        const list = Object.create(fakePDFList);
+        list.createdOn = '6/10/2018';
+        list.title = 'myPDF';
+        list.pdf = 'SOME PDF';
+        array.push(list);
+        self.vue.pdfList = array;
     }
     
     //Call Vue data and methods here

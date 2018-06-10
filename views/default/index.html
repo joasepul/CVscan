@@ -88,20 +88,22 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
       
       <!-- IN ARCHIVE MODE -->
       <div id="archive_mode" style="display:none">
-        <!-- TODO: this -->
-        <h1>ARCHIVE MODE</h1>
         <button v-on:click="new_pdf">Make a PDF</button>
-        <p>Table length: ${pdfList.length}</p>
-        <table>
-          <tbody>
-            <tr v-for="item in pdfList">
-              <td>
-                <p><b>${item.email}</b></p>
-                <p>${item.pdf}</p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <!-- <p>Table length: ${pdfList.length}</p> -->
+        <div>
+          <table style="width: 100%">
+            <tbody>
+              <tr v-for="item in pdfList">
+                <!-- TODO: v-on:click and create download pdf from database fcnm -->
+                <td>
+                  <!-- ${item} -->
+                  <p><b>${item.title}</b></p>
+                  <p>${item.pdf} - Created on: ${item.createdOn}</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       
       {{else:}}

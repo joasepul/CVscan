@@ -58,7 +58,7 @@ div.main div.main_content .canvas {
   }
 }
 /* line 48, ../sass/_main.scss */
-img {
+div.main div.main_content .img {
   border: 5px solid black;
   margin: 0 20% 0 20%;
   width: calc(60% -  10px);
@@ -76,4 +76,10 @@ img {
 div.main div.main_content .button {
   height: 2em;
   width: 2em;
+}
+/* line 65, ../sass/_main.scss */
+div.main div.main_content td {
+  padding-left: 20%;
+  padding-right: 20%;
+  padding-top: 15px;
 }
