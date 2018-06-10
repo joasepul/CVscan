@@ -143,7 +143,6 @@ var app = function() {
                     img.src = "data:image/png;base64," + res.b64img;
                     console.log(img.src);
                     img.onload = function() {
-                        console.log(img.src);
                         if (res.qos == false) {onProcessingFail(img.src); return;};
                         alert("Document processed successfully: " + res.qos);
                         alert("image size: " + res.width + " * " + res.height);
