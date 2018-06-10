@@ -10,18 +10,26 @@
 from fs import open_fs
 import os
 
-access_key = os.environ["access_key"]
-secret_key = os.environ["secret_key"]
-cvscan_bucket = open_fs('s3://' + access_key + ':' + secret_key + '@cvscan-files')
+if os.environ["access_key"] and os.environ["secret_key"]:
+    access_key = os.environ["access_key"]
+    secret_key = os.environ["secret_key"]
+    cvscan_bucket = open_fs('s3://' + access_key + ':' + secret_key + '@cvscan-files')
+
+    db.define_table('user_images',
+                    Field('created_on', 'datetime', default=request.now, uploadfs=cvscan_bucket),
+                    Field('created_by', 'reference auth_user', default=auth.user_id, uploadfs=cvscan_bucket),
+                    Field('image_url', 'string', uploadfs=cvscan_bucket),
+                    Field('is_selected', 'boolean', default=False, uploadfs=cvscan_bucket)
+                    )
+
+else:
+    db.define_table('user_images',
+                    Field('created_on', 'datetime', default=request.now),
+                    Field('created_by', 'reference auth_user', default=auth.user_id),
+                    Field('image_url', 'string'),
+                    Field('is_selected', 'boolean', default=False)
+                    )
 
 
 def get_user_email():
     return auth.user.email if auth.user else None
-
-
-db.define_table('user_images',
-                Field('created_on', 'datetime', default=request.now, uploadfs=cvscan_bucket),
-                Field('created_by', 'reference auth_user', default=auth.user_id, uploadfs=cvscan_bucket),
-                Field('image_url', 'string', uploadfs=cvscan_bucket),
-                Field('is_selected', 'boolean', default=False, uploadfs=cvscan_bucket)
-                )
