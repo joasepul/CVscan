@@ -553,10 +553,10 @@ var app = function() {
         }
     };
 
-    self.new_pdf = function() {
+    self.display_main = function() {
         $("#archive_mode").hide();
         $("#main_mode").show();
-    }
+    };
 
 
     const fakePDFList = {
@@ -575,6 +575,11 @@ var app = function() {
         array.push(list);
         self.vue.pdfList = array;
     }
+
+    self.display_archive = function() {
+        $("#main_mode").hide();
+        $("#archive_mode").show();
+    };
     
     //Call Vue data and methods here
     self.vue = new Vue({
@@ -618,7 +623,8 @@ var app = function() {
             imglist_to_pdf: self.imglist_to_pdf,
             prev_page: self.prev_page,
             next_page: self.next_page,
-            new_pdf: self.new_pdf,
+            display_main: self.display_main,
+            display_archive: self.display_archive
         }
 
     });
@@ -627,7 +633,6 @@ var app = function() {
     setupFakeUsers();
     self.initVideo();
     $("#vue-div").show();
-    $("#archive_mode").show();
     return self;
 };
 

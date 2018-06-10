@@ -36,7 +36,7 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
     <div id="vue-div" style="display:none">
       {{if auth.user is not None:}}
       <!-- IN MAIN MODE -->
-      <div id="main_mode" style="display:none">
+      <div id="main_mode">
         <div id="mainState0" class="select" id="videoSourceSelect">
           <input id="img_input" type="file" accept="image/*" capture="camera" v-on:change="openFile"/>
           <label for="videoSource">Video source: </label>
@@ -82,13 +82,16 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
 
           </div>
         </div>
+        <div>
+          <button v-on:click="display_archive">Archive</button>
+        </div>
       </div>
       
       
       
       <!-- IN ARCHIVE MODE -->
       <div id="archive_mode" style="display:none">
-        <button v-on:click="new_pdf">Make a PDF</button>
+        <button v-on:click="display_main">Back to PDF Creator</button>
         <!-- <p>Table length: ${pdfList.length}</p> -->
         <div>
           <table style="width: 100%">
