@@ -12,7 +12,7 @@ var app = function() {
      function hasGetUserMedia() {
         return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
      }
-     
+
     //Code from URL:
     //https://coderwall.com/p/i817wa/one-line-function-to-detect-mobile-devices-with-javascript
     function isMobileDevice() {
@@ -38,8 +38,8 @@ var app = function() {
             console.log("video initialized");
         }
     };
-    
-    
+
+
     /* Helper Functions */
     function gotDevices(deviceInfos) {
       console.log('gotDevices');
@@ -58,15 +58,15 @@ var app = function() {
       }
     }
 
-    
-    //return selected feed 
+
+    //return selected feed
     self.getStream = function() {
       console.log('getStream');
       if (window.stream) {
         window.stream.getTracks().forEach(function (track) {
           track.stop();
         });
-        
+
       }
       var constraints = {
         audio: false,
@@ -78,7 +78,7 @@ var app = function() {
       navigator.mediaDevices.getUserMedia(constraints).
         then(gotStream).catch(handleError);
     };
-    
+
     //set feed
     function gotStream(stream) {
       console.log('gotStream');
@@ -89,7 +89,7 @@ var app = function() {
           self.vue.videoHeight = this.videoHeight;
           console.log(this.videoWidth);
           console.log(this.videoHeight);
-          
+
       }
     }
 
@@ -104,7 +104,7 @@ var app = function() {
         $("#mainState1").hide();
         $("#mainState0").show();
     };
-    
+
     /* On button click, create video snapshot */
     self.takeScreenshot = function() {
         console.log('takeScreenshot');
@@ -122,7 +122,7 @@ var app = function() {
         //clear_CanvasState();
         self.init_coord_draw();
     };
-    
+
     self.openFile = function(event) {
         var input = event.target;
 
@@ -170,13 +170,14 @@ var app = function() {
         };
         reader.readAsDataURL(input.files[0]);
     };
-    
+
     function onProcessingFail(img_dataURL){
         $("#mainState0").hide();
         $("#mainState1").show();
         //TESTING
         //THIS SHOULD BE IN self.takeScreenshot!
         //REMEMBER: Video snapshot is being phased out!
+
         self.vue.drawbutton = document.querySelector('#draw-button');
         self.vue.canvas = document.querySelector('#imgcanvas');
         var img = new Image;
@@ -184,6 +185,7 @@ var app = function() {
         img.onload = function() {
             self.vue.canvas.width = this.width;
             self.vue.canvas.height = this.height;
+             alert("image size: " + this.width + " * " + this.height);
             self.vue.canvas.getContext('2d').drawImage(this, 0, 0);
             self.vue.img.src = img_dataURL;
             self.vue.dataURL = img_dataURL;
@@ -198,25 +200,27 @@ var app = function() {
       clear_CanvasState();
       init();
     };
-    
+
     // Shape and CanvasState based on code by Simon Sarris
     // www.simonsarris.com
     // sarris@acm.org
-    
+
      /* Shape Drawing Constructor */
     function Shape(x, y, r, fill){
-      this.x = x || 0;
-      this.y = y || 0;
-      this.r = r || 1;
+      this.x = (x || 0) * self.vue.rescaleConst;
+      this.y = (y || 0) * self.vue.rescaleConst;
+      this.r = (r || 1) * self.vue.rescaleConst;
       this.strokeStyle = '#FF0000';
     }
 
     /* Draw shape to given context */
+
+
     Shape.prototype.draw = function(ctx) {
       ctx.fillStyle = this.fill;
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
-      ctx.lineWidth = 3;
+      ctx.lineWidth = 3 * self.vue.rescaleConst;
       ctx.strokeStyle = this.strokeStyle;
       ctx.stroke();
     };
@@ -234,6 +238,7 @@ var app = function() {
       this.canvas = canvas;
       this.width = canvas.width;
       this.height = canvas.height;
+      self.vue.rescaleConst = (this.canvas.width / this.canvas.clientWidth);
       this.ctx = canvas.getContext('2d');
       //fixes map coordinaton when there's border/paddingBottom
       //see getMouse for details
@@ -244,14 +249,14 @@ var app = function() {
         this.styleBorderLeft  = parseInt(document.defaultView.getComputedStyle(canvas, null)['borderLeftWidth'], 10)  || 0;
         this.styleBorderTop   = parseInt(document.defaultView.getComputedStyle(canvas, null)['borderTopWidth'], 10)   || 0;
       }
-      
+
       // Some pages have fixed-position bars (like the stumbleupon bar) at the top or left of the page
       // They will mess up mouse coordinates and this fixes that
       var html = document.body.parentNode;
       this.htmlTop = html.offsetTop;
       this.htmlLeft = html.offsetLeft;
 
-      
+
       /* Keep track of states */
       this.valid = false; //will redraw everything
       this.shapes = []; // collection of shapes to draw
@@ -259,16 +264,16 @@ var app = function() {
       this.selection = null; // selected object
       this.dragoffx = 0; //see mousedown and mousemove for explaination
       this.dragoffy = 0;
-      
+
       /* Events */
       //refers to CanvasState, differentiates from event this (canvas)
-      var myState = this; 
+      var myState = this;
       //fixes a problem where double clicking causes text to get selected on the canvas
-      canvas.addEventListener('selectstart', function(e) { 
+      canvas.addEventListener('selectstart', function(e) {
         e.preventDefault();
         return false;
       }, false);
-      
+
       //on mouseDOWN
       canvas.addEventListener('mousedown', function(e) {
         var mouse = myState.getMouse(e);
@@ -296,7 +301,7 @@ var app = function() {
           myState.valid = false; // Need to clear the old selection border
         }
       }, true);
-      
+
       //on touchSTART
       canvas.addEventListener('touchstart', function(e) {
         var touch = myState.getTouch(e);
@@ -324,7 +329,7 @@ var app = function() {
           myState.valid = false; // Need to clear the old selection border
         }
       }, true);
-      
+
       //on mouseMOVE
       canvas.addEventListener('mousemove', function(e) {
         if (myState.dragging){
@@ -334,35 +339,35 @@ var app = function() {
           myState.valid = false; // Something's dragging so we must redraw
         }
       }, true);
-      
+
       //on touchMOVE
       canvas.addEventListener('touchmove', function(e) {
         e.preventDefault();
         if (myState.dragging){
           var touch = myState.getTouch(e);
           myState.selection.x = touch.x - myState.dragoffx;
-          myState.selection.y = touch.y - myState.dragoffy;   
+          myState.selection.y = touch.y - myState.dragoffy;
           myState.valid = false; // Something's dragging so we must redraw
         }
       }, false);
-      
+
       //on mouseUP
       canvas.addEventListener('mouseup', function(e) {
         myState.dragging = false;
       }, false);
-      
+
       //on touchEND
       canvas.addEventListener('touchend', function(e) {
         myState.dragging = false;
       }, false);
-      
-      
+
+
       /* Options */
       this.selectionColor = '#CC0000';
-      this.selectionWidth = 2;  
+      this.selectionWidth = 2;
       this.interval = 30;
-      this.interval_var = setInterval(function() { 
-        myState.draw(); 
+      this.interval_var = setInterval(function() {
+        myState.draw();
       }, myState.interval);
     }
 
@@ -384,19 +389,19 @@ var app = function() {
         var ctx = this.ctx;
         var shapes = this.shapes;
         this.clear();
-        
+
         //ADD STUFF TO BE ALWAYS DRAWN ON BOTTOM HERE
         if (self.vue.img != null){
             ctx.drawImage(self.vue.img,0,0);
         }
-        
+
         //draw all shapes
         var l = shapes.length;
         for (var i = 0; i < l; i++){
           var shape = shapes[i];
           // We can skip the drawing of elements off the screen
           if(shape.x > this.width || shape.y > this.height ||
-             shape.x + shape.w < 0 || shape.y + shape.h < 0) 
+             shape.x + shape.w < 0 || shape.y + shape.h < 0)
              {continue;}
           shapes[i].draw(ctx);
         }
@@ -411,7 +416,7 @@ var app = function() {
         ctx.lineTo(shapes[3].x, shapes[3].y);
         ctx.stroke();
 
-        
+
         //draw selection
         if (this.selection != null) {
           ctx.strokeStyle = this.selectionColor;
@@ -419,9 +424,9 @@ var app = function() {
           var mySel = this.selection;
           ctx.arc(mySel.x, mySel.y, mySel.r, 0, 2 * Math.PI, false);
         }
-        
+
         //ADD STUFF TO BE ALWAYS DRAWN ON TOP HERE
-        
+
         this.valid = true;
       }
     };
@@ -430,7 +435,7 @@ var app = function() {
     // If you wanna be super-correct this can be tricky, we have to worry about padding and borders
     CanvasState.prototype.getMouse = function(e) {
       var element = this.canvas, offsetX = 0, offsetY = 0, mx, my;
-      
+
       // Compute the total offset
       if (element.offsetParent !== undefined) {
         do {
@@ -448,14 +453,14 @@ var app = function() {
       // CALCULATE MOUSE COORDS WITHIN THE PHOTO
       mx = mx * (this.canvas.width / this.canvas.clientWidth);
       my = my * (this.canvas.width / this.canvas.clientWidth);
-      
+
       // We return a simple javascript object (a hash) with x and y defined
       return {x: mx, y: my};
     };
-    
+
     CanvasState.prototype.getTouch = function(e) {
       var element = this.canvas, offsetX = 0, offsetY = 0, tx, ty;
-      
+
       // Compute the total offset
       if (element.offsetParent !== undefined) {
         do {
@@ -474,7 +479,7 @@ var app = function() {
       ty = ty * (this.canvas.width / this.canvas.clientWidth);
       return {x: tx, y: ty};
     };
-    
+
     CanvasState.prototype.getShapeCoords = function(shape_id) {
         var this_shape = this.shapes[shape_id];
         return this_shape
@@ -486,17 +491,22 @@ var app = function() {
           self.vue.myCanvasState = null;
       }
     }
-    
+
     self.return_points = function() {
+      const re_rescaleConst = 1 / self.vue.rescaleConst
+      var shape0 = self.vue.myCanvasState.getShapeCoords(0);
+      var shape1 = self.vue.myCanvasState.getShapeCoords(1);
+      var shape2 = self.vue.myCanvasState.getShapeCoords(2);
+      var shape3 = self.vue.myCanvasState.getShapeCoords(3);
       console.log("------------");
-      console.log("Top Left: "+ self.vue.myCanvasState.getShapeCoords(0).x + 
-                  " " + self.vue.myCanvasState.getShapeCoords(0).y);
-      console.log("Top Right: "+ self.vue.myCanvasState.getShapeCoords(1).x + 
-                  " " + self.vue.myCanvasState.getShapeCoords(1).y);
-      console.log("Bottom Left: "+ self.vue.myCanvasState.getShapeCoords(2).x + 
-                  " " + self.vue.myCanvasState.getShapeCoords(2).y);
-      console.log("Bottom Right: "+ self.vue.myCanvasState.getShapeCoords(3).x + 
-                  " " + self.vue.myCanvasState.getShapeCoords(3).y);
+      console.log("Top Left: "+ shape0.x + " " + shape0.y);
+      console.log("Top Right: "+ shape1.x + " " + shape1.y);
+      console.log("Bottom Left: "+ shape2.x + " " + shape2.y);
+      console.log("Bottom Right: "+ shape3.x + " " + shape3.y);
+      return [[shape0.x, shape0.y],
+              [shape1.x, shape1.y],
+              [shape2.x, shape2.y],
+              [shape3.x, shape3.y]]
     };
 
     function init() {
@@ -512,11 +522,14 @@ var app = function() {
 
     self.post_button = function(){
         console.log('Send_to_server');
-        var image = self.vue.img.src;
-        $.ajax({
-            url:doc_alg_url,
+        var image_URL = self.vue.dataURL;
+        var fixed_dataURL = image_URL.split(",")[1];
+        console.log(fixed_dataURL);
+        $.post({
+            url:rectify_doc_url,
             data:{
-              'img_b64':image
+              'img_b64':fixed_dataURL,
+              'corners':self.vue.return_points()
             },
             success: function(res){
               var img = new Image;
@@ -531,17 +544,17 @@ var app = function() {
               }
          });
     };
-    
+
     self.newPhoto = function(){
         $("#mainState2").hide();
         $("#mainState0").show();
     };
 
 
-      
+
     self.imglist_to_pdf = function(){
         self.vue.pdf = new jsPDF();
-        var width = self.vue.pdf.internal.pageSize.width;    
+        var width = self.vue.pdf.internal.pageSize.width;
         var height = self.vue.pdf.internal.pageSize.height;
         self.vue.pdf.addImage(self.vue.imagelist[0], 'PNG', 0, 0,width, height);
         for(let i = 1; i < self.vue.imagelist.length; i++){
@@ -592,7 +605,7 @@ var app = function() {
         $("#main_mode").hide();
         $("#archive_mode").show();
     };
-    
+
     //Call Vue data and methods here
     self.vue = new Vue({
         el: "#vue-div",
@@ -615,6 +628,7 @@ var app = function() {
             newdataURL: null,
             currentPage: 0,
             pdfList: [],
+            rescaleConst: null,
         },
         methods: {
             pdf_test: self.pdf_test,
@@ -624,7 +638,7 @@ var app = function() {
             init_coord_draw: self.init_coord_draw,
             sendToServer: self.sendToServer,
             post_button: self.post_button,
-            create_new_pdf: self.create_new_pdf, 
+            create_new_pdf: self.create_new_pdf,
             save_to_pdf: self.save_to_pdf,
             btn_download: self.btn_download,
             return_points: self.return_points,

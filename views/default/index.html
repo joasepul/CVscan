@@ -6,6 +6,7 @@
 <script>
 var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
 var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
+var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
 </script>
 
 {{end}}
@@ -86,9 +87,9 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
           <button v-on:click="display_archive">Archive</button>
         </div>
       </div>
-      
-      
-      
+
+
+
       <!-- IN ARCHIVE MODE -->
       <div id="archive_mode" style="display:none">
         <button v-on:click="display_main">Back to PDF Creator</button>
@@ -108,7 +109,7 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
           </table>
         </div>
       </div>
-      
+
       {{else:}}
       <!-- IN LOGIN MODE -->
       <div>
@@ -118,11 +119,11 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
         <button id="google-login" style="" class="btn">Login with Google</button>
         <a href="{{=URL('default', 'user')}}" class="btn">Log in with Email</a>
         <a href="{{=URL('default', 'user')}}/register" class="btn">Sign up!</a>
-      
+
       </div>
-      
+
       {{pass}}
-      
+
     </div>
   </div>
 </div>
@@ -131,6 +132,3 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>
-
-
-
