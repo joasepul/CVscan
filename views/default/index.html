@@ -38,9 +38,13 @@ var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
       {{if auth.user is not None:}}
       <!-- IN MAIN MODE -->
       <div id="main_mode">
+        <div v-if="is_making_pdf">
+
+        
         <div id="mainState0" class="select" id="videoSourceSelect">
           <p><b>Please take or select a photo of a document</b></p>
           <input id="img_input" type="file" accept="image/*" capture="camera" v-on:change="openFile"/>
+          <div><button v-on:click="is_making_pdf=false">Cancel</button></div>
         </div>
         <div id="mainState1" style="display:none">
           <p style="text-align: center;">
@@ -75,14 +79,19 @@ var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
             </button>
             <div>
                <div><button v-on:click="newPhoto">New Photo</button></div>
-               <div><button v-on:click="imglist_to_pdf">Download All Pages</button></div>
+               <div><button v-on:click="imglist_to_pdf(); is_making_pdf = false">Download All Pages</button></div>
                <div><button v-on:click="">Save to Account</button></div>
                <div><button v-on:click="">Save to Google Drive</button></div>
             </div>
 
           </div>
         </div>
+        </div>
+        <div v-else>
+            <div><button v-on:click="is_making_pdf=true">Create a new PDF</button></div>
+        </div>
         <div>
+        
           <button v-on:click="display_archive">Archive</button>
           <div>
             <i v-if="isProcessing" class="fa fa-spinner fa-spin" ></i>
