@@ -45,7 +45,8 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
           <div style="margin-top: 7px;"><button v-on:click="takeScreenshot" id="screenshot-button">Take Photo</button></div>
         </div>
         <div id="mainState1" style="display:none">
-          <p style="text-align: center;"><br/><b>Drag the points to match the corners of your document.</b></p>
+          <p style="text-align: center;"><br/><b>The server could not detect the corners of your document. <br/>
+            Manually drag the points to match the corners of your document.</b></p>
           <canvas class="canvas" id="imgcanvas"></canvas>
           <div style="margin-top: 7px;" class="mainState1buttons">
             <button v-on:click="resetPhoto">Retake Photo</button>

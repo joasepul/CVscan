@@ -153,7 +153,7 @@ var app = function() {
                     self.vue.newdataURL = img.src;
                 },
                 error: function(){
-                    alert("Server could not detect corners. Manually select the corners of your document.");
+                    //alert("Server could not detect corners. Manually select the corners of your document.");
                     $("#mainState0").hide();
                     $("#mainState1").show();
                     //TESTING
@@ -174,8 +174,10 @@ var app = function() {
                     };
                     //Other browsers will fall back to image/png
                     // self.vue.img.src = canvas.toDataURL('image/webp');
-                }        
+
+                }
             });
+            $("input#img_input").val("");
         };
         reader.readAsDataURL(input.files[0]);
     };
