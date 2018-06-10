@@ -518,11 +518,15 @@ var app = function() {
         var image_URL = self.vue.dataURL;
         var fixed_dataURL = image_URL.split(",")[1];
         console.log(fixed_dataURL);
+        var corners = self.vue.return_points();
         $.post({
             url:rectify_doc_url,
             data:{
               'img_b64':fixed_dataURL,
-              'corners':self.vue.return_points()
+              'pt1': corners[0],
+              'pt2': corners[1],
+              'pt3': corners[2],
+              'pt4': corners[3]
             },
             success: function(res){
               var img = new Image;
