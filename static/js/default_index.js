@@ -164,18 +164,18 @@ var app = function() {
                     self.vue.drawbutton = document.querySelector('#draw-button');
                     self.vue.canvas = document.querySelector('#imgcanvas');
                     var img = new Image;
+                    img.src = img_dataURL;
                     img.onload = function() {
                         self.vue.canvas.width = this.width;
                         self.vue.canvas.height = this.height;
                         self.vue.canvas.getContext('2d').drawImage(this, 0, 0);
+                        self.vue.img.src = img_dataURL;
+                        self.vue.dataURL = img_dataURL;
+                        //clear_CanvasState();
+                        self.init_coord_draw();
                     };
-                    img.src = img_dataURL;
                     //Other browsers will fall back to image/png
                     // self.vue.img.src = canvas.toDataURL('image/webp');
-                    self.vue.img.src = img_dataURL;
-                    self.vue.dataURL = img_dataURL;
-                    //clear_CanvasState();
-                    self.init_coord_draw();
                 }        
             });
         };
