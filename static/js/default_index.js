@@ -139,8 +139,6 @@ var app = function() {
                     img_b64:fixed_dataURL
                 },
                 success: function(res){
-                    $("#mainState0").hide();
-                    $("#mainState2").show();
                     var img = new Image;
                     img.onload = function() {
                         self.vue.ctx.drawImage(this, 0, 0);
@@ -151,6 +149,8 @@ var app = function() {
                     alert("Document processed successfully: " + res.qos);
                     alert("image size: " + res.width + " * " + res.height);
                     self.vue.newdataURL = img.src;
+                    $("#mainState0").hide();
+                    $("#mainState2").show();
                 },
                 error: function(){
                     //alert("Server could not detect corners. Manually select the corners of your document.");
@@ -502,8 +502,6 @@ var app = function() {
 
     self.post_button = function(){
         console.log('Send_to_server');
-        $("#mainState1").hide();
-        $("#mainState2").show();
         var image = self.vue.img.src;
         $.ajax({
             url:doc_alg_url,
@@ -518,6 +516,8 @@ var app = function() {
               console.log(img.src.length);
               self.vue.imagelist.push(img.src);
               self.vue.currentPage = self.vue.imagelist.length - 1;
+              $("#mainState1").hide();
+              $("#mainState2").show();
               }
          });
     };
@@ -553,7 +553,21 @@ var app = function() {
         }
     };
 
+    self.new_pdf = function() {
+        $("#archive_mode").hide();
+        $("#main_mode").show();
+    }
 
+
+    function pdfListObj(email, pdf){
+        this.email = email;
+        this.pdf = pdf;
+    }
+
+    function setupFakeUsers(){
+        self.vue.pdfList[0] = 'test';
+    }
+    
     //Call Vue data and methods here
     self.vue = new Vue({
         el: "#vue-div",
@@ -562,7 +576,7 @@ var app = function() {
         unsafeDelimiters: ['!{', '}'],
         data: {
             logged_in: false,
-            archive_mode: false,
+            //archive_mode: false,
             imagelist: [],
             main_state: 0,
             videoSelect: null,
@@ -575,7 +589,8 @@ var app = function() {
             dataURL: null,
             pdf: null,
             newdataURL: null,
-            currentPage: 0
+            currentPage: 0,
+            pdfList: [],
         },
         methods: {
             pdf_test: self.pdf_test,
@@ -594,14 +609,17 @@ var app = function() {
             newPhoto: self.newPhoto,
             imglist_to_pdf: self.imglist_to_pdf,
             prev_page: self.prev_page,
-            next_page: self.next_page
+            next_page: self.next_page,
+            new_pdf: self.new_pdf,
         }
 
     });
 
     //Anything else needed goes here
+    setupFakeUsers();
     self.initVideo();
     $("#vue-div").show();
+    $("#archive_mode").show();
     return self;
 };
 

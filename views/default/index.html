@@ -36,7 +36,7 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
     <div id="vue-div" style="display:none">
       {{if auth.user is not None:}}
       <!-- IN MAIN MODE -->
-      <div v-if="!archive_mode">
+      <div id="main_mode" style="display:none">
         <div id="mainState0" class="select" id="videoSourceSelect">
           <input id="img_input" type="file" accept="image/*" capture="camera" v-on:change="openFile"/>
           <label for="videoSource">Video source: </label>
@@ -45,8 +45,14 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
           <div style="margin-top: 7px;"><button v-on:click="takeScreenshot" id="screenshot-button">Take Photo</button></div>
         </div>
         <div id="mainState1" style="display:none">
-          <p style="text-align: center;"><br/><b>The server could not detect the corners of your document. <br/>
-            Manually drag the points to match the corners of your document.</b></p>
+          <p style="text-align: center;">
+            <b>
+              <br/>
+              The server could not detect the corners of your document.
+              <br/>
+              Manually drag the points to match the corners of your document.
+            </b>
+          </p>
           <canvas class="canvas" id="imgcanvas"></canvas>
           <div style="margin-top: 7px;" class="mainState1buttons">
             <button v-on:click="resetPhoto">Retake Photo</button>
@@ -81,11 +87,22 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
       
       
       <!-- IN ARCHIVE MODE -->
-      <div v-if="archive_mode">
+      <div id="archive_mode" style="display:none">
         <!-- TODO: this -->
         <h1>ARCHIVE MODE</h1>
+        <button v-on:click="new_pdf">Make a PDF</button>
+        <p>Table length: ${pdfList.length}</p>
+        <table>
+          <tbody>
+            <tr v-for="item in pdfList">
+              <td>
+                <p><b>${item.email}</b></p>
+                <p>${item.pdf}</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      
       
       {{else:}}
       <!-- IN LOGIN MODE -->
