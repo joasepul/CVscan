@@ -21,7 +21,7 @@ def qos_of_corners(contour):
 
 def doc_rectification(orig_pts, new_pts, img):
     M = cv2.getPerspectiveTransform(orig_pts, new_pts)
-    dst = cv2.warpPerspective(img,M,(1000,1500))
+    dst = cv2.warpPerspective(img,M,(595,842))
     return dst
 
 def doc_algorithm(img):
@@ -65,7 +65,7 @@ def doc_algorithm(img):
             break
     cv2.drawContours(res,[approx],0,(0,255,0),20)
 
-    pts2 = order_points(np.float32([[0,0],[0,1500],[1000,1500],[1000,0]]))
+    pts2 = order_points(np.float32([[0,0],[0,842],[595,842],[595,0]]))
     pts1 = order_points(np.float32([x[0] for x in approx ]))
     dst = doc_rectification(pts1, pts2, img)
     return qos_of_corners(approx), dst
