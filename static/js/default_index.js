@@ -155,7 +155,7 @@ var app = function() {
                     self.vue.newdataURL = img.src;
                 },
                 error: function(){
-                    alert("failure");
+                    alert("Server could not detect corners. Manually select the corners of your document.");
                     $("#mainState0").hide();
                     $("#mainState1").show();
                     //TESTING
