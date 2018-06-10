@@ -131,9 +131,7 @@ var app = function() {
 
         reader.onload = function(){
             var img_dataURL = reader.result;
-            console.log(img_dataURL);
             var fixed_dataURL = img_dataURL.split(",")[1];
-            console.log(fixed_dataURL);
             $.post({
                 //method:"POST",
                 url:doc_alg_url,
@@ -539,6 +537,20 @@ var app = function() {
         self.vue.pdf.save("download.pdf");
     };
 
+    self.prev_page = function() {
+        if(self.vue.currentPage > 0){
+            self.vue.currentPage -= 1;
+        }
+    };
+
+    self.next_page = function() {
+        if(self.vue.currentPage < self.vue.imagelist.length - 1){
+            self.vue.currentPage += 1;
+        }else if(self.vue.currentPage === self.vue.imagelist.length - 1){
+            self.newPhoto();
+        }
+    };
+
 
     //Call Vue data and methods here
     self.vue = new Vue({
@@ -578,7 +590,9 @@ var app = function() {
             resetPhoto: self.resetPhoto,
             openFile: self.openFile,
             newPhoto: self.newPhoto,
-            imglist_to_pdf: self.imglist_to_pdf
+            imglist_to_pdf: self.imglist_to_pdf,
+            prev_page: self.prev_page,
+            next_page: self.next_page
         }
 
     });

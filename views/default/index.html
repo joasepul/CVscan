@@ -42,28 +42,38 @@ var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
           <label for="videoSource">Video source: </label>
           <select id="videoSource" v-on:change="getStream"></select>
           <video v-on:click="takeScreenshot" id="video" class="video" ></video>
-          <div><button v-on:click="takeScreenshot" id="screenshot-button">Take Photo</button></div>
+          <div style="margin-top: 7px;"><button v-on:click="takeScreenshot" id="screenshot-button">Take Photo</button></div>
         </div>
         <div id="mainState1" style="display:none">
           <p style="text-align: center;"><br/><b>Drag the points to match the corners of your document.</b></p>
           <canvas class="canvas" id="imgcanvas"></canvas>
-          <div class="mainState1buttons">
+          <div style="margin-top: 7px;" class="mainState1buttons">
             <button v-on:click="resetPhoto">Retake Photo</button>
-
             <button v-on:click="post_button" >Send to Server</button>
+          </div>
+          <div>
             <button v-on:click="return_points">Return Points (Test Only!)</button>
           </div>
         </div>
         <div id="mainState2" style="display:none">
           <img class="img" v-bind:src="imagelist[currentPage]">
-          <div>
-            <button v-on:click="newPhoto">New Photo</button>
-            <button v-on:click="imglist_to_pdf">Download All Pages</button>
+          <div style="margin-top: 7px;">
+            <button v-if="currentPage > 0" style="margin-right: 100px;" v-on:click="prev_page">
+              <i class="fa fa-angle-left"></i>
+            </button>
+            <button v-if="currentPage === 0" style="margin-right: 100px; background-color: gray;" disabled>
+              <i class="fa fa-angle-left"></i>
+            </button>
+            <button style="margin-left: 100px;" v-on:click="next_page">
+              <i v-if="currentPage < imagelist.length - 1" class="fa fa-angle-right"></i>
+              <i v-if="currentPage === imagelist.length - 1" class="fa fa-plus"></i>
+            </button>
+            <div>
+               <div><button v-on:click="newPhoto">New Photo</button></div>
+               <div><button v-on:click="imglist_to_pdf">Download All Pages</button></div>
+            </div>
+
           </div>
-        </div>
-        <div>
-          <h6>Pages:</h6>
-          <img class="img" v-for="image in imagelist" v-bind:src="image">
         </div>
       </div>
       
