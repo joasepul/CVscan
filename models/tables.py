@@ -7,16 +7,11 @@
 # There is an implicit 'id integer autoincrement' field
 # Consult manual for more options, validators, etc.
 
-from fs_s3fs import S3FS
+from fs import open_fs
 
 access_key = configuration.get('aws.access_key')
 secret_key = configuration.get('aws.secret_key')
-cvscan_bucket = S3FS(
-    bucket_name='cvscan-files',
-    aws_access_key_id=str(access_key),
-    aws_secret_access_key=str(secret_key),
-    region='us-west-1'
-)
+cvscan_bucket = open_fs('s3://' + access_key + ':' + secret_key + '@cvscan-files')
 
 
 def get_user_email():
