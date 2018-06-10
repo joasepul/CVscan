@@ -40,10 +40,6 @@ var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
       <div id="main_mode">
         <div id="mainState0" class="select" id="videoSourceSelect">
           <input id="img_input" type="file" accept="image/*" capture="camera" v-on:change="openFile"/>
-          <label for="videoSource">Video source: </label>
-          <select id="videoSource" v-on:change="getStream"></select>
-          <video v-on:click="takeScreenshot" id="video" class="video" ></video>
-          <div style="margin-top: 7px;"><button v-on:click="takeScreenshot" id="screenshot-button">Take Photo</button></div>
         </div>
         <div id="mainState1" style="display:none">
           <p style="text-align: center;">
@@ -79,6 +75,8 @@ var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
             <div>
                <div><button v-on:click="newPhoto">New Photo</button></div>
                <div><button v-on:click="imglist_to_pdf">Download All Pages</button></div>
+               <div><button v-on:click="">Save to Account</button></div>
+               <div><button v-on:click="">Save to Google Drive</button></div>
             </div>
 
           </div>
