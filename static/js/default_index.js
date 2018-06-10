@@ -143,7 +143,6 @@ var app = function() {
                     img.src = "data:image/png;base64," + res.b64img;
                     console.log(img.src);
                     img.onload = function() {
-                        console.log(img.src);
                         if (res.qos == false) {onProcessingFail(img.src); return;};
                         alert("Document processed successfully: " + res.qos);
                         alert("image size: " + res.width + " * " + res.height);
@@ -171,6 +170,7 @@ var app = function() {
         //TESTING
         //THIS SHOULD BE IN self.takeScreenshot!
         //REMEMBER: Video snapshot is being phased out!
+       
         self.vue.drawbutton = document.querySelector('#draw-button');
         self.vue.canvas = document.querySelector('#imgcanvas');
         var img = new Image;
@@ -178,6 +178,7 @@ var app = function() {
         img.onload = function() {
             self.vue.canvas.width = this.width;
             self.vue.canvas.height = this.height;
+             alert("image size: " + this.width + " * " + this.height);
             self.vue.canvas.getContext('2d').drawImage(this, 0, 0);
             self.vue.img.src = img_dataURL;
             self.vue.dataURL = img_dataURL;
@@ -199,18 +200,20 @@ var app = function() {
     
      /* Shape Drawing Constructor */
     function Shape(x, y, r, fill){
-      this.x = x || 0;
-      this.y = y || 0;
-      this.r = r || 1;
+      this.x = (x || 0) * self.vue.rescaleConst;
+      this.y = (y || 0) * self.vue.rescaleConst;
+      this.r = (r || 1) * self.vue.rescaleConst;
       this.strokeStyle = '#FF0000';
     }
 
     /* Draw shape to given context */
+    
+    
     Shape.prototype.draw = function(ctx) {
       ctx.fillStyle = this.fill;
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
-      ctx.lineWidth = 3;
+      ctx.lineWidth = 3 * self.vue.rescaleConst;
       ctx.strokeStyle = this.strokeStyle;
       ctx.stroke();
     };
@@ -228,6 +231,7 @@ var app = function() {
       this.canvas = canvas;
       this.width = canvas.width;
       this.height = canvas.height;
+      self.vue.rescaleConst = (this.canvas.width / this.canvas.clientWidth);
       this.ctx = canvas.getContext('2d');
       //fixes map coordinaton when there's border/paddingBottom
       //see getMouse for details
@@ -482,15 +486,16 @@ var app = function() {
     }
     
     self.return_points = function() {
+      const re_rescaleConst = 1 / self.vue.rescaleConst
+      var shape0 = self.vue.myCanvasState.getShapeCoords(0);
+      var shape1 = self.vue.myCanvasState.getShapeCoords(1);
+      var shape2 = self.vue.myCanvasState.getShapeCoords(2);
+      var shape3 = self.vue.myCanvasState.getShapeCoords(3);
       console.log("------------");
-      console.log("Top Left: "+ self.vue.myCanvasState.getShapeCoords(0).x + 
-                  " " + self.vue.myCanvasState.getShapeCoords(0).y);
-      console.log("Top Right: "+ self.vue.myCanvasState.getShapeCoords(1).x + 
-                  " " + self.vue.myCanvasState.getShapeCoords(1).y);
-      console.log("Bottom Left: "+ self.vue.myCanvasState.getShapeCoords(2).x + 
-                  " " + self.vue.myCanvasState.getShapeCoords(2).y);
-      console.log("Bottom Right: "+ self.vue.myCanvasState.getShapeCoords(3).x + 
-                  " " + self.vue.myCanvasState.getShapeCoords(3).y);
+      console.log("Top Left: "+ shape0.x + " " + shape0.y);
+      console.log("Top Right: "+ shape1.x + " " + shape1.y);
+      console.log("Bottom Left: "+ shape2.x + " " + shape2.y);
+      console.log("Bottom Right: "+ shape3.x + " " + shape3.y);
     };
 
     function init() {
@@ -609,6 +614,7 @@ var app = function() {
             newdataURL: null,
             currentPage: 0,
             pdfList: [],
+            rescaleConst: null,
         },
         methods: {
             pdf_test: self.pdf_test,
