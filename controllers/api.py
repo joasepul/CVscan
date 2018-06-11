@@ -44,6 +44,8 @@ def rectify_doc():
 
 def doc_alg_entry():
     img_b64 = request.post_vars.img_b64
+    orientation = request.post_vars.orientation
+    print(orientation)
     img = readb64(img_b64)
     ret, dst = doc_algorithm(img)
     if ret:
