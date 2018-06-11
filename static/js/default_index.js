@@ -494,20 +494,34 @@ var app = function() {
             self.vue.pdf.addPage();
             self.vue.pdf.addImage(self.vue.imagelist[i], 'PNG', 0, 0,width,height);
         }
-        var file_name = prompt("Please enter a file name", "CVscanned_doc");
-        if (!file_name.includes(".pdf")) {
-            file_name = file_name + ".pdf";
-        }
-        self.vue.pdf.save(file_name);
+
+        self.vue.pdf.save(self.vue.title);
+        var file = self.vue.pdf.output('datauristring')
+        console.log('adding pdf');
+        add_pdf(file);
         self.vue.imagelist=[];
         self.vue.raw_imagelist=[];
     };
 
-    self.add_pdf = function(get_url){
-        self.vue.imagelist=[];
-        console.log("add_pdf function would happen now");
-        console.log(get_url);
-    }
+    function add_pdf(file){
+        if (self.vue.title == "") {self.vue.title = "Untitled"};
+        console.log('add_pdf()');
+        $.post(add_pdf_url,
+            {
+                pdf_uri: file,
+                title: self.vue.title,
+            },
+            function(data){
+                self.vue.pdfList.unshift(data.pdf);
+                console.log('added');
+                console.log(file);
+                //window.open(file);
+                self.display_archive();
+                self.vue.is_making_pdf = false;
+                self.vue.imagelist=[];
+                self.vue.title = "";
+            });
+    };
 
     self.prev_page = function() {
         if(self.vue.currentPage > 0){
@@ -529,22 +543,33 @@ var app = function() {
     };
 
 
-    const fakePDFList = {
-        // email: null,
-        pdf: null,
-        createdOn: null,
-        title: null,
-    };
-
-    function setupFakeUsers(){
-        array = new Array;
-        const list = Object.create(fakePDFList);
-        list.createdOn = '6/10/2018';
-        list.title = 'myPDF';
-        list.pdf = 'SOME PDF';
-        array.push(list);
-        self.vue.pdfList = array;
+    function setupUsers(){
+        $.getJSON(get_pdfs_url,
+            function(data) {
+                self.vue.pdfList = data.pdfList;
+        });
     }
+
+    self.deletePDF = function(pdf_id) {
+        $.post(del_pdf_url,
+            {
+                pdf_id: pdf_id
+            },
+            function () {
+                var idx = null;
+                for (var i = 0; i < self.vue.pdfList.length; i++) {
+                    if (self.vue.pdfList[i].id === pdf_id) {
+                        idx = i + 1;
+                        break;
+                    }
+                }
+                if (idx) {
+                    self.vue.pdfList.splice(idx - 1, 1);
+                }
+            }
+        );
+    }
+
 
     self.display_archive = function() {
         $("#main_mode").hide();
@@ -573,7 +598,8 @@ var app = function() {
             pdfList: [],
             rescaleConst: null,
             isProcessing: false,
-            orientation: null
+            orientation: null,
+            title: "",
         },
         methods: {
             pdf_test: self.pdf_test,
@@ -592,13 +618,14 @@ var app = function() {
             next_page: self.next_page,
             display_main: self.display_main,
             display_archive: self.display_archive,
-            add_pdf: self.add_pdf,
+            downloadPDF: self.downloadPDF,
+            deletePDF: self.deletePDF,
         }
 
     });
 
     //Anything else needed goes here
-    setupFakeUsers();
+    setupUsers();
     $("#vue-div").show();
     return self;
 };

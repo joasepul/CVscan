@@ -4,9 +4,13 @@
 {{block head}}
 
 <script>
-var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
-var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
-var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
+  var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
+  var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
+  var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
+  var add_pdf_url = "{{=URL('api', 'add_pdf')}}}";
+  var get_pdfs_url = "{{=URL('api', 'get_pdfs')}}";
+  var del_pdf_url = "{{=URL('api', 'del_pdf')}}";
+  console.log(get_pdfs_url);
 </script>
 
 {{end}}
@@ -74,7 +78,12 @@ var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
             </div>
           </div>
           <div id="mainState2" style="display:none">
+            <div>
+              <input v-model="title" placeholder="Untitled" type="text" v-on:blur="" style="border: black 1px solid" />
+            </div>
+            <div>
             <img class="img" v-bind:src="imagelist[currentPage]">
+            </div>
             <div style="margin-top: 7px;">
               <button v-if="currentPage > 0" style="margin-right: 100px;" v-on:click="prev_page">
                 <i class="fa fa-chevron-left"></i>
@@ -88,8 +97,9 @@ var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
               </button>
               <div>
                  <div><button v-on:click="editPhoto">Edit Photo</button></div>
-                 <div><button v-on:click="imglist_to_pdf(); is_making_pdf = false">Complete as PDF</button></div>
-                 <div><button v-on:click="">Save to Account</button></div>
+                 <div><button v-on:click="imglist_to_pdf()">Complete as
+                 PDF</button></div>
+                 <div><button v-on:click="">Cancel PDF</button></div>
               </div>
 
             </div>
@@ -100,6 +110,7 @@ var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
           </div>
         <div>
           <button v-on:click="display_archive">Archive</button>
+
 
         </div>
       </div>
@@ -118,7 +129,9 @@ var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
                 <td>
                   <!-- ${item} -->
                   <p><b>${item.title}</b></p>
-                  <p>${item.pdf} - Created on: ${item.createdOn}</p>
+                  <p> - Created on: ${item.created_on}</p>
+                  <a v-bind="{href:item.pdf_uri, download:item.title + '.pdf'}"><button v-on:click=""><i class="fa fa-download left" ></i></button></a>
+                  <a><button v-on:click="deletePDF(item.id)"><i class="fa fa-trash"></i></button></a>
                 </td>
               </tr>
             </tbody>
@@ -147,4 +160,4 @@ var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
 <script src="{{=URL('static', 'js/adapter-latest.js')}}"></script>
 <script src="{{=URL('static', 'js/jquery.min.js')}}"></script>
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
+<script src="{{=URL('static', 'js/exif.min.js')}}"></script>

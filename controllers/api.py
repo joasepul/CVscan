@@ -67,3 +67,39 @@ def doc_alg_entry():
         width=width,
         height=height,
     ))
+
+@auth.requires_login()
+def add_pdf():
+    print('adding pdf')
+    pdf_id = db.user_documents.insert(
+        pdf_uri = request.vars.pdf_uri,
+        title = request.vars.title ,
+    )
+    pdf = db.user_documents(pdf_id)
+    print(pdf.title)
+    print('pdf added')
+    return response.json(dict(pdf = pdf))
+
+@auth.requires_login()
+def get_pdfs():
+    print('getting users')
+    auth_id = auth.user.id
+    pdfList = []
+    row = db(db.user_documents.created_by == auth.user.id).select(orderby=~db.user_documents.created_on)
+    for r in row:
+        t = dict(
+            title = r.title,
+            created_on = r.created_on,
+            pdf_uri = r.pdf_uri,
+            id = r.id,
+        )
+        pdfList.append(t)
+    print('got users')
+    return response.json(dict(
+        pdfList = pdfList,
+    ))
+
+@auth.requires_login()
+def del_pdf():
+    db(db.user_documents.id == request.vars.pdf_id).delete()
+    return "ok"
