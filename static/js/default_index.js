@@ -493,12 +493,6 @@ var app = function() {
         var file = self.vue.pdf.output('datauristring')
         console.log('adding pdf');
         add_pdf(file);
-        ///////////////
-        var file_name = prompt("Please enter a file name", "CVscanned_doc");
-        if (!file_name.includes(".pdf")) {
-            file_name = file_name + ".pdf";
-        }
-        self.vue.pdf.save(file_name);
         self.vue.imagelist=[];
         self.vue.raw_imagelist=[];
     };
@@ -507,7 +501,8 @@ var app = function() {
         console.log('add_pdf()');
         $.post(add_pdf_url,
             {
-            pdf_uri: file,
+                pdf_uri: file,
+                title: self.vue.title,
             },
             function(data){
                 console.log('added');
@@ -515,6 +510,7 @@ var app = function() {
                 self.vue.imagelist=[];
                 window.open(file);
                 self.vue.is_making_pdf = false;
+                self.vue.title = "";
                 self.display_archive();
             });
     };
@@ -537,22 +533,26 @@ var app = function() {
         $("#archive_mode").hide();
         $("#main_mode").show();
     };
+    
+   /*  self.downloadPDF = function(URI){
+        console.log('test');
+        console.log(URI);
+        window.open(URI);
+        //THIS WOULD SET A FILENAME FOR USE WITH jsPDF's .save()!!!!
+        //not used as there's no way to convert a URI into a jsPDF object
+        // var file_name = prompt("Please enter a file name", "CVscanned_doc");
+        // if (!file_name.includes(".pdf")) {
+            // file_name = file_name + ".pdf";
+        // }
+    } */
 
-
-    const fakePDFList = {
-        // email: null,
-        pdf: null,
-        createdOn: null,
-        title: null,
-    };
-
-    function setupFakeUsers(){
+    function setupUsers(){
         $.getJSON(get_pdfs_url,
             function(data) {
                 self.vue.pdfList = data.pdfList;
         });
     }
-
+    
     self.display_archive = function() {
         $("#main_mode").hide();
         $("#archive_mode").show();
@@ -580,7 +580,8 @@ var app = function() {
             pdfList: [],
             rescaleConst: null,
             isProcessing: false,
-            orientation: null
+            orientation: null,
+            title: "",
         },
         methods: {
             pdf_test: self.pdf_test,
@@ -599,12 +600,13 @@ var app = function() {
             next_page: self.next_page,
             display_main: self.display_main,
             display_archive: self.display_archive,
+            downloadPDF: self.downloadPDF,
         }
 
     });
 
     //Anything else needed goes here
-    setupFakeUsers();
+    setupUsers();
     $("#vue-div").show();
     return self;
 };

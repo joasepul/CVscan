@@ -17,7 +17,7 @@ db.define_table('user_documents',
                 Field('created_on', 'datetime', default=request.now),
                 Field('created_by', 'reference auth_user', default=auth.user_id),
                 Field('pdf_uri'),
-                Field('title'),
+                Field('title', 'string', default="Untitled"),
                 )
 
 # after defining tables, uncomment below to enable auditing

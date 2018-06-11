@@ -73,7 +73,9 @@ def add_pdf():
     print('adding pdf')
     pdf_id = db.user_documents.insert(
         pdf_uri = request.vars.pdf_uri,
+        title = request.vars.title,
     )
+    print(db(db.user_documents.id==pdf_id).select().title)
     print('pdf added')
     return "ok"
 

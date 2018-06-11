@@ -63,7 +63,12 @@
             </div>
           </div>
           <div id="mainState2" style="display:none">
+            <div>
+              <input v-model="title" placeholder="Untitled" type="text" v-on:blur="" style="border: black 1px solid" />
+            </div>
+            <div>
             <img class="img" v-bind:src="imagelist[currentPage]">
+            </div>
             <div style="margin-top: 7px;">
               <button v-if="currentPage > 0" style="margin-right: 100px;" v-on:click="prev_page">
                 <i class="fa fa-chevron-left"></i>
@@ -111,6 +116,7 @@
                   <!-- ${item} -->
                   <p><b>${item.title}</b></p>
                   <p> - Created on: ${item.created_on}</p>
+                  <a style="all: none" v-bind:href= "item.pdf_uri" download="your_pdf.pdf"><button v-on:click=""><i class="fa fa-download left" ></i></button></a>
                 </td>
               </tr>
             </tbody>
