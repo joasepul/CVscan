@@ -31,6 +31,45 @@ var app = function() {
         $("#mainState0").show();
     };
 
+     self.upload_file = function () {
+        // Reads the file.
+        var file = document.getElementById("file_input").files[0];
+        if (file) {
+            // First, gets an upload URL.
+            console.log("Trying to get the upload url");
+            $.getJSON('https://upload-dot-luca-teaching.appspot.com/start/uploader/get_upload_url',
+                function (data) {
+                    // We now have upload (and download) URLs.
+                    var put_url = data['signed_url'];
+                    var get_url = data['access_url'];
+                    console.log("Received upload url: " + put_url);
+                    // Uploads the file, using the low-level interface.
+                    var req = new XMLHttpRequest();
+                    req.addEventListener("load", self.upload_complete(get_url));
+                    // TODO: if you like, add a listener for "error" to detect failure.
+                    req.open("PUT", put_url, true);
+                    req.send(file);
+                });
+        }
+    };
+
+     self.upload_complete = function(get_url) {
+        // Hides the uploader div.
+        self.close_uploader();
+        console.log('The file was uploaded; it is now available at ' + get_url);
+        // TODO: The file is uploaded.  Now you have to insert the get_url into the database, etc.
+        self.add_image(get_url);
+    };
+
+     self.add_image = function(get_url) {
+        $.post(add_image_url,
+            {
+                file_url: get_url,
+            },
+            function (data) {
+            });
+    };
+
     self.openFile = function(event) {
         var input = event.target;
 
@@ -549,7 +588,9 @@ var app = function() {
             prev_page: self.prev_page,
             next_page: self.next_page,
             display_main: self.display_main,
-            display_archive: self.display_archive
+            display_archive: self.display_archive,
+            add_image: self.add_image,
+            upload_file: self.upload_file,
         }
 
     });
