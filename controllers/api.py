@@ -75,9 +75,10 @@ def add_pdf():
         pdf_uri = request.vars.pdf_uri,
         title = request.vars.title ,
     )
-    print(request.vars.title)
+    pdf = db.user_documents(pdf_id)
+    print(pdf.title)
     print('pdf added')
-    return "ok"
+    return response.json(dict(pdf = pdf))
 
 @auth.requires_login()
 def get_pdfs():

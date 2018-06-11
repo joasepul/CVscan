@@ -506,13 +506,14 @@ var app = function() {
                 title: self.vue.title,
             },
             function(data){
+                self.vue.pdfList.unshift(data.pdf);
                 console.log('added');
                 console.log(file);
-                self.vue.imagelist=[];
                 window.open(file);
-                self.vue.is_making_pdf = false;
-                self.vue.title = "";
                 self.display_archive();
+                self.vue.is_making_pdf = false;
+                self.vue.imagelist=[];
+                self.vue.title = "";
             });
     };
 
