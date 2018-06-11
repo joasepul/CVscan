@@ -41,7 +41,6 @@ var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
         <div v-if="is_making_pdf">
           <div id="mainState0" class="select" id="videoSourceSelect">
             <p><b>Please take or select a photo of a document</b></p>
-            <p>orientation = ${orientation}</p>
             <input id="img_input" type="file" accept="image/*" v-on:change="openFile"/>
             <div><button v-on:click="is_making_pdf=false">Cancel</button></div>
           </div>

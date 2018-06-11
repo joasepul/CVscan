@@ -45,8 +45,13 @@ def rectify_doc():
 def doc_alg_entry():
     img_b64 = request.post_vars.img_b64
     orientation = request.post_vars.orientation
-    print(orientation)
     img = readb64(img_b64)
+    if orientation == "6":
+        img = np.rot90(img, 3)
+    elif orientation == "3":
+        img = np.rot90(img, 2)
+    elif orientation == "8":
+        img = np.rot90(img)
     ret, dst = doc_algorithm(img)
     if ret:
         retval, buffered_img = cv2.imencode('.png', dst)
