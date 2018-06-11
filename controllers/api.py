@@ -72,7 +72,7 @@ def doc_alg_entry():
 def add_pdf():
     print('adding pdf')
     pdf_id = db.user_documents.insert(
-        pdf_uri = request.vars.pdf_uri,
+        pdf_blob = request.vars.pdf_blob,
         title = request.vars.title ,
     )
     pdf = db.user_documents(pdf_id)
@@ -90,7 +90,7 @@ def get_pdfs():
         t = dict(
             title = r.title,
             created_on = r.created_on,
-            pdf_uri = r.pdf_uri,
+            pdf_blob = r.pdf_blob,
             id = r.id,
         )
         pdfList.append(t)

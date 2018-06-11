@@ -504,7 +504,7 @@ var app = function() {
 
 
         self.vue.pdf.save(self.vue.title);
-        var file = self.vue.pdf.output();
+        var file = self.vue.pdf.output('blob');
         //console.log(file);
         console.log('adding pdf');
         add_pdf(file);
@@ -517,7 +517,7 @@ var app = function() {
         console.log('add_pdf()');
         $.post(add_pdf_url,
             {
-                pdf_uri: file,
+                pdf_blob: file,
                 title: self.vue.title,
             },
             function(data){
@@ -584,11 +584,17 @@ var app = function() {
         var idx = null;
             for (var i = 0; i < self.vue.pdfList.length; i++) {
                 if (self.vue.pdfList[i].id === pdf_id) {
-                    idx = i + 1;
+                    idx = i;
                     break;
                 }
             }
-        window.open(self.vue.pdfList[idx].pdf_uri);
+        console.log(idx);
+        console.log(self.vue.pdfList);
+        console.log(self.vue.pdfList[idx]);
+        var blob = self.vue.pdfList[idx].pdf_blob;
+        console.log(self.vue.pdfList[idx].pdf_blob);
+        var downloadURL = window.URL.createObjectURL(blob);
+        window.open(downloadURL);
     }
 
 
