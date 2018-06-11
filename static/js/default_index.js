@@ -463,11 +463,13 @@ var app = function() {
               console.log(img.src.length);
               if(self.vue.currentPhoto !== null){
                   self.vue.imagelist.splice(self.vue.currentPhoto, 0, img.src);
+                  self.vue.currentPage = self.vue.currentPhoto;
                   self.vue.currentPhoto = null;
               } else{
                   self.vue.imagelist.push(img.src);
+                  self.vue.currentPage = self.vue.imagelist.length - 1;
               }
-              self.vue.currentPage = self.vue.imagelist.length - 1;
+
               $("#mainState1").hide();
               $("#mainState2").show();
               self.vue.isProcessing = false;
