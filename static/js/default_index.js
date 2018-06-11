@@ -32,8 +32,10 @@ var app = function() {
     };
 
      self.upload_file = function () {
-        // Reads the file.
+        // This is the way I got the file in HW5. How would we
+         // get the PDF file from a capture?
         var file = document.getElementById("file_input").files[0];
+
         if (file) {
             // First, gets an upload URL.
             console.log("Trying to get the upload url");
@@ -55,7 +57,6 @@ var app = function() {
 
      self.upload_complete = function(get_url) {
         // Hides the uploader div.
-        self.close_uploader();
         console.log('The file was uploaded; it is now available at ' + get_url);
         // TODO: The file is uploaded.  Now you have to insert the get_url into the database, etc.
         self.add_image(get_url);
