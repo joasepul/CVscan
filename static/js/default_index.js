@@ -35,6 +35,13 @@ var app = function() {
         self.vue.isProcessing = true;
         var input = event.target;
 
+        // Modified code from: https://github.com/exif-js/exif-js
+        EXIF.getData(input.files[0], function() {
+            var orientation = EXIF.getTag(this, "Orientation");
+            console.log('image orientation: ' + orientation);
+            self.vue.orientation = orientation;
+        });
+
         var reader = new FileReader();
         var img_dataURL;
 
@@ -46,7 +53,8 @@ var app = function() {
                 //method:"POST",
                 url:doc_alg_url,
                 data:{
-                    img_b64:fixed_dataURL
+                    img_b64:fixed_dataURL,
+                    orientation: self.vue.orientation
                 },
                 success: function(res){
                     var img = new Image;
@@ -568,6 +576,7 @@ var app = function() {
             pdfList: [],
             rescaleConst: null,
             isProcessing: false,
+            orientation: null
         },
         methods: {
             pdf_test: self.pdf_test,
