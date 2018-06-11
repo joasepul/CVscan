@@ -502,8 +502,15 @@ var app = function() {
             self.vue.pdf.addImage(self.vue.imagelist[i], 'PNG', 0, 0,width,height);
         }
 
+<<<<<<< HEAD
         // self.vue.pdf.save(self.vue.title);
         var file = self.vue.pdf.output('datauristring');
+=======
+
+        self.vue.pdf.save(self.vue.title);
+        var file = self.vue.pdf.output();
+        //console.log(file);
+>>>>>>> 0b94ed8023de2f69e0887e08b40d40ca6e7bf878
         console.log('adding pdf');
         add_pdf(file);
         self.vue.imagelist=[];
