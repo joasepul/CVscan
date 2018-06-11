@@ -502,8 +502,10 @@ var app = function() {
             self.vue.pdf.addImage(self.vue.imagelist[i], 'PNG', 0, 0,width,height);
         }
 
+
         self.vue.pdf.save(self.vue.title);
-        var file = self.vue.pdf.output('datauristring')
+        var file = self.vue.pdf.output();
+        //console.log(file);
         console.log('adding pdf');
         add_pdf(file);
         self.vue.imagelist=[];
@@ -575,7 +577,7 @@ var app = function() {
                 }
             }
         );
-    }
+    };
 
 
     self.display_archive = function() {
