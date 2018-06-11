@@ -8,6 +8,7 @@ from computer_vision import *
 
 downscale = 0.5
 
+
 #taken from https://stackoverflow.com/questions/33754935/read-a-base-64-encoded-image-from-memory-using-opencv-python-library
 def readb64(base64_string):
     sbuf = StringIO()
@@ -30,7 +31,7 @@ def rectify_doc():
 
     points_from_client = [[float(pt[0]), float(pt[1])] for pt in [pt1,pt2,pt3,pt4]]
     orig_pts = order_points(np.float32(points_from_client))
-    new_pts = order_points(np.float32([[0,0],[0,842],[595,842],[595,0]]))
+    new_pts = order_points(np.float32([[0,0],[0,paper_size[1]],[paper_size[0],paper_size[1]],[paper_size[0],0]]))
     dst = doc_rectification(orig_pts, new_pts, img)
     retval, buffered_img = cv2.imencode('.png', dst)
     base64_encoded_image = base64.b64encode(buffered_img)

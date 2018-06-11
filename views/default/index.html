@@ -59,10 +59,7 @@
             <canvas class="canvas" id="imgcanvas"></canvas>
             <div style="margin-top: 7px;" class="mainState1buttons">
               <button v-on:click="resetPhoto">Retake Photo</button>
-              <button v-on:click="post_button" >Send to Server</button>
-            </div>
-            <div>
-              <button v-on:click="return_points">Return Points (Test Only!)</button>
+              <button v-on:click="post_button" >Proceed</button>
             </div>
           </div>
           <div id="mainState2" style="display:none">
@@ -126,8 +123,7 @@
       <div>
         <h1>LOGIN MODE</h1>
         <h2>Login to Continue</h2>
-        <!-- TODO: integrate google login -->
-        <button id="google-login" style="" class="btn">Login with Google</button>
+
         <a href="{{=URL('default', 'user')}}" class="btn">Log in with Email</a>
         <a href="{{=URL('default', 'user')}}/register" class="btn">Sign up!</a>
 
