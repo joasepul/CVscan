@@ -24,7 +24,7 @@
           <label class="ham padded fa fa-bars" for="menu"></label>
           <div class="burger accordion">
             <input type="checkbox" id="menu"/>
-            {{=MENU(response.menu,_class='menu')}}
+            <!-- {{=MENU(response.menu,_class='menu')}} -->
             <ul class="menu right">
               <li>
                 {{=auth.navbar(mode='dropdown')}}
@@ -38,7 +38,7 @@
       {{include}}
     </main>
     <footer class="black">
-      <div class="silver center padded social">
+      <!-- <div class="silver center padded social">
         <a class="fa fa-facebook" href="https://www.facebook.com/sharer/sharer.php?u={url}"></a>
         <a class="fa fa-twitter" href="https://twitter.com/home?status={url}"></a>
         <a class="fa fa-google" href="https://plus.google.com/share?url={url}"></a>
@@ -47,7 +47,7 @@
         <div class="fill">
           Copyright @ 2016
         </div>
-      </div>
+      </div> -->
     </footer>
   </body>
   <script src="{{=URL('static','js/marked.min.js')}}"></script>

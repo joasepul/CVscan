@@ -487,8 +487,13 @@ var app = function() {
             self.vue.pdf.addPage();
             self.vue.pdf.addImage(self.vue.imagelist[i], 'PNG', 0, 0,width,height);
         }
-        self.vue.pdf.save("download.pdf");
+        var file_name = prompt("Please enter a file name", "CVscanned_doc");
+        if (!file_name.includes(".pdf")) {
+            file_name = file_name + ".pdf";
+        }
+        self.vue.pdf.save(file_name);
         self.vue.imagelist=[];
+        self.vue.raw_imagelist=[];
     };
 
     self.prev_page = function() {

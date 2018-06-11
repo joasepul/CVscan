@@ -38,8 +38,8 @@ div.main div.main_content .canvas {
   /* line 24, ../sass/_main.scss */
   div.main div.main_content .canvas {
     margin: 0px;
-    width: auto;
-    height: 100%;
+    width: 80%;
+    height: auto;
   }
 }
 /* line 36, ../sass/_main.scss */
@@ -53,7 +53,7 @@ div.main div.main_content .img {
   /* line 36, ../sass/_main.scss */
   div.main div.main_content .img {
     margin: 0px;
-    width: 100%;
+    width: 80%;
     height: auto;
   }
 }

@@ -7,20 +7,20 @@ body{
     padding: 0px;
 }
 
-div.main{  
+div.main{
   text-align: center;
   div.header {
-    background-color: #333; 
-    color: white;   
+    background-color: #333;
+    color: white;
     padding: 0.37em 0;
   }
-  
+
   div.main_content{
   height: auto;
     div.select{
         display:inline-block
     }
-    
+
     .canvas {
       border: 5px solid black;
       margin: 0 20% 0 20%;
@@ -28,11 +28,11 @@ div.main{
       height: auto;
       @media only screen and (max-width: 400px){
         margin: 0px;
-        width: auto;
-        height: 100%;
+        width: 80%;
+        height: auto;
       }
     }
-    
+
     .img {
       border: 5px solid black;
       margin: 0 20% 0 20%;
@@ -40,16 +40,16 @@ div.main{
       height: auto;
       @media only screen and (max-width: 400px){
         margin: 0px;
-        width: 100%;
+        width: 80%;
         height: auto;
       }
     }
-    
+
     .button {
         height: 2em;
         width:  2em;
     }
-    
+
     td{
         padding-left: 20%;
         padding-right: 20%;
