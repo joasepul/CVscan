@@ -544,6 +544,27 @@ var app = function() {
         });
     }
     
+    self.deletePDF = function(pdf_id) {
+        $.post(del_pdf_url,
+            {
+                pdf_id: pdf_id
+            },
+            function () {
+                var idx = null;
+                for (var i = 0; i < self.vue.pdfList.length; i++) {
+                    if (self.vue.pdfList[i].id === pdf_id) {
+                        idx = i + 1;
+                        break;
+                    }
+                }
+                if (idx) {
+                    self.vue.pdfList.splice(idx - 1, 1);
+                }
+            }
+        );
+    }
+    
+    
     self.display_archive = function() {
         $("#main_mode").hide();
         $("#archive_mode").show();
@@ -592,6 +613,7 @@ var app = function() {
             display_main: self.display_main,
             display_archive: self.display_archive,
             downloadPDF: self.downloadPDF,
+            deletePDF: self.deletePDF,
         }
 
     });

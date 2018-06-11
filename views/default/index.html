@@ -7,8 +7,9 @@
   var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
   var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
   var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
-  var add_pdf_url = "{{=URL('api', 'add_pdf', user_signature=True)}}}";
-  var get_pdfs_url = "{{=URL('api', 'get_pdfs', user_signature=True)}}";
+  var add_pdf_url = "{{=URL('api', 'add_pdf')}}}";
+  var get_pdfs_url = "{{=URL('api', 'get_pdfs')}}";
+  var del_pdf_url = "{{=URL('api', 'del_pdf')}}";
   console.log(get_pdfs_url);
 </script>
 
@@ -116,7 +117,8 @@
                   <!-- ${item} -->
                   <p><b>${item.title}</b></p>
                   <p> - Created on: ${item.created_on}</p>
-                  <a style="all: none" v-bind:href= "item.pdf_uri" download="your_pdf.pdf"><button v-on:click=""><i class="fa fa-download left" ></i></button></a>
+                  <a v-bind:href= "item.pdf_uri" download="your_pdf.pdf"><button v-on:click=""><i class="fa fa-download left" ></i></button></a>
+                  <a><button v-on:click="deletePDF(item.id)"><i class="fa fa-trash"></i></button></a>
                 </td>
               </tr>
             </tbody>
