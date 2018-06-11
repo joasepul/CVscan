@@ -456,7 +456,12 @@ var app = function() {
               img.src = "data:image/png;base64," + res.b64img;
               self.vue.newdataURL = img.src;
               console.log(img.src.length);
-              self.vue.imagelist.splice(self.vue.currentPage, 0, img.src);
+              if(self.vue.currentPhoto !== null){
+                  self.vue.imagelist.splice(self.vue.currentPhoto, 0, img.src);
+                  self.vue.currentPhoto = null;
+              } else{
+                  self.vue.imagelist.push(img.src);
+              }
               self.vue.currentPage = self.vue.imagelist.length - 1;
               $("#mainState1").hide();
               $("#mainState2").show();
@@ -470,11 +475,11 @@ var app = function() {
     };
 
     self.editPhoto = function(){
-        var currentPhoto = self.vue.currentPage;
-        self.vue.imagelist.splice(currentPhoto, 1);
+        self.vue.currentPhoto = self.vue.currentPage;
+        self.vue.imagelist.splice(self.vue.currentPhoto, 1);
         $("#mainState2").hide();
-        onProcessingFail(self.vue.raw_imagelist[currentPhoto]);
-    }
+        onProcessingFail(self.vue.raw_imagelist[self.vue.currentPhoto]);
+    };
 
 
 
@@ -567,6 +572,7 @@ var app = function() {
             pdf: null,
             newdataURL: null,
             currentPage: 0,
+            currentPhoto: null,
             pdfList: [],
             rescaleConst: null,
             isProcessing: false,
