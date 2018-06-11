@@ -18,7 +18,6 @@ def readb64(base64_string):
 
 def rectify_doc():
     img_b64 = request.post_vars.img_b64
-    print(request.post_vars)
     img = readb64(img_b64)
     pt1 = request.post_vars["pt1[]"]
     print(pt1)
