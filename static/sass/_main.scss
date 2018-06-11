@@ -1,3 +1,6 @@
+
+$secondary-color: #3498db;
+
 .colorful {
   color: $clrHilight;
 }
@@ -7,16 +10,53 @@ body{
     padding: 0px;
 }
 
+#title_icon{
+    display: inline-block;
+    margin-left: 1em;
+    width:3em;
+}
+
+#title_name{
+    display: inline-block;
+    margin:0px;
+}
+
+.menu{
+    color:$secondary-color !important;
+    margin-top: 1em;
+    border: 3px white;
+
+}
+
+#header_container{
+    vertical-align: middle;
+}
+
+
 div.main{
-  text-align: center;
+  .cam_btn {
+      font-size: 1000%;
+      margin:10px;
+  }
+  .cam_btn:hover{
+      color: $secondary-color;
+  }
   div.header {
+    vertical-align: middle;
+    height:auto;
     background-color: #333;
     color: white;
-    padding: 0.37em 0;
+
   }
 
   div.main_content{
+  text-align: center;
+
+  margin-top: 2em;
   height: auto;
+    button{
+        background-color: $secondary-color;
+    }
     div.select{
         display:inline-block
     }

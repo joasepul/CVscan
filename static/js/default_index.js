@@ -61,9 +61,13 @@ var app = function() {
                     img.src = "data:image/png;base64," + res.b64img;
                     console.log(img.src);
                     img.onload = function() {
-                        if (res.qos == false) {onProcessingFail(img.src); return;};
-                        alert("Document processed successfully: " + res.qos);
-                        alert("image size: " + res.width + " * " + res.height);
+                        if (res.qos == false) {
+                            self.vue.currentPage = self.vue.currentPage + 1;
+                            onProcessingFail(img.src);
+                            return;
+                        }
+                        //alert("Document processed successfully: " + res.qos);
+                        //alert("image size: " + res.width + " * " + res.height);
                         self.vue.newdataURL = img.src;
                         console.log(img.src.length);
                         self.vue.imagelist.push(img.src);
@@ -99,7 +103,7 @@ var app = function() {
         img.onload = function() {
             self.vue.canvas.width = this.width;
             self.vue.canvas.height = this.height;
-             alert("image size: " + this.width + " * " + this.height);
+             //alert("image size: " + this.width + " * " + this.height);
             self.vue.canvas.getContext('2d').drawImage(this, 0, 0);
             self.vue.img.src = img_dataURL;
             self.vue.dataURL = img_dataURL;
@@ -436,6 +440,7 @@ var app = function() {
     }
 
     self.post_button = function(){
+        self.vue.isProcessing = true;
         console.log('Send_to_server');
         var image_URL = self.vue.dataURL;
         var fixed_dataURL = image_URL.split(",")[1];
@@ -458,13 +463,16 @@ var app = function() {
               console.log(img.src.length);
               if(self.vue.currentPhoto !== null){
                   self.vue.imagelist.splice(self.vue.currentPhoto, 0, img.src);
+                  self.vue.currentPage = self.vue.currentPhoto;
                   self.vue.currentPhoto = null;
               } else{
                   self.vue.imagelist.push(img.src);
+                  self.vue.currentPage = self.vue.imagelist.length - 1;
               }
-              self.vue.currentPage = self.vue.imagelist.length - 1;
+
               $("#mainState1").hide();
               $("#mainState2").show();
+              self.vue.isProcessing = false;
               }
          });
     };
@@ -494,14 +502,14 @@ var app = function() {
             self.vue.pdf.addImage(self.vue.imagelist[i], 'PNG', 0, 0,width,height);
         }
 
-        // self.vue.pdf.save("download.pdf");
+        self.vue.pdf.save(self.vue.title);
         var file = self.vue.pdf.output('datauristring')
         console.log('adding pdf');
         add_pdf(file);
         self.vue.imagelist=[];
         self.vue.raw_imagelist=[];
     };
-    
+
     function add_pdf(file){
         if (self.vue.title == "") {self.vue.title = "Untitled"};
         console.log('add_pdf()');
@@ -514,7 +522,7 @@ var app = function() {
                 self.vue.pdfList.unshift(data.pdf);
                 console.log('added');
                 console.log(file);
-                window.open(file);
+                //window.open(file);
                 self.display_archive();
                 self.vue.is_making_pdf = false;
                 self.vue.imagelist=[];
@@ -540,7 +548,7 @@ var app = function() {
         $("#archive_mode").hide();
         $("#main_mode").show();
     };
-    
+
 
     function setupUsers(){
         $.getJSON(get_pdfs_url,
@@ -548,7 +556,7 @@ var app = function() {
                 self.vue.pdfList = data.pdfList;
         });
     }
-    
+
     self.deletePDF = function(pdf_id) {
         $.post(del_pdf_url,
             {
@@ -568,8 +576,8 @@ var app = function() {
             }
         );
     }
-    
-    
+
+
     self.display_archive = function() {
         $("#main_mode").hide();
         $("#archive_mode").show();
@@ -582,7 +590,7 @@ var app = function() {
         delimiters: ['${', '}'],
         unsafeDelimiters: ['!{', '}'],
         data: {
-            is_making_pdf: false,
+            is_making_pdf: true,
             logged_in: false,
             raw_imagelist: [],
             imagelist: [],

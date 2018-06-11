@@ -32,7 +32,15 @@
 <div class = "main">
   <div class = "header">
   {{block header}}
-    <h1>{{=request.application}}</h1>
+  <div id="header_container">
+    <img id="title_icon" src="{{=URL('static','images/aperture.svg')}}" >
+    <h1 id="title_name">{{=request.application}}</h1>
+    <ul class="menu right">
+      <li id="user_menu">
+        {{=auth.navbar(mode='dropdown')}}
+      </li>
+    </ul>
+    </div>
   {{end}}
   </div>
 
@@ -44,9 +52,13 @@
       <div id="main_mode">
         <div v-if="is_making_pdf">
           <div id="mainState0" class="select" id="videoSourceSelect">
-            <p><b>Please take or select a photo of a document</b></p>
-            <input id="img_input" type="file" accept="image/*" v-on:change="openFile"/>
-            <div><button v-on:click="is_making_pdf=false">Cancel</button></div>
+            <p><b>Tap or click the camera to continue!</b></p>
+            <label for="img_input">
+                <i v-if="!isProcessing" class="cam_btn fa fa-camera"></i>
+                <i v-if="isProcessing" class="cam_btn fa fa-spinner fa-spin" ></i>
+            </label>
+            <input id="img_input" style="display:none;" type="file" accept="image/*" v-on:change="openFile"/>
+
           </div>
           <div id="mainState1" style="display:none">
             <p style="text-align: center;">
@@ -61,6 +73,8 @@
             <div style="margin-top: 7px;" class="mainState1buttons">
               <button v-on:click="resetPhoto">Retake Photo</button>
               <button v-on:click="post_button" >Proceed</button>
+              <i v-if="isProcessing" class="fa fa-spinner fa-spin" ></i>
+
             </div>
           </div>
           <div id="mainState2" style="display:none">
@@ -85,7 +99,7 @@
                  <div><button v-on:click="editPhoto">Edit Photo</button></div>
                  <div><button v-on:click="imglist_to_pdf()">Complete as
                  PDF</button></div>
-                 <div><button v-on:click="">Cancel PDF</button></div>
+                 <div><button v-on:click="is_making_pdf = false; imagelist = []">Cancel PDF</button></div>
               </div>
 
             </div>
@@ -95,10 +109,9 @@
               <div><button v-on:click="is_making_pdf=true">Create a new PDF</button></div>
           </div>
         <div>
-          <button v-on:click="display_archive">View Archive</button>
-          <div>
-            <i v-if="isProcessing" class="fa fa-spinner fa-spin" ></i>
-          </div>
+          <button v-on:click="display_archive">Archive</button>
+
+
         </div>
       </div>
 
@@ -116,19 +129,12 @@
                 <td>
                   <!-- ${item} -->
                   <p><b>${item.title}</b></p>
-                  <p> - Created on: ${item.created_on}</p>
-                  <a class="no_underline" v-bind:href= "item.pdf_uri" download="your_pdf.pdf">
-                    <button v-on:click="">
-                      <i class="fa fa-download left" >
-                      </i>
-                    </button>
-                  </a>
-                  <a class="no_underline">
-                    <button v-on:click="deletePDF(item.id)">
-                      <i class="fa fa-trash">
-                      </i>
-                    </button>
-                  </a>
+                  <p>Created on: ${item.created_on}</p>
+                  <div>
+                    <!--<a class="btn" v-bind="{href:item.pdf_uri, download:item.title + '.pdf'}"><i class="fa fa-download left" ></i></a> -->
+                    <a class="btn" v-bind:href="item.pdf_uri" download="${item.title}.pdf"><i class="fa fa-download left" ></i></a>
+                    <a class="btn" v-on:click="deletePDF(item.id)"><i class="fa fa-trash"></i></a>
+                  </div>
                 </td>
               </tr>
             </tbody>
