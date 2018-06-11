@@ -502,8 +502,8 @@ var app = function() {
             self.vue.pdf.addImage(self.vue.imagelist[i], 'PNG', 0, 0,width,height);
         }
 
-        self.vue.pdf.save(self.vue.title);
-        var file = self.vue.pdf.output('datauristring')
+        // self.vue.pdf.save(self.vue.title);
+        var file = self.vue.pdf.output('datauristring');
         console.log('adding pdf');
         add_pdf(file);
         self.vue.imagelist=[];
@@ -575,6 +575,18 @@ var app = function() {
                 }
             }
         );
+    }
+    
+    self.downloadPDF = function(pdf_id){
+        console.log(pdf_id);
+        var idx = null;
+            for (var i = 0; i < self.vue.pdfList.length; i++) {
+                if (self.vue.pdfList[i].id === pdf_id) {
+                    idx = i + 1;
+                    break;
+                }
+            }
+        window.open(self.vue.pdfList[idx].pdf_uri);
     }
 
 
