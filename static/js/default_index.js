@@ -498,6 +498,7 @@ var app = function() {
     };
     
     function add_pdf(file){
+        if (self.vue.title == "") {self.vue.title = "Untitled"};
         console.log('add_pdf()');
         $.post(add_pdf_url,
             {
@@ -534,17 +535,6 @@ var app = function() {
         $("#main_mode").show();
     };
     
-   /*  self.downloadPDF = function(URI){
-        console.log('test');
-        console.log(URI);
-        window.open(URI);
-        //THIS WOULD SET A FILENAME FOR USE WITH jsPDF's .save()!!!!
-        //not used as there's no way to convert a URI into a jsPDF object
-        // var file_name = prompt("Please enter a file name", "CVscanned_doc");
-        // if (!file_name.includes(".pdf")) {
-            // file_name = file_name + ".pdf";
-        // }
-    } */
 
     function setupUsers(){
         $.getJSON(get_pdfs_url,
