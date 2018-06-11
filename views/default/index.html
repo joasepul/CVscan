@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="{{=URL('static','css/myapp.css')}}" />
   <!-- S3 browser upload stuff -->
   <script src="https://sdk.amazonaws.com/js/aws-sdk-2.254.1.min.js"></script>
-  <script src="/static/js/app.js"></script>
+  <script src="{{=URL('static', 'js/app.js')}}"></script>
   <script>
       function getHtml(template) {
           return template.join('\n');
@@ -62,8 +62,11 @@
           <div style="margin-top: 7px;" class="mainState1buttons">
             <button v-on:click="resetPhoto">Retake Photo</button>
             <button v-on:click="post_button" >Send to Server</button>
+
+              <!-- View photos in S3 bucket -->
             <h1>My Photo Albums App</h1>
             <div id="app"></div>
+
           </div>
           <div>
             <button v-on:click="return_points">Return Points (Test Only!)</button>
