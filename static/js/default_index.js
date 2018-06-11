@@ -61,9 +61,13 @@ var app = function() {
                     img.src = "data:image/png;base64," + res.b64img;
                     console.log(img.src);
                     img.onload = function() {
-                        if (res.qos == false) {onProcessingFail(img.src); return;};
-                        alert("Document processed successfully: " + res.qos);
-                        alert("image size: " + res.width + " * " + res.height);
+                        if (res.qos == false) {
+                            self.vue.currentPage = self.vue.currentPage + 1;
+                            onProcessingFail(img.src);
+                            return;
+                        }
+                        //alert("Document processed successfully: " + res.qos);
+                        //alert("image size: " + res.width + " * " + res.height);
                         self.vue.newdataURL = img.src;
                         console.log(img.src.length);
                         self.vue.imagelist.push(img.src);
@@ -99,7 +103,7 @@ var app = function() {
         img.onload = function() {
             self.vue.canvas.width = this.width;
             self.vue.canvas.height = this.height;
-             alert("image size: " + this.width + " * " + this.height);
+             //alert("image size: " + this.width + " * " + this.height);
             self.vue.canvas.getContext('2d').drawImage(this, 0, 0);
             self.vue.img.src = img_dataURL;
             self.vue.dataURL = img_dataURL;
@@ -436,6 +440,7 @@ var app = function() {
     }
 
     self.post_button = function(){
+        self.vue.isProcessing = true;
         console.log('Send_to_server');
         var image_URL = self.vue.dataURL;
         var fixed_dataURL = image_URL.split(",")[1];
@@ -460,6 +465,7 @@ var app = function() {
               self.vue.currentPage = self.vue.imagelist.length - 1;
               $("#mainState1").hide();
               $("#mainState2").show();
+              self.vue.isProcessing = false;
               }
          });
     };
@@ -552,7 +558,7 @@ var app = function() {
         delimiters: ['${', '}'],
         unsafeDelimiters: ['!{', '}'],
         data: {
-            is_making_pdf: false,
+            is_making_pdf: true,
             logged_in: false,
             raw_imagelist: [],
             imagelist: [],
