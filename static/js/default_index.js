@@ -490,27 +490,25 @@ var app = function() {
         }
         // self.vue.pdf.save("download.pdf");
         var file = self.vue.pdf.output('datauristring')
-        console.log(file);
-        $.getJSON('https://upload-dot-luca-teaching.appspot.com/start/uploader/get_upload_url',
-                function (data) {
-                    // We now have upload (and download) URLs.
-                    var put_url = data['signed_url'];
-                    var get_url = data['access_url'];
-                    console.log("Received upload url: " + put_url);
-                    // Uploads the file, using the low-level interface.
-                    var req = new XMLHttpRequest();
-                    req.addEventListener("load", self.add_pdf(get_url));
-                    // TODO: if you like, add a listener for "error" to detect failure.
-                    req.open("PUT", put_url, true);
-                    req.send(file);
-        });
+        console.log('adding pdf');
+        add_pdf(file);
     };
     
-    self.add_pdf = function(get_url){
-        self.vue.imagelist=[];
-        console.log("add_pdf function would happen now");
-        console.log(get_url);
-    }
+    function add_pdf(file){
+        console.log('add_pdf()');
+        $.post(add_pdf_url,
+            {
+            pdf_uri: file,
+            },
+            function(data){
+                console.log('added');
+                console.log(file);
+                self.vue.imagelist=[];
+                window.open(file);
+                self.vue.is_making_pdf = false;
+                self.display_archive();
+            });
+    };
 
     self.prev_page = function() {
         if(self.vue.currentPage > 0){
@@ -540,13 +538,10 @@ var app = function() {
     };
 
     function setupFakeUsers(){
-        array = new Array;
-        const list = Object.create(fakePDFList);
-        list.createdOn = '6/10/2018';
-        list.title = 'myPDF';
-        list.pdf = 'SOME PDF';
-        array.push(list);
-        self.vue.pdfList = array;
+        $.getJSON(get_pdfs_url,
+            function(data) {
+                self.vue.pdfList = data.pdfList;
+        });
     }
 
     self.display_archive = function() {
@@ -595,7 +590,6 @@ var app = function() {
             next_page: self.next_page,
             display_main: self.display_main,
             display_archive: self.display_archive,
-            add_pdf: self.add_pdf,
         }
 
     });

@@ -4,9 +4,12 @@
 {{block head}}
 
 <script>
-var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
-var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
-var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
+  var doc_alg_url = "{{=URL('api', 'doc_alg_entry')}}";
+  var create_pdf_url = "{{=URL('api', 'create_pdf')}}}";
+  var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
+  var add_pdf_url = "{{=URL('api', 'add_pdf', user_signature=True)}}}";
+  var get_pdfs_url = "{{=URL('api', 'get_pdfs', user_signature=True)}}";
+  console.log(get_pdfs_url);
 </script>
 
 {{end}}
@@ -77,8 +80,9 @@ var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
               </button>
               <div>
                  <div><button v-on:click="editPhoto">Edit Photo</button></div>
-                 <div><button v-on:click="imglist_to_pdf(); is_making_pdf = false">Complete as PDF</button></div>
-                 <div><button v-on:click="">Save to Account</button></div>
+                 <div><button v-on:click="imglist_to_pdf()">Complete as
+                 PDF</button></div>
+                 <div><button v-on:click="">Cancel PDF</button></div>
               </div>
 
             </div>
@@ -88,7 +92,7 @@ var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
               <div><button v-on:click="is_making_pdf=true">Create a new PDF</button></div>
           </div>
         <div>
-          <button v-on:click="display_archive">Archive</button>
+          <button v-on:click="display_archive">View Archive</button>
           <div>
             <i v-if="isProcessing" class="fa fa-spinner fa-spin" ></i>
           </div>
@@ -109,7 +113,7 @@ var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
                 <td>
                   <!-- ${item} -->
                   <p><b>${item.title}</b></p>
-                  <p>${item.pdf} - Created on: ${item.createdOn}</p>
+                  <p> - Created on: ${item.created_on}</p>
                 </td>
               </tr>
             </tbody>
@@ -139,4 +143,4 @@ var rectify_doc_url = "{{=URL('api', 'rectify_doc')}}}";
 <script src="{{=URL('static', 'js/adapter-latest.js')}}"></script>
 <script src="{{=URL('static', 'js/jquery.min.js')}}"></script>
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
+<script src="{{=URL('static', 'js/exif.min.js')}}"></script>

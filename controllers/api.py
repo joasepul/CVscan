@@ -66,3 +66,34 @@ def doc_alg_entry():
         width=width,
         height=height,
     ))
+
+@auth.requires_login()
+def add_pdf():
+    print('adding pdf')
+    pdf_id = db.user_documents.insert(
+        pdf_uri = request.vars.pdf_uri,
+    )
+    print('pdf added')
+    return "ok"
+
+@auth.requires_login()
+def get_pdfs():
+    print('getting users')
+    auth_id = auth.user.id
+    pdfList = []
+    row = db(db.user_documents.created_by == auth.user.id).select()
+    for r in row:
+        t = dict(
+            title = r.title,
+            created_on = r.created_on,
+            pdf_uri = r.pdf_uri,
+            id = r.id,
+        )
+        pdfList.append(t)
+    print('got users')
+    return response.json(dict(
+        pdfList = pdfList,
+    ))
+
+
+    
