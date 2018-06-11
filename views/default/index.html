@@ -132,13 +132,8 @@
                   <p>Created on: ${item.created_on}</p>
                   <div>
                     <!--<a class="btn" v-bind="{href:item.pdf_uri, download:item.title + '.pdf'}"><i class="fa fa-download left" ></i></a> -->
-<<<<<<< HEAD
                     <button v-on:click="downloadPDF(item.id)"><i class="fa fa-download left" ></i></button>
                     <button v-on:click="deletePDF(item.id)"><i class="fa fa-trash"></i></button>
-=======
-                    <a class="btn" v-bind:href="item.pdf_uri" v-bind:download="item.title"><i class="fa fa-download left" ></i></a>
-                    <a class="btn" v-on:click="deletePDF(item.id)"><i class="fa fa-trash"></i></a>
->>>>>>> 0b94ed8023de2f69e0887e08b40d40ca6e7bf878
                   </div>
                 </td>
               </tr>
