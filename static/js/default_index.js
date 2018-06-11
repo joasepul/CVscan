@@ -471,6 +471,7 @@ var app = function() {
 
 
     self.imglist_to_pdf = function(){
+        console.log('imglist to pdf');
         self.vue.pdf = new jsPDF();
         var width = self.vue.pdf.internal.pageSize.width;
         var height = self.vue.pdf.internal.pageSize.height;
@@ -479,9 +480,29 @@ var app = function() {
             self.vue.pdf.addPage();
             self.vue.pdf.addImage(self.vue.imagelist[i], 'PNG', 0, 0,width,height);
         }
-        self.vue.pdf.save("download.pdf");
-        self.vue.imagelist=[];
+        // self.vue.pdf.save("download.pdf");
+        var file = self.vue.pdf.output('datauristring')
+        console.log(file);
+        $.getJSON('https://upload-dot-luca-teaching.appspot.com/start/uploader/get_upload_url',
+                function (data) {
+                    // We now have upload (and download) URLs.
+                    var put_url = data['signed_url'];
+                    var get_url = data['access_url'];
+                    console.log("Received upload url: " + put_url);
+                    // Uploads the file, using the low-level interface.
+                    var req = new XMLHttpRequest();
+                    req.addEventListener("load", self.add_pdf(get_url));
+                    // TODO: if you like, add a listener for "error" to detect failure.
+                    req.open("PUT", put_url, true);
+                    req.send(file);
+        });
     };
+    
+    self.add_pdf = function(get_url){
+        self.vue.imagelist=[];
+        console.log("add_pdf function would happen now");
+        console.log(get_url);
+    }
 
     self.prev_page = function() {
         if(self.vue.currentPage > 0){
@@ -554,7 +575,6 @@ var app = function() {
             sendToServer: self.sendToServer,
             post_button: self.post_button,
             create_new_pdf: self.create_new_pdf,
-            save_to_pdf: self.save_to_pdf,
             btn_download: self.btn_download,
             return_points: self.return_points,
             resetPhoto: self.resetPhoto,
@@ -565,7 +585,8 @@ var app = function() {
             prev_page: self.prev_page,
             next_page: self.next_page,
             display_main: self.display_main,
-            display_archive: self.display_archive
+            display_archive: self.display_archive,
+            add_pdf: self.add_pdf,
         }
 
     });
