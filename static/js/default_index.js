@@ -35,6 +35,7 @@ var app = function() {
         self.vue.isProcessing = true;
         var input = event.target;
 
+        // Modified code from: https://github.com/exif-js/exif-js
         EXIF.getData(input.files[0], function() {
             var orientation = EXIF.getTag(this, "Orientation");
             console.log('image orientation: ' + orientation);
