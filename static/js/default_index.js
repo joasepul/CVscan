@@ -479,6 +479,7 @@ var app = function() {
 
 
     self.imglist_to_pdf = function(){
+        console.log('imglist to pdf');
         self.vue.pdf = new jsPDF();
         var width = self.vue.pdf.internal.pageSize.width;
         var height = self.vue.pdf.internal.pageSize.height;
@@ -495,6 +496,12 @@ var app = function() {
         self.vue.imagelist=[];
         self.vue.raw_imagelist=[];
     };
+
+    self.add_pdf = function(get_url){
+        self.vue.imagelist=[];
+        console.log("add_pdf function would happen now");
+        console.log(get_url);
+    }
 
     self.prev_page = function() {
         if(self.vue.currentPage > 0){
@@ -568,7 +575,6 @@ var app = function() {
             sendToServer: self.sendToServer,
             post_button: self.post_button,
             create_new_pdf: self.create_new_pdf,
-            save_to_pdf: self.save_to_pdf,
             btn_download: self.btn_download,
             return_points: self.return_points,
             resetPhoto: self.resetPhoto,
@@ -579,7 +585,8 @@ var app = function() {
             prev_page: self.prev_page,
             next_page: self.next_page,
             display_main: self.display_main,
-            display_archive: self.display_archive
+            display_archive: self.display_archive,
+            add_pdf: self.add_pdf,
         }
 
     });
