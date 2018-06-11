@@ -75,16 +75,17 @@ def add_pdf():
         pdf_uri = request.vars.pdf_uri,
         title = request.vars.title ,
     )
-    print(request.vars.title)
+    pdf = db.user_documents(pdf_id)
+    print(pdf.title)
     print('pdf added')
-    return "ok"
+    return response.json(dict(pdf = pdf))
 
 @auth.requires_login()
 def get_pdfs():
     print('getting users')
     auth_id = auth.user.id
     pdfList = []
-    row = db(db.user_documents.created_by == auth.user.id).select()
+    row = db(db.user_documents.created_by == auth.user.id).select(orderby=~db.user_documents.created_on)
     for r in row:
         t = dict(
             title = r.title,
@@ -98,5 +99,8 @@ def get_pdfs():
         pdfList = pdfList,
     ))
 
-
+@auth.requires_login()
+def del_pdf():
+    db(db.user_documents.id == request.vars.user_documents).delete()
+    return "ok"
     

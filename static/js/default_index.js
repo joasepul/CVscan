@@ -511,13 +511,14 @@ var app = function() {
                 title: self.vue.title,
             },
             function(data){
+                self.vue.pdfList.unshift(data.pdf);
                 console.log('added');
                 console.log(file);
-                self.vue.imagelist=[];
                 window.open(file);
-                self.vue.is_making_pdf = false;
-                self.vue.title = "";
                 self.display_archive();
+                self.vue.is_making_pdf = false;
+                self.vue.imagelist=[];
+                self.vue.title = "";
             });
     };
 
@@ -547,6 +548,27 @@ var app = function() {
                 self.vue.pdfList = data.pdfList;
         });
     }
+    
+    self.deletePDF = function(pdf_id) {
+        $.post(del_pdf_url,
+            {
+                pdf_id: pdf_id
+            },
+            function () {
+                var idx = null;
+                for (var i = 0; i < self.vue.pdfList.length; i++) {
+                    if (self.vue.pdfList[i].id === pdf_id) {
+                        idx = i + 1;
+                        break;
+                    }
+                }
+                if (idx) {
+                    self.vue.pdfList.splice(idx - 1, 1);
+                }
+            }
+        );
+    }
+    
     
     self.display_archive = function() {
         $("#main_mode").hide();
@@ -597,6 +619,7 @@ var app = function() {
             display_main: self.display_main,
             display_archive: self.display_archive,
             downloadPDF: self.downloadPDF,
+            deletePDF: self.deletePDF,
         }
 
     });
