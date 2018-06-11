@@ -82,7 +82,7 @@ def add_pdf():
 
 @auth.requires_login()
 def get_pdfs():
-    print('getting users')
+    print('getting pdfs')
     auth_id = auth.user.id
     pdfList = []
     row = db(db.user_documents.created_by == auth.user.id).select(orderby=~db.user_documents.created_on)
@@ -94,7 +94,7 @@ def get_pdfs():
             id = r.id,
         )
         pdfList.append(t)
-    print('got users')
+    print('got pdfs')
     return response.json(dict(
         pdfList = pdfList,
     ))
