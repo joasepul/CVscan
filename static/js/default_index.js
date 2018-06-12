@@ -505,31 +505,39 @@ var app = function() {
 
         self.vue.pdf.save(self.vue.title);
         var file = self.vue.pdf.output('blob');
-        //console.log(file);
+        console.log(file);
         console.log('adding pdf');
         add_pdf(file);
-        self.vue.imagelist=[];
-        self.vue.raw_imagelist=[];
     };
 
     function add_pdf(file){
         if (self.vue.title == "") {self.vue.title = "Untitled"};
         console.log('add_pdf()');
-        $.post(add_pdf_url,
-            {
-                pdf_blob: file,
-                title: self.vue.title,
-            },
-            function(data){
-                self.vue.pdfList.unshift(data.pdf);
+        var formData = new FormData();
+        formData.append('pdf_blob', file, self.vue.title);
+        formData.append('title', self.vue.title);
+        $.ajax({
+            url : add_pdf_url,
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(data, textStatus, jqXHR){
                 console.log('added');
+                self.vue.pdfList.unshift(data.pdf);
                 console.log(file);
-                //window.open(file);
+                var fileURL = URL.createObjectURL(file);
+                window.open(fileURL);
                 self.display_archive();
                 self.vue.is_making_pdf = false;
                 self.vue.imagelist=[];
+                self.vue.raw_imagelist=[];
                 self.vue.title = "";
-            });
+            },
+            error: function( jqXHR, textStatus, errorThrown){
+                //if fail?
+            }
+        });
     };
 
     self.prev_page = function() {

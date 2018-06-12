@@ -71,9 +71,12 @@ def doc_alg_entry():
 @auth.requires_login()
 def add_pdf():
     print('adding pdf')
+    pdf_blob = request.post_vars['pdf_blob']
+    title = request.post_vars['title']
+    file = base64.b64decode(pdf_blob)
     pdf_id = db.user_documents.insert(
-        pdf_blob = request.vars.pdf_blob,
-        title = request.vars.title ,
+        pdf_blob = file,
+        title = title,
     )
     pdf = db.user_documents(pdf_id)
     print(pdf.title)
