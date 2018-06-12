@@ -518,7 +518,7 @@ var app = function() {
         formData.append('title', self.vue.title);
         $.ajax({
             url : add_pdf_url,
-            type: "POST",
+            method: "POST",
             data: formData,
             contentType: false,
             processData: false,
@@ -526,9 +526,7 @@ var app = function() {
                 console.log('added');
                 self.vue.pdfList.unshift(data.pdf);
                 console.log(file);
-                var fileURL = URL.createObjectURL(file);
-                window.open(fileURL);
-                self.display_archive();
+                // self.display_archive();
                 self.vue.is_making_pdf = false;
                 self.vue.imagelist=[];
                 self.vue.raw_imagelist=[];
@@ -599,10 +597,18 @@ var app = function() {
         console.log(idx);
         console.log(self.vue.pdfList);
         console.log(self.vue.pdfList[idx]);
-        var blob = self.vue.pdfList[idx].pdf_blob;
-        console.log(self.vue.pdfList[idx].pdf_blob);
-        var downloadURL = window.URL.createObjectURL(blob);
-        window.open(downloadURL);
+        $.post({
+            url: download_pdf_url,
+            data:{
+              pdf_id: pdf_id,
+            },
+            success: function(res){
+                console.log('okay');
+                
+                window.open("data:application/pdf;base64," + res.fileContent)
+            }
+         });
+        // window.open(downloadURL);
     }
 
 

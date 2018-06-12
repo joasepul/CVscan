@@ -16,7 +16,7 @@ def get_user_email():
 db.define_table('user_documents',
                 Field('created_on', 'datetime', default=request.now),
                 Field('created_by', 'reference auth_user', default=auth.user_id),
-                Field('pdf_blob', 'blob'),
+                Field('pdf_blob'),
                 Field('title', 'string', default="Untitled"),
                 )
 
