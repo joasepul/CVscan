@@ -7,11 +7,11 @@ from computer_vision import *
 #from fpdf import FPDF
 
 downscale = 0.5
-
+localstorage_path = os.path.join('applications',request.application,'localstorage')
 try:
-    os.makedirs('applications/CVscan/localstorage')
+    os.makedirs(localstorage_path)
 except OSError:
-    if not os.path.isdir('applications/CVscan/localstorage'):
+    if not os.path.isdir(localstorage_path):
         raise
 
 #taken from https://stackoverflow.com/questions/33754935/read-a-base-64-encoded-image-from-memory-using-opencv-python-library
@@ -88,7 +88,7 @@ def add_pdf():
     # idx = idx + 1
     print(auth.user.id)
     print(idx)
-    filename = os.path.join('applications/CVscan/localstorage', str(auth.user.id) + "_" + str(idx))
+    filename = os.path.join(localstorage_path, str(auth.user.id) + "_" + str(idx))
     file = open(filename, 'wb')
     file.write(pdf_blob.file.read())
     file.close()
@@ -125,13 +125,13 @@ def get_pdfs():
 def del_pdf():
     row = db(db.user_documents.id == request.vars.pdf_id).select().first()
     idx = row.id
-    directoryList = os.listdir('applications/CVscan/localstorage')
+    directoryList = os.listdir(localstorage_path)
     filename = str(auth.user.id) + "_" + str(idx)
     if filename not in directoryList:
         filename = str(auth.user.id) + "_1"
 
 
-    filepath = os.path.join('applications/CVscan/localstorage', filename)
+    filepath = os.path.join(localstorage_path, filename)
     os.remove(filepath)
     db(db.user_documents.id == request.vars.pdf_id).delete()
     return "ok"
