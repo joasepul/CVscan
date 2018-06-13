@@ -8,6 +8,11 @@ from computer_vision import *
 
 downscale = 0.5
 
+try:
+    os.makedirs('applications/CVscan/localstorage')
+except OSError:
+    if not os.path.isdir('applications/CVscan/localstorage'):
+        raise
 
 #taken from https://stackoverflow.com/questions/33754935/read-a-base-64-encoded-image-from-memory-using-opencv-python-library
 def readb64(base64_string):
