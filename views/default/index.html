@@ -132,7 +132,7 @@
                   <p>Created on: ${item.created_on}</p>
                   <div>
                     <!--<a class="btn" v-bind="{href:item.pdf_uri, download:item.title + '.pdf'}"><i class="fa fa-download left" ></i></a> -->
-                    <button v-on:click="downloadPDF(item.id)"><i class="fa fa-download left" ></i></button>
+                    <button v-on:click="downloadPDF(item.id)"><i class="fa fa-download left" ></i></button><a id="real_download" href=""></a>
                     <button v-on:click="deletePDF(item.id)"><i class="fa fa-trash"></i></button>
                   </div>
                 </td>
@@ -164,3 +164,4 @@
 <script src="{{=URL('static', 'js/jquery.min.js')}}"></script>
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>
 <script src="{{=URL('static', 'js/exif.min.js')}}"></script>
+<script src="{{=URL('static', 'js/filesaver.js')}}"></script>

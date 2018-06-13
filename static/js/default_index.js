@@ -604,8 +604,12 @@ var app = function() {
             },
             success: function(res){
                 console.log('okay');
-                
-                window.open("data:application/pdf;base64," + res.fileContent)
+                window.open("data:application/pdf;base64," + res.fileContent, '_blank')
+                // saveAs(c);
+                //URL.createObjectURL("data:application/pdf;base64," + res.fileContent)
+                // $('#real_download').attr('href', "data:application/pdf;base64," + res.fileContent);
+                // $('#real_download').attr('download', res.filename);
+                // $('#real_download').click();
             }
          });
         // window.open(downloadURL);
