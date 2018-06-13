@@ -26,6 +26,7 @@
   <link href="{{=URL('static','css/web2py.css')}}" rel="stylesheet" type="text/css"/>
   <link rel="stylesheet" href="{{=URL('static','css/myapp.css')}}"/>
   <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 </head>
 
 
@@ -79,6 +80,7 @@
           </div>
           <div id="mainState2" style="display:none">
             <div>
+                Enter a title:
               <input v-model="title" placeholder="Untitled" type="text" v-on:blur="" style="border: black 1px solid" />
             </div>
             <div>
@@ -143,18 +145,24 @@
 
       {{else:}}
       <!-- IN LOGIN MODE -->
-      <div>
-        <h1>LOGIN MODE</h1>
-        <h2>Login to Continue</h2>
+      <div id="login">
 
-        <a href="{{=URL('default', 'user')}}" class="btn">Log in with Email</a>
-        <a href="{{=URL('default', 'user')}}/register" class="btn">Sign up!</a>
+        <div id="explanation">
+            CVscan lets you scan docuents on the go,
+            without the need to download an app! Just tap, shoot, and scan!
+        </div>
+        <div id="login_buttons">
+            <a href="{{=URL('default', 'user')}}" class="btn">Log in with Email</a>
+            <br>
+            <a href="{{=URL('default', 'user')}}/register" class="btn">Sign up!</a>
+        </div>
 
       </div>
 
       {{pass}}
 
     </div>
+
   </div>
 </div>
 
