@@ -1,4 +1,4 @@
-import base64
+import base64, os
 from PIL import Image
 import cv2
 from StringIO import StringIO
@@ -67,34 +67,49 @@ def doc_alg_entry():
         width=width,
         height=height,
     ))
+    
 
 @auth.requires_login()
 def add_pdf():
     print('adding pdf')
+    pdf_blob = request.post_vars['pdf_blob']
+    title = request.post_vars['title']
+    row = db(db.user_documents.id != None).select()
+    idx = 0
+    for r in row:
+        idx = r.id
+    idx = idx + 1
+    print(auth.user.id)
+    print(idx)
+    filename = os.path.join('applications/CVscan/localstorage', str(auth.user.id) + "_" + str(idx))
+    file = open(filename, 'wb')
+    file.write(pdf_blob.file.read())
+    file.close()
     pdf_id = db.user_documents.insert(
-        pdf_uri = request.vars.pdf_uri,
-        title = request.vars.title ,
+        pdf_blob = filename,
+        title = title,
     )
     pdf = db.user_documents(pdf_id)
     print(pdf.title)
+    print(pdf.pdf_blob)
     print('pdf added')
+    pdf_blob.read_binary()
     return response.json(dict(pdf = pdf))
 
 @auth.requires_login()
 def get_pdfs():
-    print('getting users')
-    auth_id = auth.user.id
+    print('getting pdfs')
     pdfList = []
     row = db(db.user_documents.created_by == auth.user.id).select(orderby=~db.user_documents.created_on)
     for r in row:
         t = dict(
             title = r.title,
             created_on = r.created_on,
-            pdf_uri = r.pdf_uri,
+            pdf_blob = r.pdf_blob,
             id = r.id,
         )
         pdfList.append(t)
-    print('got users')
+    print('got pdfs')
     return response.json(dict(
         pdfList = pdfList,
     ))
@@ -103,3 +118,23 @@ def get_pdfs():
 def del_pdf():
     db(db.user_documents.id == request.vars.pdf_id).delete()
     return "ok"
+
+@auth.requires_login()
+def download_pdf():
+    r = db(db.user_documents.id == request.vars.pdf_id).select().first()
+    path = r.pdf_blob
+    filename = r.title
+    print(path)
+    print(filename)
+    file = open(path, 'rb')
+    fileContent = base64.b64encode(file.read())
+    file.close()
+    return response.json(dict(
+        fileContent = fileContent,
+        filename = filename,
+    ))
+    
+    
+    
+    
+    

@@ -10,7 +10,7 @@
   var add_pdf_url = "{{=URL('api', 'add_pdf')}}}";
   var get_pdfs_url = "{{=URL('api', 'get_pdfs')}}";
   var del_pdf_url = "{{=URL('api', 'del_pdf')}}";
-  console.log(get_pdfs_url);
+  var download_pdf_url = "{{=URL('api', 'download_pdf')}}";
 </script>
 
 {{end}}
@@ -133,8 +133,9 @@
                   <p><b>${item.title}</b></p>
                   <p>Created on: ${item.created_on}</p>
                   <div>
-                    <a class="btn" v-bind="{href:item.pdf_uri, download:item.title + '.pdf'}"><i class="fa fa-download left" ></i></a>
-                    <a class="btn" v-on:click="deletePDF(item.id)"><i class="fa fa-trash"></i></a>
+                    <!--<a class="btn" v-bind="{href:item.pdf_uri, download:item.title + '.pdf'}"><i class="fa fa-download left" ></i></a> -->
+                    <button v-on:click="downloadPDF(item.id)"><i class="fa fa-download left" ></i></button><a id="real_download" href=""></a>
+                    <button v-on:click="deletePDF(item.id)"><i class="fa fa-trash"></i></button>
                   </div>
                 </td>
               </tr>
@@ -170,4 +171,5 @@
 <script src="{{=URL('static', 'js/adapter-latest.js')}}"></script>
 <script src="{{=URL('static', 'js/jquery.min.js')}}"></script>
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
+<script src="{{=URL('static', 'js/exif.min.js')}}"></script>
+<script src="{{=URL('static', 'js/filesaver.js')}}"></script>

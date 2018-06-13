@@ -502,32 +502,40 @@ var app = function() {
             self.vue.pdf.addImage(self.vue.imagelist[i], 'PNG', 0, 0,width,height);
         }
 
+
         self.vue.pdf.save(self.vue.title);
-        var file = self.vue.pdf.output('datauristring')
+        var file = self.vue.pdf.output('blob');
+        console.log(file);
         console.log('adding pdf');
         add_pdf(file);
-        self.vue.imagelist=[];
-        self.vue.raw_imagelist=[];
     };
 
     function add_pdf(file){
         if (self.vue.title == "") {self.vue.title = "Untitled"};
         console.log('add_pdf()');
-        $.post(add_pdf_url,
-            {
-                pdf_uri: file,
-                title: self.vue.title,
-            },
-            function(data){
-                self.vue.pdfList.unshift(data.pdf);
+        var formData = new FormData();
+        formData.append('pdf_blob', file, self.vue.title);
+        formData.append('title', self.vue.title);
+        $.ajax({
+            url : add_pdf_url,
+            method: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(data, textStatus, jqXHR){
                 console.log('added');
+                self.vue.pdfList.unshift(data.pdf);
                 console.log(file);
-                //window.open(file);
-                self.display_archive();
+                // self.display_archive();
                 self.vue.is_making_pdf = false;
                 self.vue.imagelist=[];
+                self.vue.raw_imagelist=[];
                 self.vue.title = "";
-            });
+            },
+            error: function( jqXHR, textStatus, errorThrown){
+                //if fail?
+            }
+        });
     };
 
     self.prev_page = function() {
@@ -575,6 +583,36 @@ var app = function() {
                 }
             }
         );
+    }
+    
+    self.downloadPDF = function(pdf_id){
+        console.log(pdf_id);
+        var idx = null;
+            for (var i = 0; i < self.vue.pdfList.length; i++) {
+                if (self.vue.pdfList[i].id === pdf_id) {
+                    idx = i;
+                    break;
+                }
+            }
+        console.log(idx);
+        console.log(self.vue.pdfList);
+        console.log(self.vue.pdfList[idx]);
+        $.post({
+            url: download_pdf_url,
+            data:{
+              pdf_id: pdf_id,
+            },
+            success: function(res){
+                console.log('okay');
+                window.open("data:application/pdf;base64," + res.fileContent, '_blank')
+                // saveAs(c);
+                //URL.createObjectURL("data:application/pdf;base64," + res.fileContent)
+                // $('#real_download').attr('href', "data:application/pdf;base64," + res.fileContent);
+                // $('#real_download').attr('download', res.filename);
+                // $('#real_download').click();
+            }
+         });
+        // window.open(downloadURL);
     }
 
 
