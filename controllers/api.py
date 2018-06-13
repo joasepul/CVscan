@@ -67,18 +67,20 @@ def doc_alg_entry():
         width=width,
         height=height,
     ))
-    
+
 
 @auth.requires_login()
 def add_pdf():
     print('adding pdf')
     pdf_blob = request.post_vars['pdf_blob']
     title = request.post_vars['title']
-    row = db(db.user_documents.id != None).select()
+    row = db(db.user_documents.id != None).select().last()
     idx = 0
-    for r in row:
-        idx = r.id
-    idx = idx + 1
+    if row is not None:
+        idx = row.id + 1
+    else:
+        idx = 1
+    # idx = idx + 1
     print(auth.user.id)
     print(idx)
     filename = os.path.join('applications/CVscan/localstorage', str(auth.user.id) + "_" + str(idx))
@@ -116,6 +118,16 @@ def get_pdfs():
 
 @auth.requires_login()
 def del_pdf():
+    row = db(db.user_documents.id == request.vars.pdf_id).select().first()
+    idx = row.id
+    directoryList = os.listdir('applications/CVscan/localstorage')
+    filename = str(auth.user.id) + "_" + str(idx)
+    if filename not in directoryList:
+        filename = str(auth.user.id) + "_1"
+
+
+    filepath = os.path.join('applications/CVscan/localstorage', filename)
+    os.remove(filepath)
     db(db.user_documents.id == request.vars.pdf_id).delete()
     return "ok"
 
@@ -133,8 +145,3 @@ def download_pdf():
         fileContent = fileContent,
         filename = filename,
     ))
-    
-    
-    
-    
-    
