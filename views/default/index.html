@@ -36,11 +36,6 @@
   <div id="header_container">
     <img id="title_icon" src="{{=URL('static','images/aperture.svg')}}" >
     <h1 id="title_name">CVscan</h1>
-    <ul class="menu right">
-      <li id="user_menu">
-        {{=auth.navbar(mode='dropdown')}}
-      </li>
-    </ul>
 
     </div>
   {{end}}
@@ -49,7 +44,6 @@
 
   <div class = "main_content">
     <div id="vue-div" style="display:none">
-      {{if auth.user is not None:}}
       <!-- IN MAIN MODE -->
       <div id="main_mode">
         <div v-if="is_making_pdf">
@@ -80,10 +74,10 @@
             </div>
           </div>
           <div id="mainState2" style="display:none">
-            <div>
+            <!-- <div>
                 Enter a title:
               <input v-model="title" placeholder="Untitled" type="text" v-on:blur="" style="border: black 1px solid" />
-            </div>
+            </div> -->
             <div>
             <img class="img" v-bind:src="imagelist[currentPage]">
             </div>
@@ -112,7 +106,6 @@
               <div><button v-on:click="is_making_pdf=true">Create a new PDF</button></div>
           </div>
         <div>
-          <button v-on:click="display_archive">Archive</button>
 
 
         </div>
@@ -145,24 +138,6 @@
         </div>
       </div>
 
-      {{else:}}
-      <!-- IN LOGIN MODE -->
-      <div id="login">
-
-        <div id="explanation">
-            CVscan lets you scan docuents on the go,
-            without the need to download an app! Just tap, shoot, and scan!
-        </div>
-        <div id="login_buttons">
-            <a href="{{=URL('default', 'user')}}" class="btn">Log in with Email</a>
-            <br>
-            <a href="{{=URL('default', 'user')}}/register" class="btn">Sign up!</a>
-        </div>
-
-      </div>
-
-      {{pass}}
-
     </div>
 
   </div>
@@ -173,4 +148,3 @@
 <script src="{{=URL('static', 'js/jquery.min.js')}}"></script>
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>
 <script src="{{=URL('static', 'js/exif.min.js')}}"></script>
-<script src="{{=URL('static', 'js/filesaver.js')}}"></script>

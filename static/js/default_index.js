@@ -59,7 +59,7 @@ var app = function() {
                 success: function(res){
                     var img = new Image;
                     img.src = "data:image/png;base64," + res.b64img;
-                    console.log(img.src);
+                    //console.log(img.src);
                     img.onload = function() {
                         if (res.qos == false) {
                             self.vue.currentPage = self.vue.currentPage + 1;
@@ -69,7 +69,7 @@ var app = function() {
                         //alert("Document processed successfully: " + res.qos);
                         //alert("image size: " + res.width + " * " + res.height);
                         self.vue.newdataURL = img.src;
-                        console.log(img.src.length);
+                        //console.log(img.src.length);
                         self.vue.imagelist.push(img.src);
                         self.vue.currentPage = self.vue.imagelist.length - 1;
                         self.vue.isProcessing = false;
@@ -417,11 +417,11 @@ var app = function() {
       var shape1 = self.vue.myCanvasState.getShapeCoords(1);
       var shape2 = self.vue.myCanvasState.getShapeCoords(2);
       var shape3 = self.vue.myCanvasState.getShapeCoords(3);
-      console.log("------------");
-      console.log("Top Left: "+ shape0.x + " " + shape0.y);
-      console.log("Top Right: "+ shape1.x + " " + shape1.y);
-      console.log("Bottom Left: "+ shape2.x + " " + shape2.y);
-      console.log("Bottom Right: "+ shape3.x + " " + shape3.y);
+      // console.log("------------");
+      // console.log("Top Left: "+ shape0.x + " " + shape0.y);
+      // console.log("Top Right: "+ shape1.x + " " + shape1.y);
+      // console.log("Bottom Left: "+ shape2.x + " " + shape2.y);
+      // console.log("Bottom Right: "+ shape3.x + " " + shape3.y);
       return [[shape0.x, shape0.y],
               [shape1.x, shape1.y],
               [shape2.x, shape2.y],
@@ -441,10 +441,10 @@ var app = function() {
 
     self.post_button = function(){
         self.vue.isProcessing = true;
-        console.log('Send_to_server');
+        //console.log('Send_to_server');
         var image_URL = self.vue.dataURL;
         var fixed_dataURL = image_URL.split(",")[1];
-        console.log(fixed_dataURL);
+        //console.log(fixed_dataURL);
         var corners = self.vue.return_points();
         $.post({
             url:rectify_doc_url,
@@ -460,7 +460,7 @@ var app = function() {
 
               img.src = "data:image/png;base64," + res.b64img;
               self.vue.newdataURL = img.src;
-              console.log(img.src.length);
+              //console.log(img.src.length);
               if(self.vue.currentPhoto !== null){
                   self.vue.imagelist.splice(self.vue.currentPhoto, 0, img.src);
                   self.vue.currentPage = self.vue.currentPhoto;
@@ -492,7 +492,7 @@ var app = function() {
 
 
     self.imglist_to_pdf = function(){
-        console.log('imglist to pdf');
+        //console.log('imglist to pdf');
         self.vue.pdf = new jsPDF();
         var width = self.vue.pdf.internal.pageSize.width;
         var height = self.vue.pdf.internal.pageSize.height;
@@ -501,13 +501,19 @@ var app = function() {
             self.vue.pdf.addPage();
             self.vue.pdf.addImage(self.vue.imagelist[i], 'PNG', 0, 0,width,height);
         }
-
-
-        self.vue.pdf.save(self.vue.title);
-        var file = self.vue.pdf.output('blob');
-        console.log(file);
-        console.log('adding pdf');
-        add_pdf(file);
+        var title = prompt("Enter a title for your pdf: ");
+        if(!title.includes(".pdf")){
+            title = title + ".pdf";
+        }
+        self.vue.pdf.save(title);
+        self.vue.is_making_pdf = false;
+        self.vue.imagelist=[];
+        self.vue.raw_imagelist=[];
+        self.vue.title = "";
+        // var file = self.vue.pdf.output('blob');
+        // console.log(file);
+        // console.log('adding pdf');
+        // add_pdf(file);
     };
 
     function add_pdf(file){
@@ -584,7 +590,7 @@ var app = function() {
             }
         );
     }
-    
+
     self.downloadPDF = function(pdf_id){
         console.log(pdf_id);
         var idx = null;
